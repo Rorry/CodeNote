@@ -1,4 +1,4 @@
-ыwindow.onload = function () {
+window.onload = function () {
 
 	var authorise = function() {
 		var client = new Client({
