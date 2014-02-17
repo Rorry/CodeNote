@@ -1,0 +1,43 @@
+.cn-marked {
+    background: #ffe;
+    border: 1px solid red;
+}
+
+.code-note {
+    text-align: left;
+    background: #366;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    width: 170px;
+    padding: 5px 15px 10px 15px;
+    display: block;
+ }
+
+.code-note select {
+    width: 168px;
+    padding: 3px;
+    margin-bottom: 7px;    
+}
+
+.code-note input {
+    width: 160px;
+    padding: 4px;
+    margin-bottom: 7px;
+    border-width: 0px;
+}
+.code-note h1 {
+    color: #ACE600;
+    padding: 5px 0px;
+    text-align: left;
+    font-size: 1.7em;
+}
+
+.code-note button {
+    color: #366;
+    padding: 7px 10px;
+    background: #ACE600;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    border-width: 0px;
+}

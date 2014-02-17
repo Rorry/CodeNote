@@ -1,0 +1,43 @@
+{
+  "manifest_version": 2,
+
+  "name": "CodeNote",
+  "description": "A web-clipper collects all code from page and formats it.",
+  "version": "1.0",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+
+  "background" : {
+    "page": "background.html"
+  },
+
+  "permissions": [
+    "tabs",
+    "storage",
+    "https://sandbox.evernote.com/",
+    "https://sandbox.evernote.com/oauth",
+    "https://sandbox.evernote.com/OAuth.action"
+  ],
+
+  "web_accessible_resources": ["callback.html"] ,
+
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "css": ["lib/y-min.css", "lib/shCore.css", "lib/shCoreDefault.css", "tools/code-note.css"],
+      "js": [
+        "lib/xregexp-min.js", "lib/shCore.js", "lib/shBrushes.js",
+        "lib/y4-min.js", "lib/y1-min.js",
+        "lib/y3-min.js", "lib/y2-min.js",
+        "lib/evernote-sdk-minified.js",
+        "tools/code-note.js",
+        "tools/evernote-storage.js", 
+        "code-selecter.js"
+      ]
+    }
+  ],
+
+  "browser_action": {
+    "default_title": "CodeNote",
+    "default_icon": "enlogo.png"
+  }
+}
