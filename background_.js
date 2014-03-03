@@ -2,8 +2,8 @@ window.onload = function () {
 
 	var authorise = function() {
 		var client = new Client({
-			consumerKey 	: 'rorry-8007',
-			consumerSecret 	: '10b55cff50217dc3',
+			consumerKey 	: '<your consumer key>',
+			consumerSecret 	: '<your consumer secret>',
 			serviceHost		: 'https://sandbox.evernote.com',
 			callbackUrl		: 'callback.html'
 		});
