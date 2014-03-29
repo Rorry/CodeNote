@@ -41,3 +41,18 @@
     border-radius: 5px;
     border-width: 0px;
 }
+
+.tag {
+    border-radius: 2px;
+    color: #FFFFFF;
+    display: inline-block;
+    height: 18px;
+    line-height: 18px;
+    margin: 3px 3px 4px 3px;
+    padding: 0 3px 0 4px;
+}
+
+.tag.gray {
+    background-color: #8B8E94;
+    border: 1px solid #66696E;
+}

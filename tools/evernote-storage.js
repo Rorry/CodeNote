@@ -11,6 +11,10 @@ YUI.add('evernote-storage', function (Y) {
         notebook: {
           value: null
         },
+        tags: {
+          value: [],
+          validator: Y.Lang.isArray
+        },
         content: {
           value: null
         }
@@ -48,7 +52,33 @@ YUI.add('evernote-storage', function (Y) {
       );
     },
 
-    setNoteBook: function (notebook) {
+    listTags: function (callback) {
+      var self = this;
+
+      self.noteStore.listTags(self.authenticationToken, function (tags) {
+        Y.log(tags);
+        callback(tags);
+      },
+      function onerror(error) {
+        Y.log(error);
+      });
+    },
+
+    // getRelated: function (query, callback) {
+    //   var self = this,
+    //       relatedQuery = new RelatedQuery(),
+    //       relatedSpec = new RelatedResultSpec();
+
+          
+    //   self.noteStore.findRelated(self.authenticationToken, function (related) {
+
+    //   },
+    //   function onerror(error) {
+    //     Y.log(error);
+    //   });
+    // },
+
+    setNotebook: function (notebook) {
       var note = this.get('note');
 
       note.set('notebook', notebook);
@@ -60,13 +90,20 @@ YUI.add('evernote-storage', function (Y) {
       note.set('title', title);
     },
 
+    addTag: function (tag) {
+      var note = this.get('note');
+
+      note.get('tags').push(tag);
+    },
+
     save: function (content, callback) {
       var note = this.get('note'),
           enNote = new Note(),
           title = note.get('title')
 
-      enNote.noteBookGuid = note.get("notebook");
+      enNote.notebookGuid = note.get("notebook");
       enNote.title = (title.length > 0) ? title : 'Untitled';
+      enNote.tagGuids = note.get('tags');
       enNote.content = content;
 
       this.noteStore.createNote(this.authenticationToken, enNote, function (err, note) {

@@ -2,36 +2,18 @@ YUI.add('cn-page-listener', function (Y) {
 
 	var CURRENT_MODE_ON = false;
 
-	var TEMPLATE = '<div class="code-note">' +
-			'<h1>Code Note</h1>' +
-			'<div>' +
-			'<select id="nbname"></select></div>' +
-			'<div>' +
-			'<input id="nbtitle" type="text" placeholder="Название"></div>' +
-			'<button id="save">Сохранить</button>' +
-			'</div>';
-
-	var panel 		= Y.Node.create(TEMPLATE),
-		select  	= panel.one('#nbname'),
-		btnSave 	= panel.one('#save'),
-		inputTitle 	= panel.one('#nbtitle'),
-		body 		= Y.one('body');
-
-	panel.hide();
-	body.appendChild(panel);
-
 	Y.namespace('CN.Cache').Node = {};
 
-	var methods = [
-			'init',
-			'onAuthorise'
-		],
-		processor = new Y.CN.CodeProcessor(),
-		codeBlocks = new Y.NodeList();
-		
-
 	Y.namespace('CN.Page').Listener = (function () {
-		var _selectBlocks = function () {
+		var _methods = [
+				'init',
+				'onAuthorise'
+			],
+			_processor = new Y.CN.CodeProcessor(),
+			_codeBlocks = new Y.NodeList(),
+			_popup = new Y.CN.Popup(),
+
+			_selectBlocks = function () {
 				var preBlocks = Y.all('pre');
 
 				preBlocks.each(function (block) {
@@ -41,9 +23,10 @@ YUI.add('cn-page-listener', function (Y) {
 					block.replace(node);
 					node.setHTML(clone._node);
 					Y.CN.Cache.Node[node._yuid] = node.getHTML();
-					codeBlocks.push(node);
+					_codeBlocks.push(node);
 				});
 			},
+
 			_init = function () {
 
 				if (CURRENT_MODE_ON) { // выключаемся
@@ -54,19 +37,19 @@ YUI.add('cn-page-listener', function (Y) {
 						node.detach();
 					});
 
-					panel.hide();
+					_popup.hide();
 				} else { // включаемся
-					if (codeBlocks.isEmpty()) { // первый раз
+					if (_codeBlocks.isEmpty()) { // первый раз
 						_selectBlocks();
 					}
 
-					codeBlocks.each(function (node) {
+					_codeBlocks.each(function (node) {
 						node.addClass('cn-marked');
 
 						node.on('mouseenter', function (event) {
 							var pre = this.one('pre');
 
-							processor.processNode(pre);
+							_processor.processNode(pre);
 						}, node);
 
 						node.on('mouseleave', function (event) {
@@ -74,126 +57,25 @@ YUI.add('cn-page-listener', function (Y) {
 						}, node);
 					});
 
-					panel.show();
+					_popup.show();
 				}
 				CURRENT_MODE_ON = !CURRENT_MODE_ON;
-
-
 			},
-			_onAuthorise = function (credentials) {
-				var evernoteStorage = new Y.CN.Evernote.Storage({ noteStoreURL: credentials.note_store_url, authenticationToken: credentials.oauth_token });
 
+			_onAuthorise = function (credentials) {
 				Y.log('<- success authorise: ' + credentials);
 
-				if (codeBlocks.isEmpty()) { // находим блоки, если еще не нашли
+				if (_codeBlocks.isEmpty()) { // находим блоки, если еще не нашли
 					_selectBlocks();
 				}
 
-				evernoteStorage.listNotebooks(function (list) {
-					select.empty();	
-					Y.Array.each(list, function (item) {
-						var guid = item.guid,
-							name = item.name,
-							option = Y.Node.create(Y.Lang.sub('<option value="{guid}">{name}</option>', { guid: guid, name: name }));
-
-						if (item.defaultNotebook) {
-							evernoteStorage.setNoteBook(guid);
-							option.set('selected', 'selected');
-						}
-							
-						select.appendChild(option);
-					});
-				});
-
-
-				select.on('change', function (event) {
-					var guid = event.target.get('value');
-
-					evernoteStorage.setNoteBook(guid);	
-				});
-
-				inputTitle.on('change', function (event) {
-					var title = event.target.get('value');
-
-					evernoteStorage.setTitle(title);
-				});
-
-				btnSave.on('click', function (event) { // Сохраняем код.
-					var note = Y.Node.create('<en-note></en-note>'),
-						_packStyle = function (node) {
-							var styles = {					
-									background 		: node.getStyle('background'),
-									// border 			: node.getStyle('border'),
-									// bottom 			: node.getStyle('bottom'),
-									// height 			: node.getStyle('height'),
-									// left 			: node.getStyle('left'),
-									// lineHeight 		: node.getStyle('lineHeight'),
-									// margin 			: node.getStyle('margin'),
-									// outline 		: node.getStyle('outline'),
-									// overflow 		: node.getStyle('overflow'),
-									// padding 		: node.getStyle('padding'),
-									// position 		: node.getStyle('position'),
-									// right 			: node.getStyle('right'),
-									// textAlign 		: node.getStyle('textAlign'),
-									// top 			: node.getStyle('top'),
-									// verticalAlign 	: node.getStyle('verticalAlign'),
-									// width 			: node.getStyle('width'),
-									// boxSizing 		: node.getStyle('boxSizing'),
-									// fontFamily 		: node.getStyle('fontFamily'),
-									fontWeigth 		: node.getStyle('fontWeigth'),
-									fontStyle 		: node.getStyle('fontStyle'),
-									fontSize 		: node.getStyle('fontSize'),
-									color 			: node.getStyle('color')
-									// minHeight 		: node.getStyle('minHeight'),
-									// textDecoration 	: node.getStyle('textDecoration'),
-									// display 		: node.getStyle('display'),
-									// backgroundColor	: node.getStyle('backgroundColor'),
-									// borderRight 	: node.getStyle('borderRight'),
-									// lineHeight 		: node.getStyle('lineHeight')
-								},
-								children = node.get('children');
-
-							node.removeAttribute('class');
-							node.setStyles(styles);
-							if (children) {
-								children.each(function (subNode) {
-									_packStyle(subNode);
-								});
-							}
-						};
-
-					codeBlocks.each(function (node) {
-						node.removeClass('cn-marked');
-						node.setHTML(Y.CN.Cache.Node[node._yuid]);
-						var pre = this.one('pre');
-						processor.processNode(pre);
-						node.detach();
-						_packStyle(node);
-						note.appendChild(node.cloneNode(true));
-					});
-
-					var pack = Y.Lang.sub('<?xml version="1.0" encoding="UTF-8"?>' +
-									'<!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd">' +
-									'<en-note>{note}</en-note>', {
-										note: note.getHTML()
-									});
-
-					pack = pack.replace(/id="[\s|\w]*"/g, '');
-					pack = pack.replace(/<\/code>/g, '</span>');
-					pack = pack.replace(/<code/g, '<span');
-					pack = pack.replace(/<td [\w|=|\"|\s]*">/g, '<td>');
-					pack = pack.replace(/<table [\w|=|\"|\s]*>/g, '<table>');
-					Y.log(pack);
-
-					evernoteStorage.save(pack, function (note) {
-						Y.log(note);
-					});
-
+				_popup.initUI(credentials, _codeBlocks, function () {
 					Y.CN.Page.Listener.init();
 				});
 			};
 		
 		return {
+			methods: _methods,
 			init: _init,
 			onAuthorise: _onAuthorise
 		}
@@ -203,11 +85,14 @@ YUI.add('cn-page-listener', function (Y) {
 	requires: [
 		'node',
 		'cn-code-processor',
-		'evernote-storage'
+		'cn-code-note-popup'
 	]
 });
 
 YUI().use('cn-page-listener', 'overlay', function (Y) {
+
+	// var path = chrome.extension.getURL('lib/shCore.css');
+	// Y.one('head').append('<link rel="stylesheet" type="text/css" href="' + path +'"/>');
 
 	chrome.extension.onConnect.addListener(function(port){
     	port.onMessage.addListener(function (obj) {
@@ -219,3 +104,58 @@ YUI().use('cn-page-listener', 'overlay', function (Y) {
 	});
 
 });
+
+
+/*btnSave.on('click', function (event) { // Сохраняем код.
+				var note = Y.Node.create('<en-note></en-note>'),
+					_packStyle = function (node) {
+						var styles = {},
+							children = node.get('children'),
+							computedStyles = window.getComputedStyle(node._node, null),
+							i,
+							property;
+
+						// for (i = 0; i < computedStyles.length; i++) {
+						// 	property = computedStyles[i];
+
+						// 	styles[property] = node.getStyle(property);
+						// }
+
+						// node.setStyles(styles);
+						node.removeAttribute('class');
+						if (children) {
+							children.each(function (subNode) {
+								_packStyle(subNode);
+							});
+						}
+					};
+
+				_codeBlocks.each(function (node) {
+					node.removeClass('cn-marked');
+					node.setHTML(Y.CN.Cache.Node[node._yuid]);
+					var pre = this.one('pre');
+					processor.processNode(pre);
+					node.detach();
+					_packStyle(node);
+					note.appendChild(node.cloneNode(true));
+				});	
+
+				var pack = Y.Lang.sub('<?xml version="1.0" encoding="UTF-8"?>' +
+								'<!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd">' +
+								'<en-note>{note}</en-note>', {
+									note: note.getHTML()
+								});
+
+				pack = pack.replace(/id="[\s|\w]*"/g, '');
+				pack = pack.replace(/<\/code>/g, '</span>');
+				pack = pack.replace(/<code/g, '<span');
+				pack = pack.replace(/<td [\w|=|\"|\s]*">/g, '<td>');
+				pack = pack.replace(/<table [\w|=|\"|\s]*>/g, '<table>');
+				// Y.log(pack);
+
+				// evernoteStorage.save(pack, function (note) {
+				// 	Y.log(note);
+				// });
+
+				Y.CN.Page.Listener.init();
+			});*/
