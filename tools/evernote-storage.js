@@ -96,6 +96,16 @@ YUI.add('evernote-storage', function (Y) {
       note.get('tags').push(tag);
     },
 
+    removeTag: function (tag) {
+      var note = this.get('note'),
+          tags = note.get('tags'),
+          index = tags.indexOf(tag);
+
+      if (index > -1) {
+        tags.splice(index, 1);
+      }
+    },
+
     save: function (content, callback) {
       var note = this.get('note'),
           enNote = new Note(),

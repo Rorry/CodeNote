@@ -3,6 +3,10 @@
     border: 1px solid red;
 }
 
+.cn-selected {
+    border: 1px solid green;
+}
+
 .code-note {
     text-align: left;
     background: #366;
@@ -42,7 +46,26 @@
     border-width: 0px;
 }
 
-.tag {
+.code-note .tag {
+    color: #FFFFFF;
+    display: inline-block;
+    padding: 0 3px 0 4px;
+    background: #028E9B;
+    height: 18px;
+    line-height: 18px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    border-width: 0px;   
+}
+
+#selectedTags {
+    display: block;
+    margin: 9px -3px 9px -3px;
+    max-height: 54px;
+    overflow-y: auto;
+}
+
+/*.tag {
     border-radius: 2px;
     color: #FFFFFF;
     display: inline-block;
@@ -56,3 +79,14 @@
     background-color: #8B8E94;
     border: 1px solid #66696E;
 }
+
+.tag .lozenge {
+    background-size: 9px 9px;
+    cursor: pointer;
+    height: 9px;
+    margin-left: 2px;
+    position: relative;
+    top: -4px;
+    visibility: hidden;
+    width: 9px;
+}*/

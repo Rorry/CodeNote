@@ -7,8 +7,10 @@ YUI.add('cn-code-note-popup', function (Y) {
 			'<div>' +
 			'<input id="nbtitle" type="text" placeholder="Название"></div>' +
 			'<input id="nbtags" type="text" placeholder="Теги">' +
+			'<div id="selectedTags"></div>' +
 			'<button id="save">Сохранить</button>' +
-			'</div>';
+			'</div>',
+		TAG_TEMPLATE = '<button class="tag">{tag}</button>';
 
 	Y.namespace('CN').Popup = Y.Base.create('cn-code-note-popup', Y.Base, [], {
 
@@ -17,6 +19,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 		_btnSave: null,
 		_inputTitle: null,
 		_inputTags: null,
+		_blockTags: null,
 
 		initializer: function (config) {
 			var body = Y.one('body'),
@@ -26,6 +29,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 			this._select	 = panel.one('#nbname');
 			this._btnSave 	 = panel.one('#save');
 			this._inputTitle = panel.one('#nbtitle');
+			this._blockTags  = panel.one('#selectedTags');
 			this._inputTags	 = panel.one('#nbtags');
 
 			panel.hide();
@@ -38,7 +42,6 @@ YUI.add('cn-code-note-popup', function (Y) {
 				tags = [];
 
 			evernoteStorage.listNotebooks(function (list) {
-				self._select.empty();	
 				Y.Array.each(list, function (item) {
 					var guid = item.guid,
 						name = item.name,
@@ -79,13 +82,23 @@ YUI.add('cn-code-note-popup', function (Y) {
 				source: tags,
 				on: {
 					select: function (event) {
-						evernoteStorage.addTag(event.result.raw.guid);
+						var eTag = event.result.raw,
+							tagButton = Y.Node.create(Y.Lang.sub(TAG_TEMPLATE, {tag: eTag.name}));
+
+						evernoteStorage.addTag(eTag.guid);
+
+						self._blockTags.appendChild(tagButton);
+						tagButton.on('click', function (event) {
+							evernoteStorage.removeTag(eTag.guid);
+							self._blockTags.removeChild(this);
+						}, tagButton);
 					}
 				}
 			});
 
 			self._btnSave.on('click', function (event) { // Сохраняем код.
-				var note = Y.Node.create('<en-note></en-note>'),
+				var selectedBlocks = codeBlocks.filter('.cn-selected');
+					note = Y.Node.create('<en-note></en-note>'),
 					_packStyle = function (node) {
 						var styles = {},
 							children = node.get('children'),
@@ -108,8 +121,9 @@ YUI.add('cn-code-note-popup', function (Y) {
 						}
 					};
 
-				codeBlocks.each(function (node) {
+				selectedBlocks.each(function (node) {
 					node.removeClass('cn-marked');
+					node.removeAttribute('selected');
 					node.setHTML(Y.CN.Cache.Node[node._yuid]);
 					// var pre = this.one('pre');
 					// processor.processNode(pre);
@@ -148,6 +162,15 @@ YUI.add('cn-code-note-popup', function (Y) {
 
 		hide: function () {
 			this._panel.hide();
+		},
+
+		reset: function () {
+			this._select.empty();
+			this._inputTitle.set('value', '');
+			this._inputTags.set('value', '');
+			// this._inputTags.ac.set('source', []);
+			this._blockTags.empty();
+			this._btnSave.detach();
 		}
 
 	}, {

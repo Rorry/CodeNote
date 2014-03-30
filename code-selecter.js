@@ -5,7 +5,7 @@ YUI.add('cn-page-listener', function (Y) {
 	Y.namespace('CN.Cache').Node = {};
 
 	Y.namespace('CN.Page').Listener = (function () {
-		var _methods = [
+		var _METHODS = [
 				'init',
 				'onAuthorise'
 			],
@@ -37,6 +37,7 @@ YUI.add('cn-page-listener', function (Y) {
 						node.detach();
 					});
 
+					_popup.reset();
 					_popup.hide();
 				} else { // включаемся
 					if (_codeBlocks.isEmpty()) { // первый раз
@@ -46,7 +47,21 @@ YUI.add('cn-page-listener', function (Y) {
 					_codeBlocks.each(function (node) {
 						node.addClass('cn-marked');
 
-						node.on('mouseenter', function (event) {
+						node.on('click', function (event) {
+							var pre = this.one('pre');
+
+							if (this.getAttribute('selected')) {
+								this.removeClass('cn-selected');
+								this.removeAttribute('selected');
+								this.setHTML(Y.CN.Cache.Node[this._yuid]);
+							} else {
+								this.addClass('cn-selected');
+								this.setAttribute('selected');
+								_processor.processNode(pre);	
+							}
+						}, node);
+
+						/*node.on('mouseenter', function (event) {
 							var pre = this.one('pre');
 
 							_processor.processNode(pre);
@@ -54,7 +69,7 @@ YUI.add('cn-page-listener', function (Y) {
 
 						node.on('mouseleave', function (event) {
 							this.setHTML(Y.CN.Cache.Node[this._yuid]);
-						}, node);
+						}, node);*/
 					});
 
 					_popup.show();
@@ -65,17 +80,13 @@ YUI.add('cn-page-listener', function (Y) {
 			_onAuthorise = function (credentials) {
 				Y.log('<- success authorise: ' + credentials);
 
-				if (_codeBlocks.isEmpty()) { // находим блоки, если еще не нашли
-					_selectBlocks();
-				}
-
 				_popup.initUI(credentials, _codeBlocks, function () {
 					Y.CN.Page.Listener.init();
 				});
 			};
 		
 		return {
-			methods: _methods,
+			METHODS: _METHODS,
 			init: _init,
 			onAuthorise: _onAuthorise
 		}
@@ -94,9 +105,9 @@ YUI().use('cn-page-listener', 'overlay', function (Y) {
 	// var path = chrome.extension.getURL('lib/shCore.css');
 	// Y.one('head').append('<link rel="stylesheet" type="text/css" href="' + path +'"/>');
 
-	chrome.extension.onConnect.addListener(function(port){
+	chrome.extension.onConnect.addListener(function(port) {
     	port.onMessage.addListener(function (obj) {
-    		if (obj.method) {
+    		if (obj.method && Y.Lang.isString(obj.method) && (Y.CN.Page.Listener.METHODS.indexOf(obj.method) > -1)) {
     			Y.CN.Page.Listener[obj.method](obj.data);
     			port.postMessage({method: obj.method + ' back!'});
     		}

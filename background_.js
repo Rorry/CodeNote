@@ -17,6 +17,16 @@ window.onload = function () {
 
 	var CURRENT_MODE_ON = true;
 
+	chrome.storage.onChanged.addListener(function (changes, areaName) {
+		console.log('On change storage!');
+		console.log(changes);
+		if (areaName === 'local') {
+			if (changes.evernote_credentials) {
+				port.postMessage({method: 'onAuthorise', data: changes.evernote_credentials.newValue});	
+			}
+		}
+	});
+
 	//set handler to extention on icon click
 	chrome.browserAction.onClicked.addListener(function(tab) {
 		var port = chrome.tabs.connect(tab.id);			
@@ -35,16 +45,6 @@ window.onload = function () {
 				}
 			});
 		}
-
-		chrome.storage.onChanged.addListener(function (changes, areaName) {
-			console.log('On change storage!');
-			console.log(changes);
-			if (areaName === 'local') {
-				if (changes.evernote_credentials) {
-					port.postMessage({method: 'onAuthorise', data: changes.evernote_credentials.newValue});	
-				}
-			}
-		});
 
 		CURRENT_MODE_ON = !CURRENT_MODE_ON;
 	});	
