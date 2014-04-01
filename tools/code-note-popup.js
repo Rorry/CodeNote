@@ -6,6 +6,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 			'<select id="nbname"></select></div>' +
 			'<div>' +
 			'<input id="nbtitle" type="text" placeholder="Название"></div>' +
+			'<input id="searchTitle" type="text" placeholder="Поиск по названию">' +
 			'<input id="nbtags" type="text" placeholder="Теги">' +
 			'<div id="selectedTags"></div>' +
 			'<button id="save">Сохранить</button>' +
@@ -18,6 +19,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 		_select: null,
 		_btnSave: null,
 		_inputTitle: null,
+		_inputSearch: null,
 		_inputTags: null,
 		_blockTags: null,
 
@@ -25,12 +27,13 @@ YUI.add('cn-code-note-popup', function (Y) {
 			var body = Y.one('body'),
 				panel = Y.Node.create(TEMPLATE);
 
-			this._panel		 = panel;
-			this._select	 = panel.one('#nbname');
-			this._btnSave 	 = panel.one('#save');
-			this._inputTitle = panel.one('#nbtitle');
-			this._blockTags  = panel.one('#selectedTags');
-			this._inputTags	 = panel.one('#nbtags');
+			this._panel		  = panel;
+			this._select	  = panel.one('#nbname');
+			this._btnSave 	  = panel.one('#save');
+			this._inputTitle  = panel.one('#nbtitle');
+			this._inputSearch = panel.one('#searchTitle');
+			this._blockTags   = panel.one('#selectedTags');
+			this._inputTags	  = panel.one('#nbtags');
 
 			panel.hide();
 			body.appendChild(panel);
@@ -73,6 +76,15 @@ YUI.add('cn-code-note-popup', function (Y) {
 				var title = event.target.get('value');
 
 				evernoteStorage.setTitle(title);
+			});
+
+			self._inputSearch.plug(Y.Plugin.AutoComplete, {
+				resultHighlighter: 'phraseMatch',
+				// resultFilters: 'phraseMatch',
+				resultTextLocator: 'title',
+				source: function (query, callback) {
+					evernoteStorage.findNotes(query, callback);
+				}
 			});
 
 			self._inputTags.plug(Y.Plugin.AutoComplete, {

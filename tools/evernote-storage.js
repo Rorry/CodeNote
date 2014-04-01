@@ -64,19 +64,24 @@ YUI.add('evernote-storage', function (Y) {
       });
     },
 
-    // getRelated: function (query, callback) {
-    //   var self = this,
-    //       relatedQuery = new RelatedQuery(),
-    //       relatedSpec = new RelatedResultSpec();
+    findNotes: function (query, callback) {
+      var self = this,
+          filter = new NoteFilter(),
+          resultSpec = new NotesMetadataResultSpec();
 
-          
-    //   self.noteStore.findRelated(self.authenticationToken, function (related) {
+      filter.words = query;
+      filter.inactive = false;
+      resultSpec.includeTitle = true;
 
-    //   },
-    //   function onerror(error) {
-    //     Y.log(error);
-    //   });
-    // },
+      self.noteStore.findNotesMetadata(self.authenticationToken, filter, 0, 10, resultSpec, 
+        function (result) {
+          Y.log(result);
+          callback(result.notes);
+        },
+        function onerror(error) {
+          Y.log(error);
+        });
+    },
 
     setNotebook: function (notebook) {
       var note = this.get('note');
