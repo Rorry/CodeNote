@@ -11,6 +11,7 @@ YUI.add('cn-page-listener', function (Y) {
 			],
 			_processor = new Y.CN.CodeProcessor(),
 			_codeBlocks = new Y.NodeList(),
+			_selectedBlocks = new Y.NodeList(),
 			_popup = new Y.CN.Popup(),
 
 			_selectBlocks = function () {
@@ -48,13 +49,14 @@ YUI.add('cn-page-listener', function (Y) {
 						node.addClass('cn-marked');
 
 						node.on('click', function (event) {
-							var pre = this.one('pre');
+							var pre;
 
 							if (this.getAttribute('selected')) {
 								this.removeClass('cn-selected');
 								this.removeAttribute('selected');
 								this.setHTML(Y.CN.Cache.Node[this._yuid]);
 							} else {
+								pre = this.one('pre');
 								this.addClass('cn-selected');
 								this.setAttribute('selected');
 								_processor.processNode(pre);	
@@ -80,7 +82,7 @@ YUI.add('cn-page-listener', function (Y) {
 			_onAuthorise = function (credentials) {
 				Y.log('<- success authorise: ' + credentials);
 
-				_popup.initUI(credentials, _codeBlocks, function () {
+				_popup.initUI(credentials, _codeBlocks, _processor, function () {
 					Y.CN.Page.Listener.init();
 				});
 			};

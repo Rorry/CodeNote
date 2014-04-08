@@ -18,7 +18,7 @@
     "https://sandbox.evernote.com/OAuth.action"
   ],
 
-  "web_accessible_resources": ["callback.html", "lib/shCore.css"] ,
+  "web_accessible_resources": ["callback.html"] ,
 
   "content_scripts": [
     {
@@ -27,7 +27,8 @@
         /*"lib/y-min.css", */
         "lib/yui/yui-min.css",
         "lib/shCore.css", 
-        "lib/shCoreDefault.css", 
+        "lib/shCoreDefault.css",
+        "lib/highlight/idea.css",
         "tools/code-note.css"
       ],
       "js": [
@@ -39,8 +40,10 @@
         /*"lib/y4-min.js", "lib/y1-min.js",
         "lib/y3-min.js", "lib/y2-min.js",*/
         "lib/evernote-sdk-minified.js",
+        "lib/highlight/highlight.pack.js",
         "tools/code-note.js",
         "tools/evernote-storage.js",
+        "tools/css-inliner.js",
         "tools/code-note-popup.js",
         "code-selecter.js"
       ]

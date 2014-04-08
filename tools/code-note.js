@@ -468,9 +468,10 @@ YUI.add('cn-syntax-highlighter', function (Y) {
 
     Y.namespace('CN').SyntaxHighlighter = Y.Base.create('cn-syntax-highlighter', Y.Base, [], {
         process: function (node) {
-            var lang = node.getAttribute('lang');
-            node.setAttribute('class', 'brush: ' + lang);
-            SyntaxHighlighter.highlight({}, node._node);
+            // var lang = node.getAttribute('lang');
+            // node.setAttribute('class', 'brush: ' + lang);
+            // SyntaxHighlighter.highlight({}, node._node);
+            hljs.highlightBlock(node._node);
         }
     }, {});
 

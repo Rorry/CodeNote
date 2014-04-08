@@ -39,7 +39,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 			body.appendChild(panel);
 		},
 
-		initUI: function (credentials, codeBlocks, callback) {
+		initUI: function (credentials, codeBlocks, processor, callback) {
 			var self = this,
 				evernoteStorage = new Y.CN.Evernote.Storage({ noteStoreURL: credentials.note_store_url, authenticationToken: credentials.oauth_token }),
 				tags = [];
@@ -108,9 +108,62 @@ YUI.add('cn-code-note-popup', function (Y) {
 				}
 			});
 
-			self._btnSave.on('click', function (event) { // Сохраняем код.
-				var selectedBlocks = codeBlocks.filter('.cn-selected');
-					note = Y.Node.create('<en-note></en-note>'),
+			self._btnSave.on('click', function (event) {
+				var selectedBlocks = codeBlocks.filter('.cn-selected'),
+					note = Y.Node.create('<div></div>'),
+					pack,
+					_clearClasses = function (node) {
+						var children = node.get('children');
+
+						node.removeAttribute('class');
+						if (children) {
+							children.each(function (subNode) {
+								_clearClasses(subNode);
+							});
+						}
+					};
+
+				selectedBlocks.each(function (node) {
+					var cloneNode = node.cloneNode(true);
+
+					Y.CN.CSSInliner.toInline(cloneNode);
+					cloneNode.removeAttribute('selected');
+					_clearClasses(cloneNode);
+					note.appendChild(cloneNode);
+
+					node.removeClass('cn-selected');
+					node.removeClass('cn-marked');
+					node.setHTML(Y.CN.Cache.Node[node._yuid]);
+					node.detach();
+				});
+
+				pack = Y.Lang.sub('<?xml version="1.0" encoding="UTF-8"?>' +
+								'<!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd">' +
+								'<en-note>{note}</en-note>', {
+									note: note.getHTML()
+								});
+
+				pack = pack.replace(/id="[\s|\w]*"/g, '');
+				pack = pack.replace(/<\/code>/g, '</span>');
+				pack = pack.replace(/<code/g, '<span');
+				pack = pack.replace(/<td [\w|=|\"|\s]*">/g, '<td>');
+				pack = pack.replace(/<table [\w|=|\"|\s]*>/g, '<table>');
+				pack = pack.replace(/<br>/g, '</br>');
+				pack = pack.replace(/cn-style_/g, 'style');
+				Y.log(pack);
+
+				evernoteStorage.save(pack, function (note) {
+					Y.log(note);
+				});
+				
+				if (Y.Lang.isFunction (callback)) {
+					callback();
+				}
+			});
+
+			/*self._btnSave.on('click', function (event) { // Сохраняем код.
+				var selectedBlocks = codeBlocks.filter('.cn-selected'),
+					note = Y.Node.create('<div></div>'),
 					_packStyle = function (node) {
 						var styles = {},
 							children = node.get('children'),
@@ -124,7 +177,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 						// 	styles[property] = node.getStyle(property);
 						// }
 
-						node.setStyles(styles);
+						// node.setStyles(styles);
 						node.removeAttribute('class');
 						if (children) {
 							children.each(function (subNode) {
@@ -137,9 +190,10 @@ YUI.add('cn-code-note-popup', function (Y) {
 					node.removeClass('cn-marked');
 					node.removeAttribute('selected');
 					node.setHTML(Y.CN.Cache.Node[node._yuid]);
-					// var pre = this.one('pre');
-					// processor.processNode(pre);
+					var pre = node.one('pre');
+					processor.processNode(pre);
 					node.detach();
+					Y.CN.CSSInliner.toInline(node);
 					_packStyle(node);
 					note.appendChild(node.cloneNode(true));
 				});	
@@ -152,11 +206,11 @@ YUI.add('cn-code-note-popup', function (Y) {
 
 				pack = pack.replace(/id="[\s|\w]*"/g, '');
 				pack = pack.replace(/<\/code>/g, '</span>');
-				pack = pack.replace(/<code/g, '<span');
+				pack = pack.replace(/<code/g, '<span>');
 				pack = pack.replace(/<td [\w|=|\"|\s]*">/g, '<td>');
 				pack = pack.replace(/<table [\w|=|\"|\s]*>/g, '<table>');
-				pack = pack.replace(/<br>/g, '<br></br>');
-				// Y.log(pack);
+				pack = pack.replace(/<br>/g, '</br>');
+				Y.log(pack);
 
 				evernoteStorage.save(pack, function (note) {
 					Y.log(note);
@@ -165,7 +219,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 				if (Y.Lang.isFunction (callback)) {
 					callback();
 				}
-			});
+			});*/
 		},
 
 		show: function () {
@@ -183,6 +237,74 @@ YUI.add('cn-code-note-popup', function (Y) {
 			// this._inputTags.ac.set('source', []);
 			this._blockTags.empty();
 			this._btnSave.detach();
+		},
+
+		loadCSS: function () {
+			var url = chrome.extension.getURL('lib/shCore.css'),
+				link = document.createElement('link'),
+				done = false,
+				CSSDone = function (message) {
+					Y.log(message);
+				};
+
+			link.href = url;
+			link.type = 'text/css';
+			link.rel = 'stylesheet';
+			// link.onload = link.onreadystatechange = function()
+			// 	{
+			// 		if (!done && (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete'))
+			// 		{
+			// 			done = true;
+
+			// 			// Handle memory leak in IE
+			// 		link.onload = link.onreadystatechange = null;
+			// 		link.parentNode.removeChildlink);
+			// 		}
+			// 	};
+
+			// sync way of addinglink tags to the page
+			document.head.appendChild(link);
+
+			// MAGIC
+			  // #1
+			  link.onload = function () {
+			    CSSDone('onload listener');
+			  }
+			  // #2
+			  if (link.addEventListener) {
+			    link.addEventListener('load', function() {
+			      CSSDone("DOM's load event");
+			    }, false);
+			  }
+			  // #3
+			  link.onreadystatechange = function() {
+			    var state = link.readyState;
+			    if (state === 'loaded' || state === 'complete') {
+			      link.onreadystatechange = null;
+			      CSSDone("onreadystatechange");
+			    }
+			  };
+			  
+			  // #4
+			  var cssnum = document.styleSheets.length;
+			  var ti = setInterval(function() {
+			    if (document.styleSheets.length > cssnum) {
+			      // needs more work when you load a bunch of CSS files quickly
+			      // e.g. loop from cssnum to the new length, looking
+			      // for the document.styleSheets[n].href === url
+			      // ...
+			      
+			      // FF changes the length prematurely :( )
+			      CSSDone('listening to styleSheets.length change');
+
+			      Y.log(document.styleSheets[document.styleSheets.length - 1].cssRules);
+
+			      clearInterval(ti);
+			      
+			    }
+			  }, 10);
+			  
+			  // MAGIC ends
 		}
 
 	}, {
@@ -197,6 +319,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 		'autocomplete',
 		'autocomplete-highlighters',
 		'autocomplete-filters',
-		'evernote-storage'
+		'evernote-storage',
+		'cn-css-inliner'
 	]
 });
