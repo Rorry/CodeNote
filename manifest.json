@@ -24,7 +24,6 @@
     {
       "matches": ["http://*/*", "https://*/*"],
       "css": [
-        /*"lib/y-min.css", */
         "lib/yui/yui-min.css",
         "lib/shCore.css", 
         "lib/shCoreDefault.css",
@@ -37,8 +36,6 @@
         "lib/yui/yui-min-2.js",
         "lib/yui/yui-min-3.js",
         "lib/yui/yui-min-4.js",
-        /*"lib/y4-min.js", "lib/y1-min.js",
-        "lib/y3-min.js", "lib/y2-min.js",*/
         "lib/evernote-sdk-minified.js",
         "lib/highlight/highlight.pack.js",
         "tools/code-note.js",

@@ -62,16 +62,6 @@ YUI.add('cn-page-listener', function (Y) {
 								_processor.processNode(pre);	
 							}
 						}, node);
-
-						/*node.on('mouseenter', function (event) {
-							var pre = this.one('pre');
-
-							_processor.processNode(pre);
-						}, node);
-
-						node.on('mouseleave', function (event) {
-							this.setHTML(Y.CN.Cache.Node[this._yuid]);
-						}, node);*/
 					});
 
 					_popup.show();
@@ -104,9 +94,6 @@ YUI.add('cn-page-listener', function (Y) {
 
 YUI().use('cn-page-listener', 'overlay', function (Y) {
 
-	// var path = chrome.extension.getURL('lib/shCore.css');
-	// Y.one('head').append('<link rel="stylesheet" type="text/css" href="' + path +'"/>');
-
 	chrome.extension.onConnect.addListener(function(port) {
     	port.onMessage.addListener(function (obj) {
     		if (obj.method && Y.Lang.isString(obj.method) && (Y.CN.Page.Listener.METHODS.indexOf(obj.method) > -1)) {
@@ -117,58 +104,3 @@ YUI().use('cn-page-listener', 'overlay', function (Y) {
 	});
 
 });
-
-
-/*btnSave.on('click', function (event) { // Сохраняем код.
-				var note = Y.Node.create('<en-note></en-note>'),
-					_packStyle = function (node) {
-						var styles = {},
-							children = node.get('children'),
-							computedStyles = window.getComputedStyle(node._node, null),
-							i,
-							property;
-
-						// for (i = 0; i < computedStyles.length; i++) {
-						// 	property = computedStyles[i];
-
-						// 	styles[property] = node.getStyle(property);
-						// }
-
-						// node.setStyles(styles);
-						node.removeAttribute('class');
-						if (children) {
-							children.each(function (subNode) {
-								_packStyle(subNode);
-							});
-						}
-					};
-
-				_codeBlocks.each(function (node) {
-					node.removeClass('cn-marked');
-					node.setHTML(Y.CN.Cache.Node[node._yuid]);
-					var pre = this.one('pre');
-					processor.processNode(pre);
-					node.detach();
-					_packStyle(node);
-					note.appendChild(node.cloneNode(true));
-				});	
-
-				var pack = Y.Lang.sub('<?xml version="1.0" encoding="UTF-8"?>' +
-								'<!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd">' +
-								'<en-note>{note}</en-note>', {
-									note: note.getHTML()
-								});
-
-				pack = pack.replace(/id="[\s|\w]*"/g, '');
-				pack = pack.replace(/<\/code>/g, '</span>');
-				pack = pack.replace(/<code/g, '<span');
-				pack = pack.replace(/<td [\w|=|\"|\s]*">/g, '<td>');
-				pack = pack.replace(/<table [\w|=|\"|\s]*>/g, '<table>');
-				// Y.log(pack);
-
-				// evernoteStorage.save(pack, function (note) {
-				// 	Y.log(note);
-				// });
-
-				Y.CN.Page.Listener.init();
-			});*/
