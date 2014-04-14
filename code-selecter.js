@@ -70,11 +70,13 @@ YUI.add('cn-page-listener', function (Y) {
 			},
 
 			_onAuthorise = function (credentials) {
-				Y.log('<- success authorise: ' + credentials);
+				if (CURRENT_MODE_ON) { // сообщение авторизации после сообщения инитиализации
+					Y.log('<- success authorise: ' + credentials);
 
-				_popup.initUI(credentials, _codeBlocks, _processor, function () {
-					Y.CN.Page.Listener.init();
-				});
+					_popup.initUI(credentials, _codeBlocks, _processor, function () {
+						Y.CN.Page.Listener.init();
+					});
+				}
 			};
 		
 		return {
