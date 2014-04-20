@@ -4,6 +4,10 @@ YUI.add('evernote-storage', function (Y) {
 
   }, {
     ATTRS: {
+        guid: {
+          value: null,
+          validator: Y.Lang.isString
+        },
         title: {
           value: '',
           validator: Y.Lang.isString
@@ -16,25 +20,43 @@ YUI.add('evernote-storage', function (Y) {
           validator: Y.Lang.isArray
         },
         content: {
-          value: null
+          value: null,
+          validator: Y.Lang.isString
         }
     }
   });
 
   Y.namespace('CN.Evernote').Storage = Y.Base.create('cn-evernote-storage', Y.Base, [], {
-    noteStoreURL: null,
-    authenticationToken: null,
-    noteStoreTransport: null,
-    noteStoreProtocol: null,
-    noteStore: null,
+    _TEMPLATE_EN: '<?xml version="1.0" encoding="UTF-8"?>' +
+                '<!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd">' +
+                '<en-note>{content}</en-note>',
+
+    _noteStoreURL: null,
+    _authenticationToken: null,
+    _noteStoreTransport: null,
+    _noteStoreProtocol: null,
+    _noteStore: null,
+
+    /* TODO: add clearing tags in according to enml2.dtd */
+    _clearContent: function (content) {
+        content = content.replace(/id="[\s|\w]*"/g, '');
+        content = content.replace(/<\/code>/g, '</span>');
+        content = content.replace(/<code/g, '<span');
+        content = content.replace(/<td [\w|=|\"|\s]*">/g, '<td>');
+        content = content.replace(/<table [\w|=|\"|\s]*>/g, '<table>');
+        content = content.replace(/<br>/g, '</br>');
+        content = content.replace(/cn-style_/g, 'style');
+
+        return content;
+    },
 
 
     initializer: function (config) {
-      this.noteStoreURL = config.noteStoreURL,
-      this.authenticationToken = config.authenticationToken,
-      this.noteStoreTransport = new Thrift.BinaryHttpTransport(this.noteStoreURL);
-      this.noteStoreProtocol = new Thrift.BinaryProtocol(this.noteStoreTransport);
-      this.noteStore = new NoteStoreClient(this.noteStoreProtocol);
+      this._noteStoreURL = config.noteStoreURL,
+      this._authenticationToken = config.authenticationToken,
+      this._noteStoreTransport = new Thrift.BinaryHttpTransport(this._noteStoreURL);
+      this._noteStoreProtocol = new Thrift.BinaryProtocol(this._noteStoreTransport);
+      this._noteStore = new NoteStoreClient(this._noteStoreProtocol);
 
       this.set('note', new Y.CN.Evernote.Note());
     },
@@ -42,7 +64,7 @@ YUI.add('evernote-storage', function (Y) {
     listNotebooks: function (callback) {
       var self = this;
 
-      self.noteStore.listNotebooks(self.authenticationToken, function (notebooks) {
+      self._noteStore.listNotebooks(self._authenticationToken, function (notebooks) {
           Y.log(notebooks);
           callback(notebooks);
         },
@@ -55,7 +77,7 @@ YUI.add('evernote-storage', function (Y) {
     listTags: function (callback) {
       var self = this;
 
-      self.noteStore.listTags(self.authenticationToken, function (tags) {
+      self._noteStore.listTags(self._authenticationToken, function (tags) {
         Y.log(tags);
         callback(tags);
       },
@@ -73,10 +95,29 @@ YUI.add('evernote-storage', function (Y) {
       filter.inactive = false;
       resultSpec.includeTitle = true;
 
-      self.noteStore.findNotesMetadata(self.authenticationToken, filter, 0, 10, resultSpec, 
+      self._noteStore.findNotesMetadata(self._authenticationToken, filter, 0, 10, resultSpec, 
         function (result) {
           Y.log(result);
           callback(result.notes);
+        },
+        function onerror(error) {
+          Y.log(error);
+        });
+    },
+
+    getNoteByGUID: function (guid) {
+      var self = this,
+          newNote;
+
+      self._noteStore.getNote(self._authenticationToken, guid, true, false, false, false,
+        function (resultNote) {
+          Y.log("Found Note: " + resultNote);
+          newNote = new Y.CN.Evernote.Note({
+            guid: resultNote.guid,
+            title: resultNote.title,
+            content: resultNote.content
+          });
+          self.set('note', newNote);
         },
         function onerror(error) {
           Y.log(error);
@@ -113,15 +154,54 @@ YUI.add('evernote-storage', function (Y) {
 
     save: function (content, callback) {
       var note = this.get('note'),
+          guid = note.get('guid');
+
+      if (Y.Lang.isString(guid) && (guid.length > 0)) {
+        this.update(content, callback);
+      } else {
+        this.create(content, callback);
+      }
+    },
+
+    update: function (content, callback) {
+      var note = this.get('note'),
           enNote = new Note(),
-          title = note.get('title')
+          resultContent = note.get('content').slice(0, -10); //delete '</en-note>' at the end of the content
+
+      enNote.guid = note.get('guid');
+      enNote.title = note.get('title');
+
+      resultContent += this._clearContent(content) + '</en-note>';
+      enNote.content = resultContent;
+
+      this._noteStore.updateNote(this._authenticationToken, enNote, function (err, note) {
+        if (err) {
+          // Something was wrong with the note data
+          // See EDAMErrorCode enumeration for error code explanation
+          // http://dev.evernote.com/documentation/reference/Errors.html#Enum_EDAMErrorCode
+          Y.log(err);
+          Y.log(note);
+        } else {
+          callback(note);
+        }
+      });
+    },
+
+    create: function (content, callback) {
+      var note = this.get('note'),
+          enNote = new Note(),
+          title = note.get('title'),
+          resultContent;
 
       enNote.notebookGuid = note.get("notebook");
       enNote.title = (title.length > 0) ? title : 'Untitled';
       enNote.tagGuids = note.get('tags');
-      enNote.content = content;
+      
+      resultContent = Y.Lang.sub(this._TEMPLATE_EN, { content: content });
+      resultContent = this._clearContent(resultContent);
+      enNote.content = resultContent;
 
-      this.noteStore.createNote(this.authenticationToken, enNote, function (err, note) {
+      this._noteStore.createNote(this._authenticationToken, enNote, function (err, note) {
         if (err) {
           // Something was wrong with the note data
           // See EDAMErrorCode enumeration for error code explanation

@@ -5,8 +5,8 @@ YUI.add('cn-code-note-popup', function (Y) {
 			'<div>' +
 			'<select id="nbname"></select></div>' +
 			'<div>' +
-			'<input id="nbtitle" type="text" placeholder="Название"></div>' +
 			'<input id="searchTitle" type="text" placeholder="Поиск по названию">' +
+			'<input id="nbtitle" type="text" placeholder="Название"></div>' +
 			'<input id="nbtags" type="text" placeholder="Теги">' +
 			'<div id="selectedTags"></div>' +
 			'<button id="save">Сохранить</button>' +
@@ -72,20 +72,27 @@ YUI.add('cn-code-note-popup', function (Y) {
 				evernoteStorage.setNotebook(guid);	
 			});
 
-			self._inputTitle.on('change', function (event) {
-				var title = event.target.get('value');
-
-				evernoteStorage.setTitle(title);
-			});
-
 			self._inputSearch.plug(Y.Plugin.AutoComplete, {
 				resultHighlighter: 'phraseMatch',
 				// resultFilters: 'phraseMatch',
 				resultTextLocator: 'title',
 				source: function (query, callback) {
 					evernoteStorage.findNotes(query, callback);
+				},
+				on: {
+					select: function (event) {
+						var selectedNote = event.result.raw;
+						evernoteStorage.getNoteByGUID(selectedNote.guid);
+					}
 				}
 			});
+
+			self._inputTitle.on('change', function (event) {
+				var title = event.target.get('value');
+
+				evernoteStorage.setTitle(title);
+			});
+
 
 			self._inputTags.plug(Y.Plugin.AutoComplete, {
 				resultHighlighter: 'phraseMatch',
@@ -137,21 +144,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 					node.detach();
 				});
 
-				pack = Y.Lang.sub('<?xml version="1.0" encoding="UTF-8"?>' +
-								'<!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd">' +
-								'<en-note>{note}</en-note>', {
-									note: note.getHTML()
-								});
-
-				pack = pack.replace(/id="[\s|\w]*"/g, '');
-				pack = pack.replace(/<\/code>/g, '</span>');
-				pack = pack.replace(/<code/g, '<span');
-				pack = pack.replace(/<td [\w|=|\"|\s]*">/g, '<td>');
-				pack = pack.replace(/<table [\w|=|\"|\s]*>/g, '<table>');
-				pack = pack.replace(/<br>/g, '</br>');
-				pack = pack.replace(/cn-style_/g, 'style');
-
-				evernoteStorage.save(pack, function (note) {
+				evernoteStorage.save(note.getHTML(), function (note) {
 					Y.log(note);
 				});
 				
