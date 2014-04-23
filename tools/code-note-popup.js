@@ -1,15 +1,14 @@
 YUI.add('cn-code-note-popup', function (Y) {
 
-	var TEMPLATE = '<div class="yui3-skin-sam code-note">' +
+	var TEMPLATE = '<div class="yui3-skin-code-note code-note">' +
 			'<h1>Code Note</h1>' +
-			'<div>' +
-			'<select id="nbname"></select></div>' +
-			'<div>' +
-			'<input id="searchTitle" type="text" placeholder="Поиск по названию">' +
-			'<input id="nbtitle" type="text" placeholder="Название"></div>' +
+			'<div class="clear-search" id="clearBtn">x</div><input id="searchTitle" type="text" placeholder="Поиск по названию">' +
+			'<input id="nbtitle" type="text" placeholder="Название">' +
+			'<select id="nbname"></select>' +
 			'<input id="nbtags" type="text" placeholder="Теги">' +
 			'<div id="selectedTags"></div>' +
-			'<button id="save">Сохранить</button>' +
+			'<button id="saveBtn">Сохранить</button>' +
+			'<button id="cancelBtn">Отмена</button>' +
 			'</div>',
 		TAG_TEMPLATE = '<button class="tag">{tag}</button>';
 
@@ -22,6 +21,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 		_inputSearch: null,
 		_inputTags: null,
 		_blockTags: null,
+		_btnClear: null,
 
 		initializer: function (config) {
 			var body = Y.one('body'),
@@ -29,11 +29,12 @@ YUI.add('cn-code-note-popup', function (Y) {
 
 			this._panel		  = panel;
 			this._select	  = panel.one('#nbname');
-			this._btnSave 	  = panel.one('#save');
+			this._btnSave 	  = panel.one('#saveBtn');
 			this._inputTitle  = panel.one('#nbtitle');
 			this._inputSearch = panel.one('#searchTitle');
 			this._blockTags   = panel.one('#selectedTags');
 			this._inputTags	  = panel.one('#nbtags');
+			this._btnClear    = panel.one('#clearBtn');
 
 			panel.hide();
 			body.appendChild(panel);
@@ -83,8 +84,19 @@ YUI.add('cn-code-note-popup', function (Y) {
 					select: function (event) {
 						var selectedNote = event.result.raw;
 						evernoteStorage.getNoteByGUID(selectedNote.guid);
+
+						self._inputTitle.set('value', selectedNote.title);
+						self._inputTags.setAttribute('disabled', 'disabled');
+						self._select.setAttribute('disabled', 'disabled');
 					}
 				}
+			});
+
+			self._btnClear.on('click', function (event) {
+				self._inputTitle.set('value', '');
+				self._inputSearch.set('value', '');
+				self._inputTags.removeAttribute('disabled');
+				self._select.removeAttribute('disabled');
 			});
 
 			self._inputTitle.on('change', function (event) {
@@ -105,7 +117,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 							tagButton = Y.Node.create(Y.Lang.sub(TAG_TEMPLATE, {tag: eTag.name}));
 
 						evernoteStorage.addTag(eTag.guid);
-
+						
 						self._blockTags.appendChild(tagButton);
 						tagButton.on('click', function (event) {
 							evernoteStorage.removeTag(eTag.guid);
@@ -163,12 +175,17 @@ YUI.add('cn-code-note-popup', function (Y) {
 		},
 
 		reset: function () {
+			this._inputTags.removeAttribute('disabled');
+			this._select.removeAttribute('disabled');
+
 			this._select.empty();
+			this._inputSearch.set('value', '');
 			this._inputTitle.set('value', '');
 			this._inputTags.set('value', '');
 			// this._inputTags.ac.set('source', []);
 			this._blockTags.empty();
 			this._btnSave.detach();
+			this._btnClear.detach();
 		}
 
 	}, {
