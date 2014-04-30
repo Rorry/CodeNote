@@ -1,0 +1,362 @@
+.yui3-skin-code-note {
+    background-color: #366;
+}
+
+/* autocomplete-list-core.css ****************************************************/
+.yui3-aclist {
+    position: absolute;
+    z-index: 1;
+}
+
+.yui3-aclist-hidden { visibility: hidden; }
+
+.yui3-aclist-aria {
+    /* Hide from sighted users, show to screen readers. */
+    left: -9999px;
+    position: absolute;
+}
+
+.yui3-aclist-list {
+    list-style: none;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+}
+
+.yui3-aclist-item {
+    cursor: pointer;
+    list-style: none;
+    padding: 0.2em 0.39em;
+}
+
+.yui3-aclist-item-active { outline: #afafaf dotted thin;
+}
+
+/* autocomplete-list-skin.css   (sam) ****************************************************/
+.yui3-skin-code-note .yui3-aclist-content {
+    background-color: #f3fae1;
+    border: solid 1px #ddf1ac;
+    color: #3c4e0d;
+    -moz-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.58);
+    -webkit-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.58);
+    box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.15);
+}
+
+.yui3-skin-code-note .yui3-aclist-item-hover {
+    background-color: #c7e773;
+    color: #283409;
+}
+
+.yui3-skin-code-note .yui3-aclist-item-active {
+    background-color: #cae774;
+    color: #0a0d02;
+    outline: none;
+}
+
+.yui3-skin-code-note .yui3-button {
+    /* Structure */
+    display: inline-block;
+    *display: inline; /*IE 6/7*/
+    zoom: 1;
+    font-size: 100%;
+    *font-size: 90%; /*IE 6/7 - To reduce IE's oversized button text*/
+    *overflow: visible; /*IE 6/7 - Because of IE's overly large left/right padding on buttons */
+    padding: 0.4em 0.78em 0.45em; /*0.4em 1em 0.45em;*/
+    line-height: normal;
+    white-space: nowrap;
+    vertical-align: baseline;
+    text-align: center;
+    cursor: pointer;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+
+    /* Presentation */
+    /*color: #444;  rgba not supported (IE 8) */
+    /*color: rgba(0, 0, 0, 0.80);  rgba supported */
+    /**color: #444;  IE 6 & 7 */
+    color: #293409;
+    /*border: 1px solid #999;  IE 6/7/8*/
+    /*border: none rgba(0, 0, 0, 0);  IE9 + everything else*/
+    border: solid 1px;
+    border-color: #f3fae0 #c0e359 #c0e359 #f3fae0;
+
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80ffffff', endColorstr='#00ffffff', GradientType=0);
+    background: background:    -moz-linear-gradient(top, rgba(252, 254, 246, 0.3) 0%, rgba(202, 231, 116, 0) 49%, rgba(202, 231, 116, 0) 51%, rgba(149, 188, 32, 0.3) 100%);
+    background:  -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(252, 254, 246, 0.3)), color-stop(49%, rgba(202, 231, 116, 0)), color-stop(51%, rgba(202, 231, 116, 0)), color-stop(100%,rgba(149, 188, 32, 0.3)));
+    background: -webkit-linear-gradient(top, rgba(252, 254, 246, 0.3) 0%, rgba(202, 231, 116, 0) 49%, rgba(202, 231, 116, 0) 51%, rgba(149, 188, 32, 0.3) 100%);
+    background:      -o-linear-gradient(top, rgba(252, 254, 246, 0.3) 0%, rgba(202, 231, 116, 0) 49%, rgba(202, 231, 116, 0) 51%, rgba(149, 188, 32, 0.3) 100%);
+    background:     -ms-linear-gradient(top, rgba(252, 254, 246, 0.3) 0%, rgba(202, 231, 116, 0) 49%, rgba(202, 231, 116, 0) 51%, rgba(149, 188, 32, 0.3) 100%);
+    background:   linear-gradient(to bottom, rgba(252, 254, 246, 0.3) 0%, rgba(202, 231, 116, 0) 49%, rgba(202, 231, 116, 0) 51%, rgba(149, 188, 32, 0.3) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#33ffffff', endColorstr='#1a000000',GradientType=0 );
+    background-color: #cae774;
+
+    text-decoration: none;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 0 1px rgba(0,0,0, 0.25) inset, 0 2px 2px rgba(255,255,255, 0.30) inset, 0 1px 2px rgba(0,0,0, 0.15);
+    -moz-box-shadow: 0 0 1px rgba(0,0,0, 0.25) inset, 0 2px 2px rgba(255,255,255, 0.30) inset, 0 1px 2px rgba(0,0,0, 0.15);
+    box-shadow: 0 0 1px rgba(0,0,0, 0.25) inset, 0 2px 2px rgba(255,255,255, 0.30) inset, 0 1px 2px rgba(0,0,0, 0.15);
+
+    /* Transitions */
+    -webkit-transition: 0.1s linear -webkit-box-shadow;
+    -moz-transition: 0.1s linear -moz-box-shadow;
+    -ms-transition: 0.1s linear box-shadow;
+    -o-transition: 0.1s linear box-shadow;
+    transition: 0.1s linear box-shadow;
+}
+
+.yui3-skin-code-note a.yui3-button {
+    color: #293409;
+    text-decoration:none;
+}
+
+.yui3-skin-code-note a.yui3-button-selected {
+    color: #000000;
+    text-decoration:none;
+}
+
+.yui3-skin-code-note .yui3-button-hover,
+.yui3-skin-code-note .yui3-button:hover {
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#26000000', GradientType=0);
+    background: background:    -moz-linear-gradient(top, rgba(252, 254, 246, 0.3) 0%, rgba(202, 231, 116, 0) 49%, rgba(202, 231, 116, 0) 51%, rgba(149, 188, 32, 0.3) 100%);
+    background:  -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(252, 254, 246, 0.3)), color-stop(49%, rgba(202, 231, 116, 0)), color-stop(51%, rgba(202, 231, 116, 0)), color-stop(100%,rgba(149, 188, 32, 0.3)));
+    background: -webkit-linear-gradient(top, rgba(252, 254, 246, 0.3) 0%, rgba(202, 231, 116, 0) 49%, rgba(202, 231, 116, 0) 51%, rgba(149, 188, 32, 0.3) 100%);
+    background:      -o-linear-gradient(top, rgba(252, 254, 246, 0.3) 0%, rgba(202, 231, 116, 0) 49%, rgba(202, 231, 116, 0) 51%, rgba(149, 188, 32, 0.3) 100%);
+    background:     -ms-linear-gradient(top, rgba(252, 254, 246, 0.3) 0%, rgba(202, 231, 116, 0) 49%, rgba(202, 231, 116, 0) 51%, rgba(149, 188, 32, 0.3) 100%);
+    background:   linear-gradient(to bottom, rgba(252, 254, 246, 0.3) 0%, rgba(202, 231, 116, 0) 49%, rgba(202, 231, 116, 0) 51%, rgba(149, 188, 32, 0.3) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#33ffffff', endColorstr='#1a000000',GradientType=0 );
+    background-color: #adda25;
+    color: #151a04;
+}
+
+.yui3-skin-code-note .yui3-button-active,
+.yui3-skin-code-note .yui3-button:active {
+    border: inset 1px solid #999;  /*IE 6/7/8*/
+    border: none rgba(0, 0, 0, 0);  /*IE9 + everything else*/
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1A000000', endColorstr='#26000000', GradientType=0);
+    background: background:    -moz-linear-gradient(top, rgba(250, 255, 235, 0.3) 0%, rgba(149, 199, 0, 0) 49%, rgba(149, 199, 0, 0) 51%, rgba(107, 143, 0, 0.3) 100%);
+    background:  -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(250, 255, 235, 0.3)), color-stop(49%, rgba(149, 199, 0, 0)), color-stop(51%, rgba(149, 199, 0, 0)), color-stop(100%,rgba(107, 143, 0, 0.3)));
+    background: -webkit-linear-gradient(top, rgba(250, 255, 235, 0.3) 0%, rgba(149, 199, 0, 0) 49%, rgba(149, 199, 0, 0) 51%, rgba(107, 143, 0, 0.3) 100%);
+    background:      -o-linear-gradient(top, rgba(250, 255, 235, 0.3) 0%, rgba(149, 199, 0, 0) 49%, rgba(149, 199, 0, 0) 51%, rgba(107, 143, 0, 0.3) 100%);
+    background:     -ms-linear-gradient(top, rgba(250, 255, 235, 0.3) 0%, rgba(149, 199, 0, 0) 49%, rgba(149, 199, 0, 0) 51%, rgba(107, 143, 0, 0.3) 100%);
+    background:   linear-gradient(to bottom, rgba(250, 255, 235, 0.3) 0%, rgba(149, 199, 0, 0) 49%, rgba(149, 199, 0, 0) 51%, rgba(107, 143, 0, 0.3) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#33ffffff', endColorstr='#1a000000',GradientType=0 );
+    background-color: #95C700;
+    color: #000000;
+
+
+    -webkit-box-shadow: 0 0 1px rgba(0,0,0, 0.25) inset, 0 2px 4px rgba(0,0,0, 0.30) inset;
+    -moz-box-shadow: 0 0 1px rgba(0,0,0, 0.25) inset, 0 2px 4px rgba(0,0,0, 0.30) inset;
+    box-shadow: 0 0 1px rgba(0,0,0, 0.25) inset, 0 2px 4px rgba(0,0,0, 0.30) inset;
+}
+
+.yui3-skin-code-note .yui3-button[disabled],
+.yui3-skin-code-note .yui3-button-disabled,
+.yui3-skin-code-note .yui3-button-disabled:hover,
+.yui3-skin-code-note .yui3-button-disabled:active {
+    cursor: default;
+    background-image: none;
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    filter: alpha(opacity=55);
+    -khtml-opacity: 0.55;
+    -moz-opacity: 0.55;
+    opacity: 0.55;
+    -webkit-box-shadow: 0 0 1px rgba(0,0,0, 0.25) inset;
+    -moz-box-shadow: 0 0 1px rgba(0,0,0, 0.25) inset;
+    box-shadow: 0 0 1px rgba(0,0,0, 0.25) inset;
+
+    background-color: #cae774;
+    color: #293409;
+
+
+}
+
+/* Firefox: Get rid of the inner focus border */
+.yui3-skin-code-note .yui3-button::-moz-focus-inner{
+    padding: 0;
+    border: 0;
+}
+
+/* Firefox: Add a border around a focused button */
+.yui3-skin-code-note .yui3-button:-moz-focusring {
+    outline: thin dotted;
+}
+
+
+.yui3-skin-code-note .yui3-button-primary,
+.yui3-skin-code-note .yui3-button-selected {
+    background-color: #95C700;
+    color: #000000;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.25) inset, 0 2px 2px rgba(255, 255, 255, 0.17) inset, 0 1px 2px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.25) inset, 0 2px 2px rgba(255, 255, 255, 0.17) inset, 0 1px 2px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.25) inset, 0 2px 2px rgba(255, 255, 255, 0.17) inset, 0 1px 2px rgba(0, 0, 0, 0.15);
+    border-color: #ace600 #8ab800 #8ab800 #ace600;
+}
+
+.yui3-skin-code-note .yui3-button-primary:hover,
+.yui3-skin-code-note .yui3-button-selected:hover {
+    background-color: #86b300;
+    color: #000000;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.25) inset, 0 2px 2px rgba(255, 255, 255, 0.17) inset, 0 1px 2px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.25) inset, 0 2px 2px rgba(255, 255, 255, 0.17) inset, 0 1px 2px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.25) inset, 0 2px 2px rgba(255, 255, 255, 0.17) inset, 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+
+.yui3-skin-code-note .yui3-sam .yui3-button:-moz-focusring {
+    outline-color: rgba(0, 0, 0, 0.85);
+}
+
+
+.yui3-skin-code-note .yui3-night .yui3-button:-moz-focusring {
+    outline-color: rgba(255, 255, 255, 0.85);
+}
+/** from overlay-core.css ***************************/
+.yui3-overlay {
+    position:absolute;
+}
+
+.yui3-overlay-hidden {
+    visibility:hidden
+}
+
+.yui3-widget-tmp-forcesize .yui3-overlay-content {
+    overflow:hidden !important;
+}
+
+/** added ***************************************/
+.yui3-skin-code-note .yui3-overlay-content .yui3-widget-hd,
+.yui3-skin-code-note .yui3-overlay-content .yui3-widget-bd,
+.yui3-skin-code-note .yui3-overlay-content .yui3-widget-ft {
+    background-color: #f3fae1;
+    border: solid 1px #ddf1ac;
+    border-bottom: none;
+    padding: 0.3em 0.39em;
+    color: #3c4e0d;
+}
+.yui3-skin-code-note .yui3-overlay-content .yui3-widget-ft {
+    border-bottom: solid 1px #ddf1ac;
+}
+
+/** from panel-core.css *****************************************/
+.yui3-panel {
+    position: absolute;
+}
+.yui3-panel-hidden {
+    visibility: hidden;
+}
+.yui3-widget-tmp-forcesize .yui3-panel-content {
+    overflow: hidden !important;
+}
+.yui3-panel .yui3-widget-hd {
+    position: relative;
+}
+.yui3-panel .yui3-widget-hd .yui3-widget-buttons {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.yui3-panel .yui3-widget-ft .yui3-widget-buttons {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+}
+
+/** from panel-skin.css (sam)***************************************/
+.yui3-skin-code-note .yui3-panel-content {
+    -webkit-box-shadow: 2 2 7px rgba(0,0,0,0.15);
+    -moz-box-shadow: 2 2 7px rgba(0,0,0,0.15);
+    box-shadow: 2px 2px 7px rgba(0,0,0,0.15);
+    border: solid 1px #cbe675;
+    background-color: #f3fae1;
+    color: #3c4e0d;
+    border-radius: 6px;
+}
+.yui3-skin-code-note .yui3-panel .yui3-widget-hd {
+    padding: 0.5em; /* Room for close button. */
+    padding-right: 40px; /* Room for Close button */
+    min-height: 13px;           /* For the close button */
+    _height: 13px;              /* IE6 */
+    color: #293409;
+    background: background:    -moz-linear-gradient(top, rgba(252, 254, 246, 0.3) 0%, rgba(202, 231, 116, 0) 49%, rgba(202, 231, 116, 0) 51%, rgba(149, 188, 32, 0.3) 100%);
+    background:  -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(252, 254, 246, 0.3)), color-stop(49%, rgba(202, 231, 116, 0)), color-stop(51%, rgba(202, 231, 116, 0)), color-stop(100%,rgba(149, 188, 32, 0.3)));
+    background: -webkit-linear-gradient(top, rgba(252, 254, 246, 0.3) 0%, rgba(202, 231, 116, 0) 49%, rgba(202, 231, 116, 0) 51%, rgba(149, 188, 32, 0.3) 100%);
+    background:      -o-linear-gradient(top, rgba(252, 254, 246, 0.3) 0%, rgba(202, 231, 116, 0) 49%, rgba(202, 231, 116, 0) 51%, rgba(149, 188, 32, 0.3) 100%);
+    background:     -ms-linear-gradient(top, rgba(252, 254, 246, 0.3) 0%, rgba(202, 231, 116, 0) 49%, rgba(202, 231, 116, 0) 51%, rgba(149, 188, 32, 0.3) 100%);
+    background:   linear-gradient(to bottom, rgba(252, 254, 246, 0.3) 0%, rgba(202, 231, 116, 0) 49%, rgba(202, 231, 116, 0) 51%, rgba(149, 188, 32, 0.3) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#33ffffff', endColorstr='#1a000000',GradientType=0 );
+    background-color: #cae774;
+    border-radius: 6px 6px 0 0;
+
+
+    /*
+    TODO: Add support for IE and W3C gradients
+    */
+}
+.yui3-skin-code-note .yui3-panel .yui3-widget-hd .yui3-widget-buttons {
+    padding: 0.2em;
+}
+.yui3-skin-code-note .yui3-panel .yui3-widget-bd {
+    padding: 0.5em;
+}
+.yui3-skin-code-note .yui3-panel .yui3-widget-ft {
+	background: #e0f0ad;
+	padding: 0.5em;
+    text-align: right;
+    border-radius: 0 0 6px 6px;
+}
+.yui3-skin-code-note .yui3-panel .yui3-widget-ft .yui3-button {
+    margin-left: 8px;
+}
+
+/*
+Support for icon-based [x] "close" button in the header.
+
+Nicolas Gallagher: "CSS image replacement with pseudo-elements (NIR)"
+http://nicolasgallagher.com/css-image-replacement-with-pseudo-elements/
+*/
+.yui3-skin-code-note .yui3-panel .yui3-widget-hd .yui3-button-close {
+    /* Reset base button styles */
+    background: transparent;
+    filter: none;
+    border: none;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+
+    /* Structure */
+    width: 13px;
+    height: 13px;
+    padding: 0;
+    overflow: hidden;
+    vertical-align: top;
+    /* IE less than 8 :( */
+    *font-size: 0;
+    *line-height: 0;
+    *letter-spacing: -1000px;
+    *color: #86A5EC;
+    *background: url(assets/images/sprite_icons.png) no-repeat 1px 1px;
+}
+.yui3-skin-code-note .yui3-panel .yui3-widget-hd .yui3-button-close:before {
+    /*
+    Displays the [x] icon in place of the "Close" text.
+    Note: The `width` of this pseudo element is the same as its "host" element.
+    */
+    content: url(assets/images/sprite_icons.png);
+    display: inline-block;
+    text-align: center;
+    font-size: 0;
+    line-height: 0;
+    width: 13px;
+    margin: 1px 0 0 1px;
+}
+.yui3-skin-code-note .yui3-panel-hidden .yui3-widget-hd .yui3-button-close {
+    /* Required for IE > 7 to deal with pseudo :before element */
+    display: none;
+}

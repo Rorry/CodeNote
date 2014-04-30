@@ -28,6 +28,7 @@
         "lib/shCore.css", 
         "lib/shCoreDefault.css",
         "lib/highlight/idea.css",
+        "lib/yui3-skin-code-note.css",
         "tools/code-note.css"
       ],
       "js": [

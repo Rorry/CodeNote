@@ -37,9 +37,10 @@ YUI.add('evernote-storage', function (Y) {
     _noteStoreProtocol: null,
     _noteStore: null,
 
-    /* TODO: add clearing tags in according to enml2.dtd */
+    /* TODO: add clearing tags in according to the enml2.dtd */
     _clearContent: function (content) {
         content = content.replace(/id="[\s|\w]*"/g, '');
+        content = content.replace(/class="[\s|\w|-]*"/g, '');
         content = content.replace(/<\/code>/g, '</span>');
         content = content.replace(/<code/g, '<span');
         content = content.replace(/<td [\w|=|\"|\s]*">/g, '<td>');
