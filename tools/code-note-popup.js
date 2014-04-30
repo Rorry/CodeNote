@@ -43,7 +43,8 @@ YUI.add('cn-code-note-popup', function (Y) {
 		initUI: function (credentials, codeBlocks, processor, callback) {
 			var self = this,
 				evernoteStorage = new Y.CN.Evernote.Storage({ noteStoreURL: credentials.note_store_url, authenticationToken: credentials.oauth_token }),
-				tags = [];
+				tags = [],
+				selectedTags = {};
 
 			evernoteStorage.listNotebooks(function (list) {
 				Y.Array.each(list, function (item) {
@@ -110,16 +111,29 @@ YUI.add('cn-code-note-popup', function (Y) {
 				resultHighlighter: 'phraseMatch',
 				resultFilters: 'phraseMatch',
 				resultTextLocator: 'name',
-				source: tags,
+				source: function (query, callback) {
+					var newTags = [],
+						i;
+					
+					for (i = 0; i < tags.length; i++) {
+						if (!(tags[i].guid in selectedTags)) {
+							newTags.push(tags[i]);
+						}
+					};
+
+					callback(newTags);
+				},
 				on: {
 					select: function (event) {
 						var eTag = event.result.raw,
 							tagButton = Y.Node.create(Y.Lang.sub(TAG_TEMPLATE, {tag: eTag.name}));
 
+						selectedTags[eTag.guid] = eTag.name;
 						evernoteStorage.addTag(eTag.guid);
 						
 						self._blockTags.appendChild(tagButton);
 						tagButton.on('click', function (event) {
+							delete selectedTags[eTag.guid];
 							evernoteStorage.removeTag(eTag.guid);
 							self._blockTags.removeChild(this);
 						}, tagButton);
@@ -130,24 +144,13 @@ YUI.add('cn-code-note-popup', function (Y) {
 			self._btnSave.on('click', function (event) {
 				var selectedBlocks = codeBlocks.filter('.cn-selected'),
 					note = Y.Node.create('<div></div>'),
-					pack,
-					_clearClasses = function (node) {
-						var children = node.get('children');
-
-						node.removeAttribute('class');
-						if (children) {
-							children.each(function (subNode) {
-								_clearClasses(subNode);
-							});
-						}
-					};
+					pack;
 
 				selectedBlocks.each(function (node) {
 					var cloneNode = node.cloneNode(true);
 
 					Y.CN.CSSInliner.toInline(cloneNode);
 					cloneNode.removeAttribute('selected');
-					_clearClasses(cloneNode);
 					note.appendChild(cloneNode);
 
 					node.removeClass('cn-selected');
