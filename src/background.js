@@ -5,7 +5,7 @@ window.onload = function () {
 			consumerKey 	: '<your consumer key>',
 			consumerSecret 	: '<your consumer secret>',
 			serviceHost		: 'https://sandbox.evernote.com',
-			callbackUrl		: 'callback.html'
+			callbackUrl		: 'resources/callback.html'
 		});
 
 		client.getRequestToken();

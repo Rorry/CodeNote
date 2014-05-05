@@ -18,7 +18,7 @@
     "https://sandbox.evernote.com/OAuth.action"
   ],
 
-  "web_accessible_resources": ["callback.html"] ,
+  "web_accessible_resources": ["resources/callback.html"] ,
 
   "content_scripts": [
     {
@@ -29,7 +29,7 @@
         "lib/shCoreDefault.css",
         "lib/highlight/idea.css",
         "lib/yui3-skin-code-note.css",
-        "tools/code-note.css"
+        "resources/code-note.css"
       ],
       "js": [
         "lib/xregexp-min.js", "lib/shCore.js", "lib/shBrushes.js",
@@ -39,17 +39,17 @@
         "lib/yui/yui-min-4.js",
         "lib/evernote-sdk-minified.js",
         "lib/highlight/highlight.pack.js",
-        "tools/code-note.js",
-        "tools/evernote-storage.js",
-        "tools/css-inliner.js",
-        "tools/code-note-popup.js",
-        "code-selecter.js"
+        "src/tools/code-note.js",
+        "src/tools/evernote-storage.js",
+        "src/tools/css-inliner.js",
+        "src/tools/code-note-popup.js",
+        "src/code-selecter.js"
       ]
     }
   ],
 
   "browser_action": {
     "default_title": "CodeNote",
-    "default_icon": "1393874156_application-code-m.png"
+    "default_icon": "resources/1393874156_application-code-m.png"
   }
 }
