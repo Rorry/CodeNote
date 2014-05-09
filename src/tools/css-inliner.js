@@ -122,8 +122,7 @@ YUI.add('cn-css-inliner', function (Y) {
 
 	
 	Y.namespace('CN').CSSInliner = (function () {
-		var style = document.createElement('style'),
-			_toInline = function (node) {
+		var _toInline = function (node) {
 				var i, rule, style;
 				
 				for (i = 0; i < _ideaCSS.length; i++) {

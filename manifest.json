@@ -33,10 +33,7 @@
       ],
       "js": [
         "lib/xregexp-min.js", "lib/shCore.js", "lib/shBrushes.js",
-        "lib/yui/yui-min-1.js",
-        "lib/yui/yui-min-2.js",
-        "lib/yui/yui-min-3.js",
-        "lib/yui/yui-min-4.js",
+        "lib/yui/yui-min.js",
         "lib/evernote-sdk-minified.js",
         "lib/highlight/highlight.pack.js",
         "src/tools/code-note.js",
