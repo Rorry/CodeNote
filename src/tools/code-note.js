@@ -464,13 +464,12 @@ YUI.add('cn-code-formatter', function (Y) {
 
 
 
-YUI.add('cn-syntax-highlighter', function (Y) {
+YUI.add('cn-highlighter', function (Y) {
 
-    Y.namespace('CN').SyntaxHighlighter = Y.Base.create('cn-syntax-highlighter', Y.Base, [], {
+    Y.namespace('CN').Highlighter = Y.Base.create('cn-highlighter', Y.Base, [], {
         process: function (node) {
             // var lang = node.getAttribute('lang');
             // node.setAttribute('class', 'brush: ' + lang);
-            // SyntaxHighlighter.highlight({}, node._node);
             hljs.highlightBlock(node._node);
         }
     }, {});
@@ -501,7 +500,7 @@ YUI.add('cn-code-processor', function (Y) {
                 cc = this.getCodeCleaner(),
                 ld = this.getLangDetector(),
                 cf = this.getCodeFormatter(),
-                sh = this.getSyntaxHighlighter();
+                sh = this.getHighlighter();
 
             if (!Y.Lang.isNull(node)) {
                 if (ld) { ld.process(node); }
@@ -523,8 +522,8 @@ YUI.add('cn-code-processor', function (Y) {
             return this.get('codeFormatter');
         },
 
-        getSyntaxHighlighter: function () {
-            return this.get('syntaxHightlighter');
+        getHighlighter: function () {
+            return this.get('hightlighter');
         }
     }, {
         ATTRS: {
@@ -543,9 +542,9 @@ YUI.add('cn-code-processor', function (Y) {
                     return new Y.CN.CodeFormatter();
                 }
             },
-            syntaxHightlighter: {
+            hightlighter: {
                 valueFn: function () {
-                    return new Y.CN.SyntaxHighlighter();
+                    return new Y.CN.Highlighter();
                 }
             }
         }
@@ -557,6 +556,6 @@ YUI.add('cn-code-processor', function (Y) {
         'cn-code-cleaner',
         'cn-lang-detector',
         'cn-code-formatter',
-        'cn-syntax-highlighter'
+        'cn-highlighter'
     ]
 });

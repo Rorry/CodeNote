@@ -25,14 +25,11 @@
       "matches": ["http://*/*", "https://*/*"],
       "css": [
         "lib/yui/yui-min.css",
-        "lib/shCore.css", 
-        "lib/shCoreDefault.css",
         "lib/highlight/idea.css",
         "lib/yui3-skin-code-note.css",
         "resources/code-note.css"
       ],
       "js": [
-        "lib/xregexp-min.js", "lib/shCore.js", "lib/shBrushes.js",
         "lib/yui/yui-min.js",
         "lib/evernote-sdk-minified.js",
         "lib/highlight/highlight.pack.js",
