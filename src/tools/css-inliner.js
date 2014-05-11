@@ -131,6 +131,7 @@ YUI.add('cn-css-inliner', function (Y) {
 						style = elem.getAttribute('cn-style_') + rule.value;
 						elem.setAttribute('cn-style_', style);
 						elem.removeAttribute('class');
+						elem.removeAttribute('style'); //remove old inline styles
 					});
 				}
 			};

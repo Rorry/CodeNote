@@ -125,6 +125,10 @@ YUI.add('evernote-storage', function (Y) {
         });
     },
 
+    clearNote: function () {
+      this.set('note', new Y.CN.Evernote.Note());
+    },
+
     setNotebook: function (notebook) {
       var note = this.get('note');
 
@@ -175,16 +179,13 @@ YUI.add('evernote-storage', function (Y) {
       resultContent += this._clearContent(content) + '</en-note>';
       enNote.content = resultContent;
 
-      this._noteStore.updateNote(this._authenticationToken, enNote, function (err, note) {
-        if (err) {
-          // Something was wrong with the note data
-          // See EDAMErrorCode enumeration for error code explanation
-          // http://dev.evernote.com/documentation/reference/Errors.html#Enum_EDAMErrorCode
-          Y.log(err);
-          Y.log(note);
-        } else {
-          callback(note);
-        }
+      this._noteStore.updateNote(this._authenticationToken, enNote, function (note) {        
+        callback(note);
+      }, function onerror(err) {
+        // Something was wrong with the note data
+        // See EDAMErrorCode enumeration for error code explanation
+        // http://dev.evernote.com/documentation/reference/Errors.html#Enum_EDAMErrorCode
+        Y.log(err);
       });
     },
 
@@ -202,16 +203,13 @@ YUI.add('evernote-storage', function (Y) {
       resultContent = this._clearContent(resultContent);
       enNote.content = resultContent;
 
-      this._noteStore.createNote(this._authenticationToken, enNote, function (err, note) {
-        if (err) {
-          // Something was wrong with the note data
-          // See EDAMErrorCode enumeration for error code explanation
-          // http://dev.evernote.com/documentation/reference/Errors.html#Enum_EDAMErrorCode
-          Y.log(err);
-          Y.log(note);
-        } else {
-          callback(note);
-        }
+      this._noteStore.createNote(this._authenticationToken, enNote, function (note) {        
+        callback(note);
+      }, function onerror(err) {
+        // Something was wrong with the note data
+        // See EDAMErrorCode enumeration for error code explanation
+        // http://dev.evernote.com/documentation/reference/Errors.html#Enum_EDAMErrorCode
+        Y.log(err);
       });
     }
 

@@ -1,6 +1,7 @@
 YUI.add('cn-code-note-popup', function (Y) {
 
-	var TEMPLATE = '<div class="yui3-skin-code-note code-note">' +
+	var TEMPLATE = '<div class="code-note-cssreset">' +
+			'<div class="yui3-skin-code-note code-note">' +
 			'<h1>Code Note</h1>' +
 			'<div class="clear-search" id="clearBtn">x</div><input id="searchTitle" type="text" placeholder="Поиск по названию">' +
 			'<input id="nbtitle" type="text" placeholder="Название">' +
@@ -9,8 +10,10 @@ YUI.add('cn-code-note-popup', function (Y) {
 			'<div id="selectedTags"></div>' +
 			'<button id="saveBtn">Сохранить</button>' +
 			'<button id="cancelBtn">Отмена</button>' +
+			'</div>' +
 			'</div>',
-		TAG_TEMPLATE = '<button class="tag">{tag}</button>';
+		TAG_TEMPLATE = '<button class="tag">{tag}</button>',
+		MESSSAGE_TEMPLATE = '<div class="yui3-skin-code-note code-note">{message}</div>';
 
 	Y.namespace('CN').Popup = Y.Base.create('cn-code-note-popup', Y.Base, [], {
 
@@ -94,6 +97,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 			});
 
 			self._btnClear.on('click', function (event) {
+				evernoteStorage.clearNote();
 				self._inputTitle.set('value', '');
 				self._inputSearch.set('value', '');
 				self._inputTags.removeAttribute('disabled');
@@ -161,12 +165,39 @@ YUI.add('cn-code-note-popup', function (Y) {
 
 				evernoteStorage.save(note.getHTML(), function (note) {
 					Y.log(note);
+					self.showOkMessage();
 				});
 				
 				if (Y.Lang.isFunction (callback)) {
 					callback();
 				}
 			});
+		},
+
+		showOkMessage: function () {
+			var body = Y.one('body'),
+				panel = Y.Node.create(Y.Lang.sub(MESSSAGE_TEMPLATE, { message: 'Success!' }));
+			body.appendChild(panel);
+			
+			Y.later(3 * 1000, this, function () {
+                    var anim = new Y.Anim({
+                        node    : panel,
+                        duration: 2,
+                        to      : {
+                            opacity: 0
+                        },
+                        after   : {
+                            end: function (event) {
+                                panel.remove(true);
+                            }
+                        }
+                    });
+                    anim.run();
+                });
+		},
+
+		showErrorMessage: function () {
+
 		},
 
 		show: function () {
@@ -200,6 +231,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 }, '1.0', {
 	requires: [
 		'node',
+		'anim-base',
 		'autocomplete',
 		'autocomplete-highlighters',
 		'autocomplete-filters',

@@ -15,7 +15,11 @@
     right: 0px;
     width: 170px;
     padding: 5px 15px 10px 15px;
+    font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
+    font-weight: normal;
+    font-style: normal;
     display: block;
+    z-index: 10;
  }
 
 .code-note select {
