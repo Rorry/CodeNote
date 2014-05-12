@@ -27,7 +27,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 		_btnClear: null,
 
 		initializer: function (config) {
-			var body = Y.one('body'),
+			var html = Y.one('html'),
 				panel = Y.Node.create(TEMPLATE);
 
 			this._panel		  = panel;
@@ -40,7 +40,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 			this._btnClear    = panel.one('#clearBtn');
 
 			panel.hide();
-			body.appendChild(panel);
+			html.appendChild(panel);
 		},
 
 		initUI: function (credentials, codeBlocks, processor, callback) {
@@ -175,9 +175,9 @@ YUI.add('cn-code-note-popup', function (Y) {
 		},
 
 		showOkMessage: function () {
-			var body = Y.one('body'),
+			var html = Y.one('html'),
 				panel = Y.Node.create(Y.Lang.sub(MESSSAGE_TEMPLATE, { message: 'Success!' }));
-			body.appendChild(panel);
+			html.appendChild(panel);
 			
 			Y.later(3 * 1000, this, function () {
                     var anim = new Y.Anim({
