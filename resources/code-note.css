@@ -1,10 +1,11 @@
 .cn-marked {
     background: #ffe;
-    border: 1px solid red;
+    border: 1px solid #FF6666;
+    /*box-shadow: inset 0 0 10px #FF6666;*/
 }
 
 .cn-selected {
-    border: 1px solid green;
+    border: 1px solid #99FF99;
 }
 
 .code-note {
@@ -19,7 +20,19 @@
     font-weight: normal;
     font-style: normal;
     display: block;
-    z-index: 10;
+    z-index: 9999;
+ }
+
+.code-node-options {
+    text-align: left;
+    background: #366;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -200px;
+    margin-left: -200px;
+    width: 400px;
+    height: 400px;
  }
 
 .code-note select {
