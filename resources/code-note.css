@@ -8,12 +8,46 @@
     border: 1px solid #99FF99;
 }
 
-.code-note {
+#codenote .code-note {
     text-align: left;
     background: #366;
     position: fixed;
     top: 0px;
     right: 0px;
+    height: 100%;
+    width: 200px;
+    padding: 5px 15px 10px 15px;
+    font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
+    font-weight: normal;
+    font-style: normal;
+    display: block;
+    z-index: 9999;
+ }
+
+#codenote .code-note .cn-head {
+  color: #eeeded;  
+}
+
+#codenote .code-note .cn-form {
+   height: 85%; 
+}
+
+#codenote .code-note .clear-search {
+    cursor: pointer;
+}
+
+#codenote .code-note .cn-tag {
+  margin-top: 5px;
+}
+
+
+/*.code-note {
+    text-align: left;
+    background: #366;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    height: 300px;
     width: 170px;
     padding: 5px 15px 10px 15px;
     font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
@@ -87,7 +121,7 @@
     margin: 9px -3px 9px -3px;
     max-height: 54px;
     overflow-y: auto;
-}
+}*/
 
 /*.tag {
     border-radius: 2px;

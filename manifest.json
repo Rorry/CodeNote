@@ -29,7 +29,7 @@
         "lib/yui/yui-min.css",
         "lib/highlight/idea.css",
         "lib/yui/yui3-skin-code-note.css",
-        "lib/cssreset.css",
+        "lib/kube_.css",
         "resources/code-note.css"
       ],
       "js": [

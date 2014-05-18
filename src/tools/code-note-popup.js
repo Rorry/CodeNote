@@ -1,19 +1,39 @@
 YUI.add('cn-code-note-popup', function (Y) {
 
-	var TEMPLATE = '<div class="code-note-cssreset">' +
-			'<div class="yui3-skin-code-note code-note">' +
-			'<h1>Code Note</h1>' +
-			'<div class="clear-search" id="clearBtn">x</div><input id="searchTitle" type="text" placeholder="Поиск по названию">' +
-			'<input id="nbtitle" type="text" placeholder="Название">' +
-			'<select id="nbname"></select>' +
-			'<input id="nbtags" type="text" placeholder="Теги">' +
-			'<div id="selectedTags"></div>' +
-			'<button id="saveBtn">Сохранить</button>' +
-			'<button id="cancelBtn">Отмена</button>' +
-			'</div>' +
-			'</div>',
-		TAG_TEMPLATE = '<button class="tag">{tag}</button>',
-		MESSSAGE_TEMPLATE = '<div class="yui3-skin-code-note code-note">{message}</div>';
+	var TEMPLATE = '<div id="codenote" class="yui3-skin-sam">' +
+		'<div id="codenote" class="code-note">' +
+		    '<h3 class="cn-head">Code Note</h3>' +
+		    '<form class="forms cn-form">' +
+		      '<fieldset>' +
+		      '<label>' +
+		        '<div class="input-groups width-100">' +
+		          '<input type="text" id="cn-search" name="search" placeholder="Search"><span id="cn-clear-search" class="input-append clear-search">X</span>' +
+		        '</div>' +
+		        '<div class="forms-desc">Search by title</div>' +
+		      '</label>' +
+		      '<label>' +
+		        '<input type="text" id="cn-title" name="title" placeholder="Title" class="width-100" />' +
+		      '</label>' +
+		      '<label>' +
+		        '<select id="cn-notebook" class="width-100"></select>' +
+		      '</label>' +
+		      '</fieldset>' +
+		      '<fieldset>' +
+		      '<label>' +
+		        '<input type="text" id="cn-tags" name="tags" placeholder="Tags" class="width-100" />' +
+		      '</label>' +
+		      '<div id="cn-selected-tags">' +
+		      '</div>' +
+		    '</fieldset>' +
+		    '</form>' +
+		    '<div class="units-row">' +
+		      '<button id="cn-save-btn" class="btn width-40">Save</button>' +
+		      '<button id="cn-cancel-btn" class="btn width-50">Cancel</button>' +
+		    '</div>' +
+		'</div>' +
+		'</div>',
+		TAG_TEMPLATE = '<button class="btn btn-small btn-green cn-tag">{tag}</button>',
+		MESSSAGE_TEMPLATE = '<div class="yui3-skin-sam code-note">{message}</div>';
 
 	Y.namespace('CN').Popup = Y.Base.create('cn-code-note-popup', Y.Base, [], {
 
@@ -31,13 +51,13 @@ YUI.add('cn-code-note-popup', function (Y) {
 				panel = Y.Node.create(TEMPLATE);
 
 			this._panel		  = panel;
-			this._select	  = panel.one('#nbname');
-			this._btnSave 	  = panel.one('#saveBtn');
-			this._inputTitle  = panel.one('#nbtitle');
-			this._inputSearch = panel.one('#searchTitle');
-			this._blockTags   = panel.one('#selectedTags');
-			this._inputTags	  = panel.one('#nbtags');
-			this._btnClear    = panel.one('#clearBtn');
+			this._select	  = panel.one('#cn-notebook');
+			this._btnSave 	  = panel.one('#cn-save-btn');
+			this._inputTitle  = panel.one('#cn-title');
+			this._inputSearch = panel.one('#cn-search');
+			this._blockTags   = panel.one('#cn-selected-tags');
+			this._inputTags	  = panel.one('#cn-tags');
+			this._btnClear    = panel.one('#cn-clear-search');
 
 			panel.hide();
 			html.appendChild(panel);

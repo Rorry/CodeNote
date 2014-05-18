@@ -1,0 +1,1875 @@
+#codenote .vertical-align {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+/* =Normalize
+-----------------------------------------------------------------------------*/
+#codenote *,
+#codenote *:before,
+#codenote *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#codenote html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+#codenote html,
+#codenote body,
+#codenote div,
+#codenote span,
+#codenote object,
+#codenote iframe,
+#codenote p,
+#codenote blockquote,
+#codenote pre,
+#codenote a,
+#codenote abbr,
+#codenote acronym,
+#codenote address,
+#codenote big,
+#codenote cite,
+#codenote code,
+#codenote del,
+#codenote dfn,
+#codenote em,
+#codenote img,
+#codenote ins,
+#codenote kbd,
+#codenote q,
+#codenote s,
+#codenote samp,
+#codenote small,
+#codenote strike,
+#codenote strong,
+#codenote sub,
+#codenote sup,
+#codenote tt,
+#codenote var,
+#codenote b,
+#codenote u,
+#codenote i,
+#codenote center,
+#codenote dl,
+#codenote dt,
+#codenote dd,
+#codenote ol,
+#codenote ul,
+#codenote li,
+#codenote fieldset,
+#codenote form,
+#codenote label,
+#codenote legend,
+#codenote table,
+#codenote caption,
+#codenote tbody,
+#codenote tfoot,
+#codenote thead,
+#codenote tr,
+#codenote th,
+#codenote td,
+#codenote article,
+#codenote aside,
+#codenote canvas,
+#codenote details,
+#codenote embed,
+#codenote figure,
+#codenote figcaption,
+#codenote footer,
+#codenote header,
+#codenote hgroup,
+#codenote menu,
+#codenote nav,
+#codenote output,
+#codenote ruby,
+#codenote section,
+#codenote summary,
+#codenote time,
+#codenote mark,
+#codenote audio,
+#codenote video,
+#codenote h1,
+#codenote h2,
+#codenote h3,
+#codenote h4,
+#codenote h5,
+#codenote h6 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+#codenote a:active,
+#codenote a:hover {
+  outline: 0;
+}
+#codenote button,
+#codenote input {
+  line-height: normal;
+}
+#codenote button,
+#codenote select {
+  text-transform: none;
+}
+/* Structure tags */
+#codenote article,
+#codenote aside,
+#codenote details,
+#codenote figcaption,
+#codenote figure,
+#codenote footer,
+#codenote header,
+#codenote hgroup,
+#codenote main,
+#codenote nav,
+#codenote section,
+#codenote summary {
+  display: block;
+}
+#codenote audio,
+#codenote canvas,
+#codenote video {
+  display: inline-block;
+}
+#codenote audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+/* To prevent some browsers from inserting quotes on q and p */
+#codenote blockquote,
+#codenote q {
+  quotes: none;
+}
+#codenote blockquote p:before,
+#codenote blockquote p:after,
+#codenote q:before,
+#codenote q:after {
+  content: '';
+  content: none;
+}
+/* Table reset */
+#codenote table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+#codenote caption,
+#codenote th,
+#codenote td {
+  text-align: left;
+  vertical-align: top;
+  font-weight: normal;
+}
+#codenote thead th,
+#codenote thead td {
+  font-weight: bold;
+  vertical-align: bottom;
+}
+/* Image inside */
+#codenote a img,
+#codenote th img,
+#codenote td img {
+  vertical-align: top;
+}
+#codenote button,
+#codenote input,
+#codenote select,
+#codenote textarea {
+  margin: 0;
+}
+#codenote textarea {
+  overflow: auto;
+  vertical-align: top;
+  resize: vertical;
+}
+/* Normalize buttons in IE */
+#codenote button {
+  width: auto;
+  overflow: visible;
+}
+/* Hand cursor on clickable controls */
+#codenote input[type=button],
+#codenote input[type=submit],
+#codenote button {
+  cursor: pointer;
+}
+/* Trick with vertical align for radio and checkbox  */
+#codenote input[type="radio"],
+#codenote input[type="checkbox"] {
+  font-size: 110%;
+  position: relative;
+  top: -1px;
+}
+/* Normalize search fields */
+#codenote input[type="search"] {
+  -webkit-appearance: textfield;
+}
+#codenote input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+#codenote hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ddd;
+}
+/* Responsive media */
+#codenote img,
+#codenote video {
+  max-width: 100%;
+  height: auto;
+}
+#codenote img {
+  -ms-interpolation-mode: bicubic;
+}
+#codenote audio {
+  width: 100%;
+}
+/* =Typography
+-----------------------------------------------------------------------------*/
+#codenote body {
+  background: #ffffff;
+  color: #333333;
+  font-size: 14px;
+  line-height: 1.6em;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+#codenote a {
+  color: #3570c3;
+}
+#codenote a:focus,
+#codenote a:hover {
+  color: #d70a16;
+}
+#codenote .title,
+#codenote h1,
+#codenote h2,
+#codenote h3,
+#codenote h4,
+#codenote h5,
+#codenote h6 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  color: #222222;
+  text-rendering: optimizeLegibility;
+}
+#codenote h1 {
+  font-size: 36px;
+  line-height: 1.111em;
+  margin-bottom: .25em;
+}
+#codenote h2 {
+  font-size: 30px;
+  line-height: 1.111em;
+  margin-bottom: .5em;
+}
+#codenote h3 {
+  font-size: 24px;
+  line-height: 1.333em;
+  margin-bottom: .5em;
+}
+#codenote h4 {
+  font-size: 18px;
+  line-height: 1.5em;
+  margin-bottom: .333em;
+}
+#codenote h5 {
+  font-size: 14px;
+  line-height: 1.6em;
+  margin-bottom: .25em;
+}
+#codenote h6 {
+  font-size: 12px;
+  text-transform: uppercase;
+  line-height: 1.6em;
+  margin-bottom: .25em;
+}
+/* =Subheading
+-----------------------------------------------------------------------------*/
+#codenote hgroup h1:first-child,
+#codenote hgroup h2:first-child,
+#codenote hgroup h3:first-child,
+#codenote hgroup h4:first-child,
+#codenote hgroup h5:first-child {
+  margin-bottom: 0;
+}
+#codenote h1.subheading,
+#codenote h2.subheading,
+#codenote h3.subheading,
+#codenote h4.subheading,
+#codenote h5.subheading {
+  font-weight: 300;
+}
+#codenote h1.subheading {
+  font-size: 30px;
+}
+#codenote h2.subheading {
+  font-size: 24px;
+}
+#codenote h3.subheading {
+  font-size: 18px;
+}
+#codenote h4.subheading {
+  font-size: 14px;
+}
+#codenote h5.subheading {
+  font-size: 12px;
+}
+/* =Lead
+-----------------------------------------------------------------------------*/
+#codenote .lead {
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.4em;
+  margin-bottom: .75em;
+}
+#codenote p,
+#codenote ul,
+#codenote ol,
+#codenote dl,
+#codenote dd,
+#codenote dt,
+#codenote blockquote,
+#codenote td,
+#codenote th {
+  line-height: 1.6em;
+}
+#codenote ul,
+#codenote ol,
+#codenote ul ul,
+#codenote ol ol,
+#codenote ul ol,
+#codenote ol ul {
+  margin: 0 0 0 1.6em;
+}
+#codenote ol ol li {
+  list-style-type: lower-alpha;
+}
+#codenote ol ol ol li {
+  list-style-type: lower-roman;
+}
+#codenote p,
+#codenote ul,
+#codenote ol,
+#codenote dl,
+#codenote blockquote,
+#codenote hr,
+#codenote pre,
+#codenote table,
+#codenote form,
+#codenote fieldset,
+#codenote figure,
+#codenote address {
+  margin-bottom: 1.6em;
+}
+#codenote address {
+  font-style: normal;
+}
+#codenote dl dt {
+  font-weight: 500;
+}
+#codenote dd {
+  margin-left: 1em;
+}
+#codenote blockquote {
+  font-size: 16px;
+  font-style: italic;
+  position: relative;
+  padding-left: 1.6em;
+  margin-left: 0;
+  border-left: 2px solid #dbdada;
+}
+#codenote blockquote p {
+  margin-bottom: .5em;
+}
+#codenote blockquote small,
+#codenote cite {
+  color: #777;
+  font-style: italic;
+}
+#codenote small,
+#codenote blockquote cite {
+  font-size: 12px;
+  line-height: 1;
+}
+#codenote del {
+  text-decoration: line-through;
+}
+#codenote abbr[title],
+#codenote dfn[title] {
+  border-bottom: 1px dotted #000;
+  cursor: help;
+}
+#codenote strong,
+#codenote b {
+  font-weight: bold;
+}
+#codenote em,
+#codenote i {
+  font-style: italic;
+}
+#codenote sub,
+#codenote sup {
+  font-size: 10px;
+  line-height: 0;
+  position: relative;
+}
+#codenote sup {
+  top: -0.5em;
+}
+#codenote sub {
+  bottom: -0.25em;
+}
+#codenote figcaption {
+  font-size: 12px;
+  font-style: italic;
+}
+#codenote ins,
+#codenote mark {
+  background-color: #fddc43;
+  color: #0f0f0f;
+  text-decoration: none;
+}
+#codenote pre,
+#codenote code,
+#codenote kbd,
+#codenote samp {
+  font-size: 90%;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+#codenote pre {
+  font-size: 90%;
+  line-height: 1.45em;
+  color: #333333;
+  background: #f6f6f6;
+  padding: 1.6em;
+  overflow: auto;
+}
+#codenote code {
+  padding: 3px 3px 1px 3px;
+  display: inline-block;
+  line-height: 1;
+  background: #f6f6f6;
+  border: 1px solid #ddd;
+}
+#codenote pre code {
+  font-size: 100%;
+  border: none;
+  padding: 0;
+  background: none;
+  line-height: 1.6em;
+}
+#codenote kbd {
+  padding: 2px 6px 1px 6px;
+  line-height: 1;
+  display: inline-block;
+  border-radius: .3em;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px #ffffff inset;
+  background-color: #fafafa;
+  border: 1px solid #ccc;
+  color: #333333;
+  font-weight: normal;
+  white-space: nowrap;
+}
+#codenote button:active,
+#codenote button:focus {
+  outline: none;
+}
+#codenote input[type="text"],
+#codenote input[type="password"],
+#codenote input[type="email"],
+#codenote input[type="url"],
+#codenote input[type="phone"],
+#codenote input[type="tel"],
+#codenote input[type="number"],
+#codenote input[type="datetime"],
+#codenote input[type="date"],
+#codenote input[type="search"],
+#codenote input[type="datetime-local"],
+#codenote textarea,
+#codenote select[multiple="multiple"] {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1;
+  font-size: 14px;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: none;
+  border: 1px solid #bbbcc0;
+  outline: none;
+  padding: 7px 5px;
+  position: relative;
+  z-index: 2;
+  -webkit-appearance: none;
+}
+#codenote input[type="text"],
+#codenote input[type="password"],
+#codenote input[type="email"],
+#codenote input[type="url"],
+#codenote input[type="phone"],
+#codenote input[type="tel"],
+#codenote input[type="number"],
+#codenote input[type="datetime"],
+#codenote input[type="date"],
+#codenote input[type="search"],
+#codenote input[type="datetime-local"] {
+  height: 2.3em;
+}
+#codenote input[type="range"] {
+  position: relative;
+  top: 3px;
+}
+#codenote select[multiple="multiple"],
+#codenote textarea {
+  line-height: 1.35em;
+}
+#codenote fieldset {
+  padding: 1.6em;
+  margin-bottom: 1.6em;
+  border: 1px solid #dbdada;
+}
+#codenote legend {
+  font-weight: bold;
+  padding: 0 1em;
+  margin-left: -1em;
+}
+#codenote tfoot th,
+#codenote tfoot td {
+  background-color: #f4f4f4;
+}
+#codenote th,
+#codenote td {
+  border-bottom: 1px solid #eee;
+  padding: 8px 10px;
+}
+#codenote table caption {
+  text-transform: uppercase;
+  padding: 0 1em;
+  color: #777;
+  font-size: 12px;
+}
+/* =Grid
+-----------------------------------------------------------------------------*/
+#codenote .units-container:after,
+#codenote .units-row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+#codenote .units-container {
+  /* it's the trick to not collapse padding-top in the child element */
+  padding-top: 1px;
+  margin-top: -1px;
+}
+#codenote .units-row {
+  margin-bottom: 1.6em;
+}
+#codenote .width-100,
+#codenote .unit-100 {
+  width: 100%;
+}
+#codenote .width-90,
+#codenote .unit-90 {
+  width: 90%;
+}
+#codenote .width-80,
+#codenote .unit-80 {
+  width: 80%;
+}
+#codenote .width-75,
+#codenote .unit-75 {
+  width: 75%;
+}
+#codenote .width-70,
+#codenote .unit-70 {
+  width: 70%;
+}
+#codenote .width-66,
+#codenote .unit-66 {
+  width: 66.6%;
+}
+#codenote .width-65,
+#codenote .unit-65 {
+  width: 65%;
+}
+#codenote .width-60,
+#codenote .unit-60 {
+  width: 60%;
+}
+#codenote .width-50,
+#codenote .unit-50 {
+  width: 50%;
+}
+#codenote .width-40,
+#codenote .unit-40 {
+  width: 40%;
+}
+#codenote .width-35,
+#codenote .unit-35 {
+  width: 35%;
+}
+#codenote .width-33,
+#codenote .unit-33 {
+  width: 33.3%;
+}
+#codenote .width-30,
+#codenote .unit-30 {
+  width: 30%;
+}
+#codenote .width-25,
+#codenote .unit-25 {
+  width: 25%;
+}
+#codenote .width-20,
+#codenote .unit-20 {
+  width: 20%;
+}
+#codenote .width-10,
+#codenote .unit-10 {
+  width: 10%;
+}
+#codenote input.width-100,
+#codenote input.unit-100 {
+  width: 98.6%;
+}
+#codenote textarea.width-100,
+#codenote textarea.unit-100 {
+  width: 98.8%;
+}
+#codenote select.width-100,
+#codenote select.unit-100 {
+  width: 99.4%;
+}
+#codenote .units-row .unit-90,
+#codenote .units-row .unit-80,
+#codenote .units-row .unit-75,
+#codenote .units-row .unit-70,
+#codenote .units-row .unit-66,
+#codenote .units-row .unit-65,
+#codenote .units-row .unit-60,
+#codenote .units-row .unit-50,
+#codenote .units-row .unit-40,
+#codenote .units-row .unit-35,
+#codenote .units-row .unit-33,
+#codenote .units-row .unit-30,
+#codenote .units-row .unit-25,
+#codenote .units-row .unit-20,
+#codenote .units-row .unit-10 {
+  float: left;
+  margin-left: 3%;
+}
+#codenote .units-row .unit-90:first-child,
+#codenote .units-row .unit-80:first-child,
+#codenote .units-row .unit-75:first-child,
+#codenote .units-row .unit-70:first-child,
+#codenote .units-row .unit-66:first-child,
+#codenote .units-row .unit-65:first-child,
+#codenote .units-row .unit-60:first-child,
+#codenote .units-row .unit-50:first-child,
+#codenote .units-row .unit-40:first-child,
+#codenote .units-row .unit-35:first-child,
+#codenote .units-row .unit-33:first-child,
+#codenote .units-row .unit-30:first-child,
+#codenote .units-row .unit-25:first-child,
+#codenote .units-row .unit-20:first-child,
+#codenote .units-row .unit-10:first-child {
+  margin-left: 0;
+}
+#codenote .units-row .unit-90 {
+  width: 89.7%;
+}
+#codenote .units-row .unit-80 {
+  width: 79.4%;
+}
+#codenote .units-row .unit-75 {
+  width: 74.25%;
+}
+#codenote .units-row .unit-70 {
+  width: 69.1%;
+}
+#codenote .units-row .unit-66 {
+  width: 65.66666666666666%;
+}
+#codenote .units-row .unit-65 {
+  width: 65.66666666666666%;
+}
+#codenote .units-row .unit-60 {
+  width: 58.800000000000004%;
+}
+#codenote .units-row .unit-50 {
+  width: 48.5%;
+}
+#codenote .units-row .unit-40 {
+  width: 38.2%;
+}
+#codenote .units-row .unit-35 {
+  width: 31.333333333333332%;
+}
+#codenote .units-row .unit-33 {
+  width: 31.333333333333332%;
+}
+#codenote .units-row .unit-30 {
+  width: 27.9%;
+}
+#codenote .units-row .unit-25 {
+  width: 22.75%;
+}
+#codenote .units-row .unit-20 {
+  width: 17.6%;
+}
+#codenote .units-row .unit-10 {
+  width: 7.3%;
+}
+#codenote .unit-push-90,
+#codenote .unit-push-80,
+#codenote .unit-push-75,
+#codenote .unit-push-70,
+#codenote .unit-push-66,
+#codenote .unit-push-65,
+#codenote .unit-push-60,
+#codenote .unit-push-50,
+#codenote .unit-push-40,
+#codenote .unit-push-35,
+#codenote .unit-push-33,
+#codenote .unit-push-30,
+#codenote .unit-push-25,
+#codenote .unit-push-20,
+#codenote .unit-push-10 {
+  position: relative;
+}
+#codenote .unit-push-90 {
+  left: 92.7%;
+}
+#codenote .unit-push-80 {
+  left: 82.4%;
+}
+#codenote .unit-push-75 {
+  left: 77.25%;
+}
+#codenote .unit-push-70 {
+  left: 72.1%;
+}
+#codenote .unit-push-66 {
+  left: 68.66666666666666%;
+}
+#codenote .unit-push-65 {
+  left: 68.66666666666666%;
+}
+#codenote .unit-push-60 {
+  left: 61.800000000000004%;
+}
+#codenote .unit-push-50 {
+  left: 51.5%;
+}
+#codenote .unit-push-40 {
+  left: 41.2%;
+}
+#codenote .unit-push-35 {
+  left: 34.33333333333333%;
+}
+#codenote .unit-push-33 {
+  left: 34.33333333333333%;
+}
+#codenote .unit-push-30 {
+  left: 30.9%;
+}
+#codenote .unit-push-25 {
+  left: 25.75%;
+}
+#codenote .unit-push-20 {
+  left: 20.6%;
+}
+#codenote .unit-push-10 {
+  left: 10.3%;
+}
+#codenote .units-row .unit-push-right {
+  float: right;
+}
+#codenote .centered,
+#codenote .unit-centered {
+  float: none !important;
+  margin: 0 auto !important;
+}
+#codenote .unit-padding {
+  padding: 1.6em;
+}
+#codenote .units-padding .unit-100,
+#codenote .units-padding .unit-90,
+#codenote .units-padding .unit-80,
+#codenote .units-padding .unit-75,
+#codenote .units-padding .unit-70,
+#codenote .units-padding .unit-66,
+#codenote .units-padding .unit-65,
+#codenote .units-padding .unit-60,
+#codenote .units-padding .unit-50,
+#codenote .units-padding .unit-40,
+#codenote .units-padding .unit-35,
+#codenote .units-padding .unit-33,
+#codenote .units-padding .unit-30,
+#codenote .units-padding .unit-25,
+#codenote .units-padding .unit-20,
+#codenote .units-padding .unit-10 {
+  padding: 1.6em;
+}
+#codenote .units-split .unit-90,
+#codenote .units-split .unit-80,
+#codenote .units-split .unit-75,
+#codenote .units-split .unit-70,
+#codenote .units-split .unit-66,
+#codenote .units-split .unit-65,
+#codenote .units-split .unit-60,
+#codenote .units-split .unit-50,
+#codenote .units-split .unit-40,
+#codenote .units-split .unit-35,
+#codenote .units-split .unit-33,
+#codenote .units-split .unit-30,
+#codenote .units-split .unit-25,
+#codenote .units-split .unit-20,
+#codenote .units-split .unit-10 {
+  margin-left: 0;
+}
+#codenote .units-split .unit-90 {
+  width: 90%;
+}
+#codenote .units-split .unit-80 {
+  width: 80%;
+}
+#codenote .units-split .unit-75 {
+  width: 75%;
+}
+#codenote .units-split .unit-70 {
+  width: 70%;
+}
+#codenote .units-split .unit-66 {
+  width: 66.6%;
+}
+#codenote .units-split .unit-65 {
+  width: 65%;
+}
+#codenote .units-split .unit-60 {
+  width: 60%;
+}
+#codenote .units-split .unit-50 {
+  width: 50%;
+}
+#codenote .units-split .unit-40 {
+  width: 40%;
+}
+#codenote .units-split .unit-35 {
+  width: 35%;
+}
+#codenote .units-split .unit-33 {
+  width: 33.3%;
+}
+#codenote .units-split .unit-30 {
+  width: 30%;
+}
+#codenote .units-split .unit-25 {
+  width: 25%;
+}
+#codenote .units-split .unit-20 {
+  width: 20%;
+}
+#codenote .units-split .unit-10 {
+  width: 10%;
+}
+/* =Responsive
+-----------------------------------------------------------------------------*/
+@media only screen and (max-width: 767px) {
+  .mobile-width-100 {
+    width: 100%;
+  }
+  .units-row .unit-90,
+  .units-row .unit-80,
+  .units-row .unit-75,
+  .units-row .unit-70,
+  .units-row .unit-66,
+  .units-row .unit-65,
+  .units-row .unit-60,
+  .units-row .unit-50,
+  .units-row .unit-40,
+  .units-row .unit-35,
+  .units-row .unit-33,
+  .units-row .unit-30,
+  .units-row .unit-25,
+  .units-row .unit-20,
+  .units-row .unit-10 {
+    width: 100%;
+    float: none;
+    margin-left: 0;
+    margin-bottom: 1.6em;
+  }
+  .unit-push-90,
+  .unit-push-80,
+  .unit-push-75,
+  .unit-push-70,
+  .unit-push-66,
+  .unit-push-65,
+  .unit-push-60,
+  .unit-push-50,
+  .unit-push-40,
+  .unit-push-35,
+  .unit-push-33,
+  .unit-push-30,
+  .unit-push-25,
+  .unit-push-20,
+  .unit-push-10 {
+    left: 0;
+  }
+  .units-row .unit-push-right {
+    float: none;
+  }
+  .units-mobile-50 .unit-90,
+  .units-mobile-50 .unit-80,
+  .units-mobile-50 .unit-75,
+  .units-mobile-50 .unit-70,
+  .units-mobile-50 .unit-66,
+  .units-mobile-50 .unit-65,
+  .units-mobile-50 .unit-60,
+  .units-mobile-50 .unit-40,
+  .units-mobile-50 .unit-30,
+  .units-mobile-50 .unit-35,
+  .units-mobile-50 .unit-33,
+  .units-mobile-50 .unit-25,
+  .units-mobile-50 .unit-20,
+  .units-mobile-50 .unit-10 {
+    float: left;
+    margin-left: 3%;
+    width: 48.5%;
+  }
+  .units-mobile-50 .unit-90:first-child,
+  .units-mobile-50 .unit-80:first-child,
+  .units-mobile-50 .unit-75:first-child,
+  .units-mobile-50 .unit-70:first-child,
+  .units-mobile-50 .unit-66:first-child,
+  .units-mobile-50 .unit-65:first-child,
+  .units-mobile-50 .unit-60:first-child,
+  .units-mobile-50 .unit-40:first-child,
+  .units-mobile-50 .unit-35:first-child,
+  .units-mobile-50 .unit-30:first-child,
+  .units-mobile-50 .unit-33:first-child,
+  .units-mobile-50 .unit-25:first-child,
+  .units-mobile-50 .unit-20:first-child,
+  .units-mobile-50 .unit-10:first-child {
+    margin-left: 0;
+  }
+}
+/* =Blocks
+-----------------------------------------------------------------------------*/
+#codenote .blocks-2,
+#codenote .blocks-3,
+#codenote .blocks-4,
+#codenote .blocks-5,
+#codenote .blocks-6 {
+  padding-left: 0;
+  list-style: none;
+  margin-left: -3%;
+}
+#codenote .blocks-2:after,
+#codenote .blocks-3:after,
+#codenote .blocks-4:after,
+#codenote .blocks-5:after,
+#codenote .blocks-6:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+#codenote .blocks-2 li,
+#codenote .blocks-3 li,
+#codenote .blocks-4 li,
+#codenote .blocks-5 li,
+#codenote .blocks-6 li {
+  height: auto;
+  float: left;
+  margin-bottom: 1.6em;
+  margin-left: 3%;
+}
+#codenote .blocks-2 > li {
+  width: 47%;
+}
+#codenote .blocks-3 > li {
+  width: 30.333333333333332%;
+}
+#codenote .blocks-4 > li {
+  width: 22%;
+}
+#codenote .blocks-5 > li {
+  width: 17%;
+}
+#codenote .blocks-6 > li {
+  width: 13.666666666666666%;
+}
+#codenote .block-first {
+  clear: both;
+}
+/* =Responsive
+-----------------------------------------------------------------------------*/
+@media only screen and (max-width: 767px) {
+  .blocks-2,
+  .blocks-3,
+  .blocks-4,
+  .blocks-5,
+  .blocks-6 {
+    margin-left: 0;
+    margin-bottom: 1.6em;
+  }
+  .blocks-2 > li,
+  .blocks-3 > li,
+  .blocks-4 > li,
+  .blocks-5 > li,
+  .blocks-6 > li {
+    float: none;
+    margin-left: 0;
+    width: 100%;
+  }
+  .blocks-mobile-50 > li,
+  .blocks-mobile-33 > li {
+    float: left;
+    margin-left: 3%;
+  }
+  .blocks-mobile-33,
+  .blocks-mobile-50 {
+    margin-left: -3%;
+  }
+  .blocks-mobile-50 > li {
+    width: 47%;
+  }
+  .blocks-mobile-33 > li {
+    width: 30.333333333333332%;
+  }
+}
+/* =Navs
+-----------------------------------------------------------------------------*/
+/* NavBar */
+#codenote .navbar {
+  margin-bottom: 1.6em;
+}
+#codenote .navbar:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+#codenote .navbar-left {
+  float: left;
+}
+#codenote .navbar-right {
+  float: right;
+}
+#codenote .navbar ul {
+  list-style: none;
+  margin: 0;
+}
+#codenote .navbar ul:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+#codenote .navbar ul li {
+  float: left;
+  margin-right: 1.6em;
+}
+#codenote .navbar-right ul li {
+  margin-right: 0;
+  margin-left: 1.6em;
+}
+#codenote .navbar ul li a,
+#codenote .navbar ul li span {
+  display: block;
+  text-decoration: none;
+}
+#codenote .navbar ul li a:hover {
+  color: #d70a16;
+}
+#codenote .navbar ul li.active a,
+#codenote .navbar ul li span {
+  text-decoration: none;
+  cursor: text;
+  color: rgba(0, 0, 0, 0.4);
+}
+/* Fullwidth */
+#codenote .fullwidth ul {
+  width: 100%;
+}
+#codenote .fullwidth li {
+  float: none !important;
+  margin: 0;
+  display: table-cell;
+  width: 1%;
+  text-align: center;
+}
+#codenote .fullwidth li a,
+#codenote .fullwidth li span {
+  display: block;
+}
+/* Vertical */
+#codenote .nav {
+  margin-bottom: 1.6em;
+}
+#codenote .nav ul {
+  list-style: none;
+  margin: 0;
+}
+#codenote .nav ul li ul {
+  margin-left: 2em;
+  font-size: .95em;
+}
+#codenote .nav ul li a,
+#codenote .nav ul li span {
+  display: block;
+  padding: 5px 0;
+}
+#codenote .nav ul li ul li a,
+#codenote .nav ul li ul li span {
+  padding: 4px 0;
+}
+#codenote .nav ul li a {
+  text-decoration: none;
+}
+#codenote .nav ul li a:hover {
+  color: #d70a16;
+  text-decoration: underline;
+}
+#codenote .nav ul li.active a,
+#codenote .nav ul li span {
+  text-decoration: none;
+  cursor: text;
+  color: rgba(0, 0, 0, 0.4);
+}
+/* Stroked */
+#codenote .nav-stroked li {
+  border-bottom: 1px solid #eee;
+}
+#codenote .nav-stroked li:last-child {
+  border-bottom: none;
+}
+/* Stacked */
+#codenote .nav-stacked ul {
+  border: 1px solid #eee;
+  border-bottom: 0;
+}
+#codenote .nav-stacked ul li {
+  border-bottom: 1px solid #eee;
+}
+#codenote .nav-stacked ul li a,
+#codenote .nav-stacked ul li span {
+  padding: 5px 10px;
+}
+#codenote .nav-stacked ul li a:hover {
+  background-color: #f5f5f5;
+}
+/* Stats */
+#codenote .nav-stats li {
+  position: relative;
+}
+#codenote .nav-stats li a,
+#codenote .nav-stats li span {
+  padding-right: 50px;
+}
+#codenote .nav-stats sup {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  color: rgba(0, 0, 0, 0.4);
+}
+#codenote .nav-stats.nav-stacked sup {
+  right: .5em;
+}
+/* Breadcrumbs */
+#codenote .breadcrumbs {
+  margin-bottom: 1.6em;
+}
+#codenote .breadcrumbs:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+#codenote .breadcrumbs ul {
+  font-size: .9em;
+  color: rgba(0, 0, 0, 0.4);
+  list-style: none;
+  margin: 0;
+}
+#codenote .breadcrumbs ul:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+#codenote .breadcrumbs ul li {
+  float: left;
+  margin-right: 3px;
+}
+#codenote .breadcrumbs li + li:before {
+  content: " > ";
+  color: #aaa;
+  font-size: 12px;
+  margin: 0 3px;
+  position: relative;
+  top: -1px;
+}
+#codenote .breadcrumbs-sections li + li:before {
+  content: " | ";
+  top: 0;
+}
+#codenote .breadcrumbs-path li + li:before {
+  content: " / ";
+  top: 0;
+}
+#codenote .breadcrumbs ul li a {
+  color: #0f0f0f;
+  text-decoration: none;
+}
+#codenote .breadcrumbs ul li.active a {
+  text-decoration: none;
+  cursor: text;
+  color: rgba(0, 0, 0, 0.4);
+}
+#codenote .breadcrumbs ul li a:hover {
+  color: #0f0f0f;
+  text-decoration: underline;
+}
+/* =Pagination
+-----------------------------------------------------------------------------*/
+#codenote .pagination {
+  position: relative;
+  left: -9px;
+  margin-left: 0;
+  list-style: none;
+}
+#codenote .pagination:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+#codenote .pagination li {
+  float: left;
+  margin-right: 2px;
+}
+#codenote .pagination li a,
+#codenote .pagination li span {
+  display: block;
+  padding: 7px 9px;
+  line-height: 1;
+  border-radius: 3px;
+  color: #0f0f0f;
+  text-decoration: none;
+}
+#codenote .pagination span {
+  border: 1px solid #ddd;
+}
+#codenote .pagination li a:focus,
+#codenote .pagination li a:hover {
+  text-decoration: none;
+  background-color: #0f0f0f;
+  color: #fff;
+}
+/* =Responsive
+-----------------------------------------------------------------------------*/
+@media only screen and (max-width: 767px) {
+  .navbar-left,
+  .navbar-right,
+  .navbar ul li,
+  .navbar-right ul li,
+  .subnav-right ul,
+  .subnav ul li,
+  .subnav-right ul li {
+    float: none;
+    text-align: center;
+  }
+  .navbar ul li,
+  .navbar-right ul li,
+  .subnav ul li,
+  .subnav-right ul li {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .fullwidth ul {
+    width: auto;
+  }
+  .fullwidth li {
+    display: block;
+    width: auto;
+  }
+}
+/* =Tables
+-----------------------------------------------------------------------------*/
+#codenote table.table-bordered td,
+#codenote table.table-bordered th {
+  border: 1px solid #ddd;
+}
+#codenote table.table-simple td,
+#codenote table.table-simple th {
+  border: none;
+  padding-left: 0;
+}
+#codenote table.table-flat td,
+#codenote table.table-flat th {
+  border: none;
+  padding: 0;
+}
+#codenote table.table-striped tbody tr:nth-child(odd) td {
+  background-color: #f8f8f8;
+}
+#codenote table.table-hovered tbody tr:hover td {
+  background-color: #f4f4f4;
+}
+/* Responsive Tables */
+#codenote .table-container {
+  width: 100%;
+  overflow: auto;
+  margin-bottom: 1.6em;
+}
+#codenote .table-container table {
+  margin-bottom: 0;
+}
+#codenote .table-container::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+}
+#codenote .table-container::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  border: 3px solid #fff;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+/* =Forms
+-----------------------------------------------------------------------------*/
+#codenote .forms label {
+  display: block;
+  margin-bottom: 1.6em;
+}
+#codenote .forms fieldset {
+  padding-bottom: .5em;
+  border-radius: 4px;
+}
+#codenote .forms input[type="text"],
+#codenote .forms input[type="password"],
+#codenote .forms input[type="email"],
+#codenote .forms input[type="url"],
+#codenote .forms input[type="phone"],
+#codenote .forms input[type="tel"],
+#codenote .forms input[type="number"],
+#codenote .forms input[type="datetime"],
+#codenote .forms input[type="date"],
+#codenote .forms input[type="search"],
+#codenote .forms input[type="range"],
+#codenote .forms input[type="file"],
+#codenote .forms input[type="datetime-local"],
+#codenote .forms textarea,
+#codenote .forms select {
+  display: block;
+}
+#codenote .forms-inline input[type="text"],
+#codenote .forms-inline-list input[type="text"],
+#codenote .forms-inline input[type="password"],
+#codenote .forms-inline-list input[type="password"],
+#codenote .forms-inline input[type="email"],
+#codenote .forms-inline-list input[type="email"],
+#codenote .forms-inline input[type="url"],
+#codenote .forms-inline-list input[type="url"],
+#codenote .forms-inline input[type="phone"],
+#codenote .forms-inline-list input[type="phone"],
+#codenote .forms-inline input[type="tel"],
+#codenote .forms-inline-list input[type="tel"],
+#codenote .forms-inline input[type="number"],
+#codenote .forms-inline-list input[type="number"],
+#codenote .forms-inline input[type="datetime"],
+#codenote .forms-inline-list input[type="datetime"],
+#codenote .forms-inline input[type="date"],
+#codenote .forms-inline-list input[type="date"],
+#codenote .forms-inline input[type="search"],
+#codenote .forms-inline-list input[type="search"],
+#codenote .forms-inline input[type="range"],
+#codenote .forms-inline-list input[type="range"],
+#codenote .forms-inline input[type="file"],
+#codenote .forms-inline-list input[type="file"],
+#codenote .forms-inline input[type="datetime-local"],
+#codenote .forms-inline-list input[type="datetime-local"],
+#codenote .forms-inline textarea,
+#codenote .forms-inline-list textarea,
+#codenote .forms-inline select,
+#codenote .forms-inline-list select {
+  display: inline-block;
+}
+#codenote .forms-list,
+#codenote .forms-inline-list {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 1.6em;
+  list-style: none;
+}
+#codenote .forms-list label,
+#codenote .forms-inline-list li,
+#codenote .forms-inline-list li label {
+  display: inline-block;
+  margin-bottom: 0;
+}
+#codenote .forms-inline-list li label {
+  margin-right: 1.6em;
+}
+#codenote .forms-inline-list li {
+  margin-bottom: 3px;
+}
+#codenote .forms-list li {
+  margin-bottom: 6px;
+}
+#codenote .forms-desc {
+  margin-top: 4px;
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 12px;
+  line-height: 1.4em;
+}
+#codenote input[type="radio"],
+#codenote input[type="checkbox"] {
+  position: relative;
+  top: -1px;
+}
+#codenote input[type="text"],
+#codenote input[type="password"],
+#codenote input[type="email"],
+#codenote input[type="url"],
+#codenote input[type="phone"],
+#codenote input[type="tel"],
+#codenote input[type="number"],
+#codenote input[type="datetime"],
+#codenote input[type="date"],
+#codenote input[type="search"],
+#codenote input[type="datetime-local"],
+#codenote textarea {
+  -moz-transition: border ease 0.5s;
+  transition: border ease 0.5s;
+}
+#codenote input[type="range"] {
+  position: relative;
+  top: 3px;
+}
+#codenote textarea {
+  line-height: 1.4em;
+}
+#codenote select {
+  margin-bottom: 0 !important;
+}
+/* States */
+#codenote .error,
+#codenote .success {
+  font-weight: normal;
+  font-size: 12px;
+}
+#codenote input.input-error,
+#codenote textarea.input-error,
+#codenote select.input-error,
+#codenote .input-error {
+  border-color: #d70a16;
+  box-shadow: 0 0 0 2px rgba(215, 10, 22, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+}
+#codenote input.input-success,
+#codenote textarea.input-success,
+#codenote select.input-success,
+#codenote .input-success {
+  border-color: #159776;
+  box-shadow: 0 0 0 2px rgba(21, 151, 118, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+}
+#codenote input.input-gray,
+#codenote textarea.input-gray,
+#codenote select.input-gray,
+#codenote .input-gray {
+  border-color: #ccc;
+  box-shadow: 0 0 0 2px rgba(204, 204, 204, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+}
+#codenote input:focus,
+#codenote textarea:focus {
+  outline: none;
+  border-color: #5ca9e4;
+  box-shadow: 0 0 0 2px rgba(70, 161, 231, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+}
+#codenote input.input-search,
+#codenote input[type="search"] {
+  padding-right: 10px;
+  padding-left: 10px;
+  margin-bottom: 0;
+  border-radius: 15px;
+}
+/* Append & Prepend */
+#codenote .input-groups {
+  display: table !important;
+}
+#codenote .input-groups input {
+  width: 100%;
+}
+#codenote .input-groups input,
+#codenote .input-groups .input-append,
+#codenote .input-groups .input-prepend,
+#codenote .input-groups .btn-append {
+  display: table-cell !important;
+}
+#codenote .input-groups .btn-append,
+#codenote .input-groups .input-append,
+#codenote .input-groups .input-prepend {
+  width: 1%;
+  vertical-align: middle;
+}
+#codenote .input-groups .input-append,
+#codenote .input-groups .input-prepend {
+  background-color: #eee;
+  border: 1px solid #ccc;
+  margin: 0;
+  padding: 0 7px;
+  color: rgba(0, 0, 0, 0.5);
+  line-height: 1;
+  font-size: 12px;
+  white-space: nowrap;
+}
+#codenote .input-groups .input-prepend {
+  border-right: none;
+}
+#codenote .input-groups .input-append {
+  position: relative;
+  z-index: 1;
+  border-left: none;
+}
+#codenote .input-groups .btn-append .btn {
+  display: block;
+  height: auto;
+  border-radius: 0 4px 4px 0;
+}
+/* =Mobile (Portrait)
+-----------------------------------------------------------------------------*/
+@media only screen and (max-width: 767px) {
+  .forms-list label {
+    display: inline-block;
+  }
+}
+/* =Buttons
+-----------------------------------------------------------------------------*/
+#codenote .btn {
+  display: inline-block;
+  vertical-align: top;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  color: #333333;
+  margin: 0;
+  border: none;
+  border-radius: 3px;
+  box-shadow: none;
+  cursor: pointer;
+  background: #eeeded;
+  padding: 9px 20px;
+  height: 2.3em;
+}
+#codenote .btn:hover {
+  color: rgba(0, 0, 0, 0.5);
+  background: #dbdada;
+}
+#codenote input[type="submit"].btn {
+  -webkit-appearance: none;
+}
+#codenote .btn-small {
+  font-size: 11px;
+  padding: 7px 16px;
+}
+#codenote .btn-outline {
+  background: none;
+  border: 1px solid #ddd;
+  padding: 8px 19px;
+}
+#codenote .btn-outline.btn-small {
+  padding: 6px 15px;
+}
+#codenote .btn-blue,
+#codenote .btn-red,
+#codenote .btn-green,
+#codenote .btn-black {
+  color: #fff;
+}
+#codenote .btn-blue:hover,
+#codenote .btn-red:hover,
+#codenote .btn-green:hover,
+#codenote .btn-black:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+#codenote .btn-white {
+  background: #fff;
+}
+#codenote .btn-white:hover {
+  background: #f2f2f2;
+}
+#codenote .btn-white.btn-outline {
+  background: none;
+  border-color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.85);
+}
+#codenote .btn-white.btn-outline:hover {
+  color: rgba(0, 0, 0, 0.9);
+  background: #fff;
+}
+#codenote .btn-blue {
+  background: #3d58a8;
+}
+#codenote .btn-blue:hover {
+  background: #2f4483;
+}
+#codenote .btn-red {
+  background: #d70a16;
+}
+#codenote .btn-red:hover {
+  background: #a60811;
+}
+#codenote .btn-green {
+  background: #159776;
+}
+#codenote .btn-green:hover {
+  background: #0f6a53;
+}
+#codenote .btn-yellow {
+  background: #fddc43;
+  color: #000;
+}
+#codenote .btn-yellow:hover {
+  background: #e7be02;
+}
+#codenote .btn-black {
+  background: #000;
+}
+#codenote .btn-black:hover {
+  background: #333333;
+}
+#codenote .btn-active,
+#codenote .btn[disabled],
+#codenote .btn-disabled {
+  border: none;
+  background: none;
+  background-color: #dbdada;
+  color: rgba(0, 0, 0, 0.5);
+}
+#codenote .btn-active:hover,
+#codenote .btn[disabled]:hover,
+#codenote .btn-disabled:hover {
+  color: rgba(0, 0, 0, 0.5);
+}
+#codenote .btn-active {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) inset;
+}
+#codenote .btn[disabled],
+#codenote .btn-disabled {
+  cursor: default;
+  box-shadow: none;
+}
+#codenote .btn-blue.btn-active,
+#codenote .btn-red.btn-active,
+#codenote .btn-green.btn-active,
+#codenote .btn-black.btn-active {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.7) inset;
+}
+#codenote .btn-blue.btn-active,
+#codenote .btn-red.btn-active,
+#codenote .btn-green.btn-active,
+#codenote .btn-black.btn-active,
+#codenote .btn-blue.btn-disabled,
+#codenote .btn-red.btn-disabled,
+#codenote .btn-green.btn-disabled,
+#codenote .btn-black.btn-disabled,
+#codenote .btn-blue[disabled],
+#codenote .btn-red[disabled],
+#codenote .btn-green[disabled],
+#codenote .btn-black[disabled] {
+  color: rgba(255, 255, 255, 0.6);
+}
+#codenote .btn-blue.btn-active:hover,
+#codenote .btn-red.btn-active:hover,
+#codenote .btn-green.btn-active:hover,
+#codenote .btn-black.btn-active:hover,
+#codenote .btn-blue.btn-disabled:hover,
+#codenote .btn-red.btn-disabled:hover,
+#codenote .btn-green.btn-disabled:hover,
+#codenote .btn-black.btn-disabled:hover,
+#codenote .btn-blue[disabled]:hover,
+#codenote .btn-red[disabled]:hover,
+#codenote .btn-green[disabled]:hover,
+#codenote .btn-black[disabled]:hover {
+  color: rgba(255, 255, 255, 0.6);
+}
+#codenote .btn-white.btn-active,
+#codenote .btn-white.btn-disabled,
+#codenote .btn-white[disabled] {
+  background: #f2f2f2;
+}
+#codenote .btn-blue.btn-active,
+#codenote .btn-blue.btn-disabled,
+#codenote .btn-blue[disabled] {
+  background: #2f4483;
+}
+#codenote .btn-red.btn-active,
+#codenote .btn-red.btn-disabled,
+#codenote .btn-red[disabled] {
+  background: #a60811;
+}
+#codenote .btn-green.btn-active,
+#codenote .btn-green.btn-disabled,
+#codenote .btn-green[disabled] {
+  background: #0f6a53;
+}
+#codenote .btn-yellow.btn-active,
+#codenote .btn-yellow.btn-disabled,
+#codenote .btn-yellow[disabled] {
+  background: #e7be02;
+}
+#codenote .btn-black.btn-active,
+#codenote .btn-black.btn-disabled,
+#codenote .btn-black[disabled] {
+  background: #4d4d4d;
+}
+/* =Helpers
+-----------------------------------------------------------------------------*/
+#codenote .group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+#codenote .small {
+  font-size: 12px;
+}
+#codenote .nowrap,
+#codenote .nowrap td {
+  white-space: nowrap;
+}
+#codenote .req,
+#codenote .required {
+  font-weight: normal;
+  color: #d70a16;
+}
+#codenote .color-gray {
+  color: #777;
+}
+#codenote .color-gray-light {
+  color: #999;
+}
+#codenote .color-black {
+  color: #000;
+}
+#codenote .color-red,
+#codenote .error {
+  color: #d70a16;
+}
+#codenote .color-green,
+#codenote .success {
+  color: #159776;
+}
+#codenote .text-centered {
+  text-align: center;
+}
+#codenote .text-right {
+  text-align: right;
+}
+#codenote .last {
+  margin-right: 0 !important;
+}
+#codenote .pause {
+  margin-bottom: 0.8em !important;
+}
+#codenote .end {
+  margin-bottom: 0 !important;
+}
+#codenote .normal {
+  font-weight: normal;
+}
+#codenote .bold {
+  font-weight: bold;
+}
+#codenote .italic {
+  font-style: italic;
+}
+#codenote .left {
+  float: left;
+}
+#codenote .right {
+  float: right;
+}
+/* Responsive embedded objects */
+#codenote .video-wrapper {
+  height: 0;
+  padding-bottom: 56.25%;
+  position: relative;
+  margin-bottom: 1.6em;
+}
+#codenote .video-wrapper iframe,
+#codenote .video-wrapper object,
+#codenote .video-wrapper embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+/* =Responsive
+-----------------------------------------------------------------------------*/
+@media only screen and (max-width: 767px) {
+  .left,
+  .right {
+    float: none;
+  }
+}
+/* string content */
+#codenote .str {
+  color: #dd1144;
+}
+/* a keyword */
+#codenote .kwd {
+  color: #333333;
+}
+/* a comment */
+#codenote .com {
+  color: #999988;
+}
+/* a type name */
+#codenote .typ {
+  color: #445588;
+}
+/* a literal value */
+#codenote .lit {
+  color: #445588;
+}
+/* punctuation */
+#codenote .pun {
+  color: #888;
+}
+/* lisp open bracket */
+#codenote .opn {
+  color: #333333;
+}
+/* lisp close bracket */
+#codenote .clo {
+  color: #333333;
+}
+/* a markup tag name */
+#codenote .tag {
+  color: #367ac3;
+}
+/* a markup attribute name */
+#codenote .atn {
+  color: #51a7c9;
+}
+/* a markup attribute value */
+#codenote .atv {
+  color: #709c1a;
+}
+/* a declaration */
+#codenote .dec {
+  color: #666;
+}
+/* a variable name */
+#codenote .var {
+  color: teal;
+}
+/* a function name */
+#codenote .fun {
+  color: #990000;
+}
