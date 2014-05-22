@@ -24,7 +24,23 @@
     z-index: 9999;
  }
 
-#codenote .code-note .cn-head {
+ #codenote .code-note-message {
+    background: #366;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    height: 50px;
+    width: 200px;
+    padding: 5px 15px 10px 15px;
+    font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
+    font-weight: normal;
+    font-style: normal;
+    display: block;
+    z-index: 9999;    
+}
+
+#codenote .code-note .cn-head,
+#codenote .code-note-message .cn-head {
   color: #eeeded;  
 }
 

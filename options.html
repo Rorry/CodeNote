@@ -1,28 +1,56 @@
 <!DOCTYPE html>
-
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Code Note Options</title>
-    <link href="resources/code-note.css" rel="stylesheet" type="text/css">
-  </head>
-  <body>
-    <div class="code-node-options">
-      <div class="code-node">
-        <h1>Code Note Options</h1>
-        <fieldset>
-          <label for="cn-host">Default host:</label>
-          <select id="cn-host">
-            <option selected>sandbox.evernote.com</option>
-            <option>evernote.com</option>
-          </select>
-          <br/>
-          <label for="cn-style">Defalutl highlihting style:</label>
-          <select id="cn-style">
-            <option selected>idea</option>
-          </select>
-        </fieldset>
-      </div>  
-    </div>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <title>>Code Note Options</title>
+  <link href="lib/kube.css" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    .code-note-options {
+      text-align: left;
+      background: #366;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -200px;
+      margin-left: -200px;
+      width: 400px;
+      height: 400px;
+    }
+
+    .code-note-options .cn-head {
+      color: #eeeded;  
+    }
+  </style>
+</head>
+<body>
+  <div id="#codenote">
+  <div class="code-note-options">
+    <div class="unit-centered unit-90">
+    <h3 class="cn-head">Code Note Options Page</h3>
+    <form method="post" action="" class="forms">
+    <fieldset>
+    <label>
+        Name <span class="forms-desc">or Email</span>
+        <input type="text" name="user-name" class="width-100"  />
+    </label>
+    <label>
+      Default host
+      <select class="width-100">
+        <option selected>sandbox.evernote.com</option>
+        <option>evernote.com</option>
+      </select>
+      <div class="forms-desc">Need to logout</div>
+    </label>
+    <label>
+      Defalutl highlihting style
+      <select class="width-100">
+        <option selected>idea</option>
+      </select>
+    </label>
+    </fieldset>  
+    </form>
+    </div>  
+  </div>
+  </div>  
+</body>
 </html>

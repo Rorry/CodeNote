@@ -27,13 +27,14 @@ YUI.add('cn-code-note-popup', function (Y) {
 		    '</fieldset>' +
 		    '</form>' +
 		    '<div class="units-row">' +
-		      '<button id="cn-save-btn" class="btn width-40">Save</button>' +
-		      '<button id="cn-cancel-btn" class="btn width-50">Cancel</button>' +
+		      '<div class="unit-50"><button id="cn-save-btn" class="btn">Save</button></div>' +
+		      '<div class="unit-50"><button id="cn-cancel-btn" class="btn">Cancel</button></div>' +
 		    '</div>' +
 		'</div>' +
 		'</div>',
 		TAG_TEMPLATE = '<button class="btn btn-small btn-green cn-tag">{tag}</button>',
-		MESSSAGE_TEMPLATE = '<div class="yui3-skin-sam code-note">{message}</div>';
+		MESSSAGE_TEMPLATE = '<div id="codenote">' + 
+		'<div class="code-note-message"><h4 class="cn-head"><strong>{message}</strong></h4></div></div>';
 
 	Y.namespace('CN').Popup = Y.Base.create('cn-code-note-popup', Y.Base, [], {
 
@@ -45,6 +46,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 		_inputTags: null,
 		_blockTags: null,
 		_btnClear: null,
+		_btnCancel: null,
 
 		initializer: function (config) {
 			var html = Y.one('html'),
@@ -58,16 +60,19 @@ YUI.add('cn-code-note-popup', function (Y) {
 			this._blockTags   = panel.one('#cn-selected-tags');
 			this._inputTags	  = panel.one('#cn-tags');
 			this._btnClear    = panel.one('#cn-clear-search');
+			this._btnCancel   = panel.one('#cn-cancel-btn');
 
 			panel.hide();
 			html.appendChild(panel);
 		},
 
-		initUI: function (credentials, codeBlocks, processor, callback) {
+		initUI: function (credentials, codeBlocks, callback) {
 			var self = this,
 				evernoteStorage = new Y.CN.Evernote.Storage({ noteStoreURL: credentials.note_store_url, authenticationToken: credentials.oauth_token }),
 				tags = [],
 				selectedTags = {};
+
+			self._panel.focus();
 
 			evernoteStorage.listNotebooks(function (list) {
 				Y.Array.each(list, function (item) {
@@ -166,32 +171,53 @@ YUI.add('cn-code-note-popup', function (Y) {
 			});
 
 			self._btnSave.on('click', function (event) {
-				var selectedBlocks = codeBlocks.filter('.cn-selected'),
-					note = Y.Node.create('<div></div>'),
-					pack;
-
-				selectedBlocks.each(function (node) {
-					var cloneNode = node.cloneNode(true);
-
-					Y.CN.CSSInliner.toInline(cloneNode);
-					cloneNode.removeAttribute('selected');
-					note.appendChild(cloneNode);
-
-					node.removeClass('cn-selected');
-					node.removeClass('cn-marked');
-					node.setHTML(Y.CN.Cache.Node[node._yuid]);
-					node.detach();
-				});
-
-				evernoteStorage.save(note.getHTML(), function (note) {
-					Y.log(note);
-					self.showOkMessage();
-				});
-				
-				if (Y.Lang.isFunction (callback)) {
-					callback();
-				}
+				self._doSave(evernoteStorage, codeBlocks, callback);
 			});
+
+			Y.one(document).on('key', function (event) {
+				event.preventDefault();
+				self._doSave(evernoteStorage, codeBlocks, callback);
+				event.stopPropagation();
+			}, 'enter');
+
+			self._btnCancel.on('click', function (event) {
+				callback();
+			});
+
+			Y.one(document).on('key', function (event) {
+				event.preventDefault();
+				callback();
+				event.stopPropagation();
+			}, 'esc');
+		},
+
+		_doSave: function (evernoteStorage, codeBlocks, callback) {
+			var self = this,
+				selectedBlocks = codeBlocks.filter('.cn-selected'),
+				note = Y.Node.create('<div></div>'),
+				pack;
+
+			selectedBlocks.each(function (node) {
+				var cloneNode = node.cloneNode(true);
+
+				Y.CN.CSSInliner.toInline(cloneNode);
+				cloneNode.removeAttribute('selected');
+				note.appendChild(cloneNode);
+
+				node.removeClass('cn-selected');
+				node.removeClass('cn-marked');
+				node.setHTML(Y.CN.Cache.Node[node._yuid]);
+				node.detach();
+			});
+
+			evernoteStorage.save(note.getHTML(), function (note) {
+				Y.log(note);
+				self.showOkMessage();
+			});
+			
+			if (Y.Lang.isFunction (callback)) {
+				callback();
+			}
 		},
 
 		showOkMessage: function () {
@@ -232,14 +258,16 @@ YUI.add('cn-code-note-popup', function (Y) {
 			this._inputTags.removeAttribute('disabled');
 			this._select.removeAttribute('disabled');
 
+			this._panel.detach('key');
 			this._select.empty();
 			this._inputSearch.set('value', '');
 			this._inputTitle.set('value', '');
 			this._inputTags.set('value', '');
 			// this._inputTags.ac.set('source', []);
 			this._blockTags.empty();
-			this._btnSave.detach();
 			this._btnClear.detach();
+			this._btnSave.detach();
+			this._btnCancel.detach();
 		}
 
 	}, {

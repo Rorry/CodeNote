@@ -73,7 +73,7 @@ YUI.add('cn-page-listener', function (Y) {
 				if (CURRENT_MODE_ON) { // сообщение авторизации после сообщения инитиализации
 					Y.log('<- success authorise: ' + credentials);
 
-					_popup.initUI(credentials, _codeBlocks, _processor, function () {
+					_popup.initUI(credentials, _codeBlocks, function () {
 						Y.CN.Page.Listener.init();
 					});
 				}
