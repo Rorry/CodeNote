@@ -33,7 +33,7 @@
         "resources/code-note.css"
       ],
       "js": [
-        "lib/yui/yui-raw.js",
+        "lib/yui/yui-min.js",
         "lib/evernote-sdk-minified.js",
         "lib/highlight/highlight.pack.js",
         "src/tools/code-note.js",

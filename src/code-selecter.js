@@ -34,8 +34,11 @@ YUI.add('cn-page-listener', function (Y) {
 					var nodes = Y.all('.cn-marked');
 
 					nodes.each(function (node) {
+						node.removeAttribute('selected');
+						node.removeClass('cn-selected');
 						node.removeClass('cn-marked');
-						node.detach();
+						node.setHTML(Y.CN.Cache.Node[node._yuid]);
+						node.detach();						
 					});
 
 					_popup.reset();
@@ -89,6 +92,7 @@ YUI.add('cn-page-listener', function (Y) {
 }, '1.0', {
 	requires: [
 		'node',
+		'node-focusmanager',
 		'cn-code-processor',
 		'cn-code-note-popup'
 	]

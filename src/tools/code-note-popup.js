@@ -172,23 +172,11 @@ YUI.add('cn-code-note-popup', function (Y) {
 
 			self._btnSave.on('click', function (event) {
 				self._doSave(evernoteStorage, codeBlocks, callback);
-			});
-
-			Y.one(document).on('key', function (event) {
-				event.preventDefault();
-				self._doSave(evernoteStorage, codeBlocks, callback);
-				event.stopPropagation();
-			}, 'enter');
+			});		
 
 			self._btnCancel.on('click', function (event) {
 				callback();
 			});
-
-			Y.one(document).on('key', function (event) {
-				event.preventDefault();
-				callback();
-				event.stopPropagation();
-			}, 'esc');
 		},
 
 		_doSave: function (evernoteStorage, codeBlocks, callback) {
@@ -203,11 +191,6 @@ YUI.add('cn-code-note-popup', function (Y) {
 				Y.CN.CSSInliner.toInline(cloneNode);
 				cloneNode.removeAttribute('selected');
 				note.appendChild(cloneNode);
-
-				node.removeClass('cn-selected');
-				node.removeClass('cn-marked');
-				node.setHTML(Y.CN.Cache.Node[node._yuid]);
-				node.detach();
 			});
 
 			evernoteStorage.save(note.getHTML(), function (note) {
@@ -258,7 +241,6 @@ YUI.add('cn-code-note-popup', function (Y) {
 			this._inputTags.removeAttribute('disabled');
 			this._select.removeAttribute('disabled');
 
-			this._panel.detach('key');
 			this._select.empty();
 			this._inputSearch.set('value', '');
 			this._inputTitle.set('value', '');
