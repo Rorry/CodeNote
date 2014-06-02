@@ -1,5 +1,15 @@
+/**
+ * @module cn-css-inliner	
+ */
 YUI.add('cn-css-inliner', function (Y) {
 
+	/**
+	 * A array of CSS selectors and styles.
+	 * 
+	 * @property _ideaCSS
+	 * @type Array
+	 * @private 
+	 */
 	var _ideaCSS = [
 		{
 			key: '.hljs',
@@ -120,20 +130,24 @@ YUI.add('cn-css-inliner', function (Y) {
 		}
 	];
 
-	
+	/**
+	 * A simple class for converting styles of the highlighting from the array styles to inline styles
+	 *
+	 * @class CSSInliner
+	 * @namespace CN
+	 * @static
+	 */
 	Y.namespace('CN').CSSInliner = (function () {
 		var _toInline = function (node) {
-				var i, rule, style;
-				
-				for (i = 0; i < _ideaCSS.length; i++) {
-					rule = _ideaCSS[i];
+				Y.Array.each(_ideaCSS, function (rule) {
 					node.all(rule.key).each(function (elem) {
-						style = elem.getAttribute('cn-style_') + rule.value;
+						var style = elem.getAttribute('cn-style_') + rule.value;
+						/* a specific attribute cn-style for storing string styles without calculating by browsers */
 						elem.setAttribute('cn-style_', style);
 						elem.removeAttribute('class');
 						elem.removeAttribute('style'); //remove old inline styles
 					});
-				}
+				});
 			};
 
 		return {

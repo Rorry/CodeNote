@@ -41,8 +41,8 @@ YUI.add('evernote-storage', function (Y) {
     _clearContent: function (content) {
         content = content.replace(/id="[\s|\w]*"/g, '');
         content = content.replace(/class="[\s|\w|-]*"/g, '');
-        content = content.replace(/<\/code>/g, '</span>');
-        content = content.replace(/<code/g, '<span');
+        // content = content.replace(/<\/code>/g, '</span>');
+        // content = content.replace(/<code/g, '<span');
         content = content.replace(/<td [\w|=|\"|\s]*">/g, '<td>');
         content = content.replace(/<table [\w|=|\"|\s]*>/g, '<table>');
         content = content.replace(/<br>/g, '</br>');

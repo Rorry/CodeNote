@@ -1,7 +1,7 @@
 YUI.add('cn-code-note-popup', function (Y) {
 
-	var TEMPLATE = '<div id="codenote" class="yui3-skin-sam">' +
-		'<div id="codenote" class="code-note">' +
+	var TEMPLATE = '<div id="codenote" class="yui3-skin-code-note">' +
+		'<div class="code-note">' +
 		    '<h3 class="cn-head">Code Note</h3>' +
 		    '<form class="forms cn-form">' +
 		      '<fieldset>' +
@@ -22,9 +22,11 @@ YUI.add('cn-code-note-popup', function (Y) {
 		      '<label>' +
 		        '<input type="text" id="cn-tags" name="tags" placeholder="Tags" class="width-100" />' +
 		      '</label>' +
+		      '<div class="cn-tags">' +
 		      '<div id="cn-selected-tags">' +
 		      '</div>' +
-		    '</fieldset>' +
+		      '</div>' +
+		      '</fieldset>' +
 		    '</form>' +
 		    '<div class="units-row">' +
 		      '<div class="unit-50"><button id="cn-save-btn" class="btn">Save</button></div>' +

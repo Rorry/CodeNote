@@ -26,14 +26,13 @@
     {
       "matches": ["http://*/*", "https://*/*"],
       "css": [
-        "lib/yui/yui-min.css",
         "lib/highlight/idea.css",
-        "lib/yui/yui3-skin-code-note.css",
         "lib/kube_.css",
+        "lib/yui/yui3-skin-code-note.css",
         "resources/code-note.css"
       ],
       "js": [
-        "lib/yui/yui-min.js",
+        "lib/yui/yui-raw.js",
         "lib/evernote-sdk-minified.js",
         "lib/highlight/highlight.pack.js",
         "src/tools/code-note.js",

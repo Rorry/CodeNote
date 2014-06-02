@@ -25,6 +25,7 @@
  }
 
  #codenote .code-note-message {
+    text-align: center;
     background: #366;
     position: fixed;
     top: 0px;
@@ -50,6 +51,11 @@
 
 #codenote .code-note .clear-search {
     cursor: pointer;
+}
+
+#codenote .code-note .cn-tags {
+    height: 400px;
+    overflow: auto;
 }
 
 #codenote .code-note .cn-tag {

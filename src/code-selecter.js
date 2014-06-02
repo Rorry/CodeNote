@@ -92,13 +92,12 @@ YUI.add('cn-page-listener', function (Y) {
 }, '1.0', {
 	requires: [
 		'node',
-		'node-focusmanager',
 		'cn-code-processor',
 		'cn-code-note-popup'
 	]
 });
 
-YUI().use('cn-page-listener', 'overlay', function (Y) {
+YUI({ lang: "en" }).use('cn-page-listener', 'overlay', function (Y) {
 
 	chrome.extension.onConnect.addListener(function(port) {
     	port.onMessage.addListener(function (obj) {
