@@ -62,7 +62,7 @@ YUI.add('evernote-storage', function (Y) {
       this.set('note', new Y.CN.Evernote.Note());
     },
 
-    listNotebooks: function (callback) {
+    listNotebooks: function (callback, onError) {
       var self = this;
 
       self._noteStore.listNotebooks(self._authenticationToken, function (notebooks) {
@@ -71,11 +71,12 @@ YUI.add('evernote-storage', function (Y) {
         },
         function onerror(error) {
           Y.log(error);
+          onError(error);
         }
       );
     },
 
-    listTags: function (callback) {
+    listTags: function (callback, onError) {
       var self = this;
 
       self._noteStore.listTags(self._authenticationToken, function (tags) {
@@ -84,10 +85,11 @@ YUI.add('evernote-storage', function (Y) {
       },
       function onerror(error) {
         Y.log(error);
+        onError(error);
       });
     },
 
-    findNotes: function (query, callback) {
+    findNotes: function (query, callback, onError) {
       var self = this,
           filter = new NoteFilter(),
           resultSpec = new NotesMetadataResultSpec();
@@ -103,6 +105,7 @@ YUI.add('evernote-storage', function (Y) {
         },
         function onerror(error) {
           Y.log(error);
+          onError(error);
         });
     },
 
@@ -157,18 +160,18 @@ YUI.add('evernote-storage', function (Y) {
       }
     },
 
-    save: function (content, callback) {
+    save: function (content, callback, onError) {
       var note = this.get('note'),
           guid = note.get('guid');
 
       if (Y.Lang.isString(guid) && (guid.length > 0)) {
-        this.update(content, callback);
+        this.update(content, callback, onError);
       } else {
-        this.create(content, callback);
+        this.create(content, callback, onError);
       }
     },
 
-    update: function (content, callback) {
+    update: function (content, callback, onError) {
       var note = this.get('note'),
           enNote = new Note(),
           resultContent = note.get('content').slice(0, -10); //delete '</en-note>' at the end of the content
@@ -186,10 +189,11 @@ YUI.add('evernote-storage', function (Y) {
         // See EDAMErrorCode enumeration for error code explanation
         // http://dev.evernote.com/documentation/reference/Errors.html#Enum_EDAMErrorCode
         Y.log(err);
+        onError(err);
       });
     },
 
-    create: function (content, callback) {
+    create: function (content, callback, onError) {
       var note = this.get('note'),
           enNote = new Note(),
           title = note.get('title'),
@@ -210,6 +214,7 @@ YUI.add('evernote-storage', function (Y) {
         // See EDAMErrorCode enumeration for error code explanation
         // http://dev.evernote.com/documentation/reference/Errors.html#Enum_EDAMErrorCode
         Y.log(err);
+        onError(err);
       });
     }
 

@@ -10,34 +10,36 @@
 
 #codenote .code-note {
     text-align: left;
-    background: #366;
+    background: #9DA3A9;
     position: fixed;
     top: 0px;
     right: 0px;
-    height: 100%;
-    width: 200px;
+    height: 600px;
+    width: 190px;
     padding: 5px 15px 10px 15px;
     font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
     font-weight: normal;
     font-style: normal;
     display: block;
+    border-radius: 5px;
     z-index: 9999;
  }
 
- #codenote .code-note-message {
+#codenote .code-note-message {
     text-align: center;
-    background: #366;
+    background: #3C6666;
     position: fixed;
     top: 0px;
     right: 0px;
     height: 50px;
-    width: 200px;
+    width: 190px;
     padding: 5px 15px 10px 15px;
     font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
     font-weight: normal;
     font-style: normal;
     display: block;
-    z-index: 9999;    
+    border-radius: 5px;
+    z-index: 10000;    
 }
 
 #codenote .code-note .cn-head,
@@ -46,7 +48,7 @@
 }
 
 #codenote .code-note .cn-form {
-   height: 85%; 
+   height: 80%; 
 }
 
 #codenote .code-note .clear-search {
@@ -54,12 +56,13 @@
 }
 
 #codenote .code-note .cn-tags {
-    height: 400px;
+    height: 200px;
     overflow: auto;
 }
 
 #codenote .code-note .cn-tag {
   margin-top: 5px;
+  margin-right: 5px;
 }
 
 

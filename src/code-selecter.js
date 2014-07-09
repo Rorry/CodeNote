@@ -97,7 +97,7 @@ YUI.add('cn-page-listener', function (Y) {
 	]
 });
 
-YUI({ lang: "en" }).use('cn-page-listener', 'overlay', function (Y) {
+YUI({ lang: "en" }).use('cn-page-listener', function (Y) {
 
 	chrome.extension.onConnect.addListener(function(port) {
     	port.onMessage.addListener(function (obj) {

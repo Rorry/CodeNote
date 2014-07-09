@@ -4,7 +4,6 @@ YUI.add('cn-code-note-popup', function (Y) {
 		'<div class="code-note">' +
 		    '<h3 class="cn-head">Code Note</h3>' +
 		    '<form class="forms cn-form">' +
-		      '<fieldset>' +
 		      '<label>' +
 		        '<div class="input-groups width-100">' +
 		          '<input type="text" id="cn-search" name="search" placeholder="Search"><span id="cn-clear-search" class="input-append clear-search">X</span>' +
@@ -17,8 +16,6 @@ YUI.add('cn-code-note-popup', function (Y) {
 		      '<label>' +
 		        '<select id="cn-notebook" class="width-100"></select>' +
 		      '</label>' +
-		      '</fieldset>' +
-		      '<fieldset>' +
 		      '<label>' +
 		        '<input type="text" id="cn-tags" name="tags" placeholder="Tags" class="width-100" />' +
 		      '</label>' +
@@ -26,7 +23,6 @@ YUI.add('cn-code-note-popup', function (Y) {
 		      '<div id="cn-selected-tags">' +
 		      '</div>' +
 		      '</div>' +
-		      '</fieldset>' +
 		    '</form>' +
 		    '<div class="units-row">' +
 		      '<div class="unit-50"><button id="cn-save-btn" class="btn">Save</button></div>' +
@@ -34,7 +30,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 		    '</div>' +
 		'</div>' +
 		'</div>',
-		TAG_TEMPLATE = '<button class="btn btn-small btn-green cn-tag">{tag}</button>',
+		TAG_TEMPLATE = '<button class="btn btn-small btn-white btn-outline cn-tag">{tag}</button>',
 		MESSSAGE_TEMPLATE = '<div id="codenote">' + 
 		'<div class="code-note-message"><h4 class="cn-head"><strong>{message}</strong></h4></div></div>';
 
@@ -53,7 +49,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 		initializer: function (config) {
 			var html = Y.one('html'),
 				panel = Y.Node.create(TEMPLATE);
-
+			
 			this._panel		  = panel;
 			this._select	  = panel.one('#cn-notebook');
 			this._btnSave 	  = panel.one('#cn-save-btn');
@@ -71,10 +67,11 @@ YUI.add('cn-code-note-popup', function (Y) {
 		initUI: function (credentials, codeBlocks, callback) {
 			var self = this,
 				evernoteStorage = new Y.CN.Evernote.Storage({ noteStoreURL: credentials.note_store_url, authenticationToken: credentials.oauth_token }),
-				tags = [],
-				selectedTags = {};
+				_error = function (err) {
+					self.showErrorMessage(err);
+				};
 
-			self._panel.focus();
+			self._initTags(evernoteStorage);
 
 			evernoteStorage.listNotebooks(function (list) {
 				Y.Array.each(list, function (item) {
@@ -89,14 +86,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 						
 					self._select.appendChild(option);
 				});
-			});
-
-			evernoteStorage.listTags(function (list) {
-				Y.Array.each(list, function (tag) {
-					tags.push(tag);
-				});
-			});
-
+			}, _error);
 
 			self._select.on('change', function (event) {
 				var guid = event.target.get('value');
@@ -109,7 +99,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 				// resultFilters: 'phraseMatch',
 				resultTextLocator: 'title',
 				source: function (query, callback) {
-					evernoteStorage.findNotes(query, callback);
+					evernoteStorage.findNotes(query, callback, _error);
 				},
 				on: {
 					select: function (event) {
@@ -137,7 +127,28 @@ YUI.add('cn-code-note-popup', function (Y) {
 				evernoteStorage.setTitle(title);
 			});
 
+			self._btnSave.on('click', function (event) {
+				self._doSave(evernoteStorage, codeBlocks, callback);
+			});		
 
+			self._btnCancel.on('click', function (event) {
+				callback();
+			});
+		},
+
+		_initTags: function (evernoteStorage) {
+			var self = this,
+				tags = [],
+				selectedTags = {};
+
+			evernoteStorage.listTags(function (list) {
+				Y.Array.each(list, function (tag) {
+					tags.push(tag);
+				});
+			}, function (err) {
+				self.showErrorMessage(err);
+			});
+			
 			self._inputTags.plug(Y.Plugin.AutoComplete, {
 				resultHighlighter: 'phraseMatch',
 				resultFilters: 'phraseMatch',
@@ -171,14 +182,6 @@ YUI.add('cn-code-note-popup', function (Y) {
 					}
 				}
 			});
-
-			self._btnSave.on('click', function (event) {
-				self._doSave(evernoteStorage, codeBlocks, callback);
-			});		
-
-			self._btnCancel.on('click', function (event) {
-				callback();
-			});
 		},
 
 		_doSave: function (evernoteStorage, codeBlocks, callback) {
@@ -198,6 +201,8 @@ YUI.add('cn-code-note-popup', function (Y) {
 			evernoteStorage.save(note.getHTML(), function (note) {
 				Y.log(note);
 				self.showOkMessage();
+			}, function (err) {
+				self.showErrorMessage(err);
 			});
 			
 			if (Y.Lang.isFunction (callback)) {
@@ -205,30 +210,38 @@ YUI.add('cn-code-note-popup', function (Y) {
 			}
 		},
 
+		_hideMessage: function (panel) {
+			Y.later(3 * 1000, this, function () {
+                var anim = new Y.Anim({
+                    node    : panel,
+                    duration: 2,
+                    to      : {
+                        opacity: 0
+                    },
+                    after   : {
+                        end: function (event) {
+                            panel.remove(true);
+                        }
+                    }
+                });
+                anim.run();
+            });
+		},
+
 		showOkMessage: function () {
 			var html = Y.one('html'),
 				panel = Y.Node.create(Y.Lang.sub(MESSSAGE_TEMPLATE, { message: 'Success!' }));
-			html.appendChild(panel);
+			html.appendChild(panel);		
 			
-			Y.later(3 * 1000, this, function () {
-                    var anim = new Y.Anim({
-                        node    : panel,
-                        duration: 2,
-                        to      : {
-                            opacity: 0
-                        },
-                        after   : {
-                            end: function (event) {
-                                panel.remove(true);
-                            }
-                        }
-                    });
-                    anim.run();
-                });
+			this._hideMessage(panel);
 		},
 
-		showErrorMessage: function () {
-
+		showErrorMessage: function (error) {
+			var html = Y.one('html'),
+				panel = Y.Node.create(Y.Lang.sub(MESSSAGE_TEMPLATE, { message: 'Error! ' + (error.message || '') }));
+			html.appendChild(panel);
+			
+			this._hideMessage(panel);
 		},
 
 		show: function () {
@@ -240,15 +253,26 @@ YUI.add('cn-code-note-popup', function (Y) {
 		},
 
 		reset: function () {
-			this._inputTags.removeAttribute('disabled');
+			// select field
 			this._select.removeAttribute('disabled');
-
 			this._select.empty();
+			
+			// input search field
 			this._inputSearch.set('value', '');
+			this._inputSearch.unplug(Y.Plugin.AutoComplete);
+			this._inputSearch.detach();
+			
+			// input title field
 			this._inputTitle.set('value', '');
+			
+			// input tags field
+			this._inputTags.removeAttribute('disabled');
 			this._inputTags.set('value', '');
-			// this._inputTags.ac.set('source', []);
+			this._inputTags.unplug(Y.Plugin.AutoComplete);
+			this._inputTags.detach();
 			this._blockTags.empty();
+
+			// buttons
 			this._btnClear.detach();
 			this._btnSave.detach();
 			this._btnCancel.detach();

@@ -520,6 +520,7 @@
 #codenote input[type="search"],
 #codenote input[type="datetime-local"] {
   height: 2.3em;
+  z-index: -1; /* else the yui autocomplete list is overlapped */
 }
 #codenote input[type="range"] {
   position: relative;
