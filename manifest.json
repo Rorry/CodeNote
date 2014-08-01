@@ -20,7 +20,10 @@
     "https://sandbox.evernote.com/OAuth.action"
   ],
 
-  "web_accessible_resources": ["resources/callback.html"] ,
+  "web_accessible_resources": [
+    "resources/callback.html",
+    "resources/templates/popup.html"
+  ],
 
   "content_scripts": [
     {

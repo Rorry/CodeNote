@@ -3,11 +3,13 @@
 <head>
   <meta charset="utf-8">
   <title>>Code Note Options</title>
+  <script type="text/javascript" src="lib/evernote-sdk-minified.js"></script>
+  <script type="text/javascript" src="src/options.js"></script>
   <link href="lib/kube.css" rel="stylesheet" type="text/css">
   <style type="text/css">
     .code-note-options {
       text-align: left;
-      background: #366;
+      background: #9DA3A9;
       position: absolute;
       top: 50%;
       left: 50%;
@@ -15,6 +17,7 @@
       margin-left: -200px;
       width: 400px;
       height: 400px;
+      border-radius: 5px;
     }
 
     .code-note-options .cn-head {
@@ -28,10 +31,10 @@
     <div class="unit-centered unit-90">
     <h3 class="cn-head">Code Note Options Page</h3>
     <form method="post" action="" class="forms">
-    <fieldset>
     <label>
         Name <span class="forms-desc">or Email</span>
-        <input type="text" name="user-name" class="width-100"  />
+        <input id="name" type="text" name="user-name" class="width-100" />
+        <div class="forms-desc"><a id="logout" href="javascript:;">Logout</a></div>
     </label>
     <label>
       Default host
@@ -42,12 +45,11 @@
       <div class="forms-desc">Need to logout</div>
     </label>
     <label>
-      Defalutl highlihting style
+      Defalult highlihting style
       <select class="width-100">
         <option selected>idea</option>
       </select>
     </label>
-    </fieldset>  
     </form>
     </div>  
   </div>

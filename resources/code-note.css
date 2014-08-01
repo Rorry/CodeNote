@@ -27,13 +27,13 @@
 
 #codenote .code-note-message {
     text-align: center;
-    background: #3C6666;
+    background: #787B7F;
     position: fixed;
     top: 0px;
     right: 0px;
     height: 50px;
     width: 190px;
-    padding: 5px 15px 10px 15px;
+    padding: 10px 15px 10px 15px;
     font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
     font-weight: normal;
     font-style: normal;
@@ -64,112 +64,3 @@
   margin-top: 5px;
   margin-right: 5px;
 }
-
-
-/*.code-note {
-    text-align: left;
-    background: #366;
-    position: fixed;
-    top: 0px;
-    right: 0px;
-    height: 300px;
-    width: 170px;
-    padding: 5px 15px 10px 15px;
-    font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
-    font-weight: normal;
-    font-style: normal;
-    display: block;
-    z-index: 9999;
- }
-
-.code-node-options {
-    text-align: left;
-    background: #366;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -200px;
-    margin-left: -200px;
-    width: 400px;
-    height: 400px;
- }
-
-.code-note select {
-    width: 164px;
-    padding: 2px;
-    margin-bottom: 7px;    
-}
-
-.code-note input {
-    width: 160px;
-    padding: 2px;
-    margin-bottom: 7px;
-    border-width: 0px;
-}
-
-.code-note .clear-search {
-    float: right;
-    width: 2px;
-    cursor: pointer;
-}
-
-.code-note h1 {
-    color: #ACE600;
-    padding: 5px 0px;
-    text-align: left;
-    font-size: 1.7em;
-}
-
-.code-note button {
-    color: #366;
-    padding: 7px 10px;
-    background: #ACE600;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    border-width: 0px;
-}
-
-.code-note .tag {
-    color: #FFFFFF;
-    display: inline-block;
-    padding: 0 3px 0 4px;
-    background: #028E9B;
-    height: 18px;
-    line-height: 18px;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    border-width: 0px;   
-}
-
-#selectedTags {
-    display: block;
-    margin: 9px -3px 9px -3px;
-    max-height: 54px;
-    overflow-y: auto;
-}*/
-
-/*.tag {
-    border-radius: 2px;
-    color: #FFFFFF;
-    display: inline-block;
-    height: 18px;
-    line-height: 18px;
-    margin: 3px 3px 4px 3px;
-    padding: 0 3px 0 4px;
-}
-
-.tag.gray {
-    background-color: #8B8E94;
-    border: 1px solid #66696E;
-}
-
-.tag .lozenge {
-    background-size: 9px 9px;
-    cursor: pointer;
-    height: 9px;
-    margin-left: 2px;
-    position: relative;
-    top: -4px;
-    visibility: hidden;
-    width: 9px;
-}*/
