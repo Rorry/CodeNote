@@ -1,5 +1,11 @@
 YUI.add('evernote-storage', function (Y) {
 
+  /** cache keys */
+  var EVERNOTE_COLLECTIONS = 'evernote_collections',
+      OAUTH_TOKEN = 'oauth_token',
+      NOTEBOOKS = 'notebooks',
+      TAGS = 'tags';
+
   Y.namespace('CN.Evernote').Note = Y.Base.create('cn-evernote-note', Y.Base, [], {
 
   }, {
@@ -31,6 +37,8 @@ YUI.add('evernote-storage', function (Y) {
                 '<!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd">' +
                 '<en-note>{content}</en-note>',
 
+    _cache: null,
+
     _noteStoreURL: null,
     _authenticationToken: null,
     _noteStoreTransport: null,
@@ -53,6 +61,8 @@ YUI.add('evernote-storage', function (Y) {
 
 
     initializer: function (config) {
+      var entry;
+
       this._noteStoreURL = config.noteStoreURL,
       this._authenticationToken = config.authenticationToken,
       this._noteStoreTransport = new Thrift.BinaryHttpTransport(this._noteStoreURL);
@@ -60,33 +70,54 @@ YUI.add('evernote-storage', function (Y) {
       this._noteStore = new NoteStoreClient(this._noteStoreProtocol);
 
       this.set('note', new Y.CN.Evernote.Note());
+
+      this._cache = new Y.CacheOffline({ sandbox: EVERNOTE_COLLECTIONS, expires: 5 * 60 * 1000 });
+
+      entry = this._cache.retrieve(OAUTH_TOKEN);
+      if (entry) {
+        if (entry.response != config.authenticationToken) {
+          this._cache.flush();
+        }
+      }
     },
 
     listNotebooks: function (callback, onError) {
-      var self = this;
+      var self = this,
+          entry = self._cache.retrieve(NOTEBOOKS);
 
-      self._noteStore.listNotebooks(self._authenticationToken, function (notebooks) {
-          Y.log(notebooks);
-          callback(notebooks);
+      if (entry) {
+        callback(entry.response);
+      } else {
+        self._noteStore.listNotebooks(self._authenticationToken, function (notebooks) {
+            Y.log(notebooks);
+            self._cache.add(NOTEBOOKS, notebooks);
+            callback(notebooks);
+          },
+          function onerror(error) {
+            Y.log(error);
+            onError(error);
+          }
+        );
+      }
+    },
+
+    listTags: function (callback, onError) {
+      var self = this,
+          entry = self._cache.retrieve(TAGS);
+
+      if (entry) {
+        callback(entry.response);
+      } else {
+        self._noteStore.listTags(self._authenticationToken, function (tags) {
+          Y.log(tags);
+          self._cache.add(TAGS, tags);
+          callback(tags);
         },
         function onerror(error) {
           Y.log(error);
           onError(error);
-        }
-      );
-    },
-
-    listTags: function (callback, onError) {
-      var self = this;
-
-      self._noteStore.listTags(self._authenticationToken, function (tags) {
-        Y.log(tags);
-        callback(tags);
-      },
-      function onerror(error) {
-        Y.log(error);
-        onError(error);
-      });
+        });
+      }
     },
 
     findNotes: function (query, callback, onError) {
@@ -228,6 +259,7 @@ YUI.add('evernote-storage', function (Y) {
 
 }, '1.0', {
   requires: [
-    'base'
+    'base',
+    'cache-offline'
   ]
 });
