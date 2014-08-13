@@ -1,30 +1,39 @@
 <div id="codenote" class="yui3-skin-code-note">
-<div class="code-note">
+  <div class="code-note">
     <h3 class="cn-head">Code Note</h3>
+
     <form class="forms cn-form">
-    <label>
-       	<div class="input-groups width-100">
-       		<input type="text" id="cn-search" name="search" placeholder="Search">
-       		<span id="cn-clear-search" class="input-append clear-search">X</span>
-       	</div>
+      <label>
+        <div class="input-groups width-100">
+          <input type="text" id="cn-search" name="search" placeholder="Search">
+          <span id="cn-clear-search" class="input-append clear-search">X</span>
+        </div>
         <div class="forms-desc">Search by title</div>
-    </label>
-    <label>
-      	<input type="text" id="cn-title" name="title" placeholder="Title" class="width-100" />
-    </label>
-    <label>
+      </label>
+      <label>
+        <input type="text" id="cn-title" name="title" placeholder="Title" class="width-100"/>
+      </label>
+      <label>
         <select id="cn-notebook" class="width-100"></select>
-    </label>
-    <label>
-        <input type="text" id="cn-tags" name="tags" placeholder="Tags" class="width-100" />
-    </label>
-    <div class="cn-tags">
-    <div id="cn-selected-tags">
-    </div>
-    </div>
+      </label>
+      <label>
+        <input type="text" id="cn-tags" name="tags" placeholder="Tags" class="width-100"/>
+      </label>
+
+      <div class="cn-tags">
+        <div id="cn-selected-tags">
+        </div>
+      </div>
     </form>
     <div class="units-row">
-    <div class="unit-50"><button id="cn-save-btn" class="btn">Save</button></div>      
-    <div class="unit-50"><button id="cn-cancel-btn" class="btn">Cancel</button></div>
- </div>
+      <div class="unit-70">
+        <button id="cn-save-btn" class="btn">Save <img alt=""
+                                                       src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABw0lEQVR42mNkoBAwogvY2tqKGhsbB/Lx8hUDuf++f/++tbunu4QoAxwdHVVsbWz7gEwBkFlIUueB+Mfv378fv379+szefXsn379//weKAQ72DuJ2dnYzgMwvQKwIxNa4bL17927m0mVLZ6AYkJ+Xn8nPz58DZDIDsSoQM+EyAOiK3ukzppegGFBTXbOXiYnJiZiA+/Lly8K+/r4EFAMKCgoWAgMuDo++T1CaDxgWG9o72gNRDIiJjilVUlLqwqX7169fc//9+/eOg4OjFMjd3dTc5IZigLOTs4O1tfV+bHqBmA1NbB/QAGcUA5QUldhjYmKeApnCSAq/A/F1IDZC1v33798trW2tvigGgICNtY26hoZGpLi4uBUzM7M2UOHxffv3FcrJyvmJiYlpCgoKJgKVcX38+HH6xEkTszAMwAYS4hPihISE3A4cPFBoZ2vXysfHl3rv/r2CJUuWTCRogKKCIktsbOzXZ8+e1e/YuWOSu5t7jbS0dOWxY8cs9+zdc4KwAYqKbLExsd+A+WHd169fnwoLCwcxMjL+X7BwgdKjR4/+EeWFnOycCqAXIoFMHiB+f+PGjfJVq1fthckTNIAQAADzMaARwJnd3AAAAABJRU5ErkJggg=="/>
+        </button>
+      </div>
+      <div class="unit-10">
+        <button id="cn-cancel-btn" class="btn btn-outline">x</button>
+      </div>
+    </div>
+  </div>
 </div>

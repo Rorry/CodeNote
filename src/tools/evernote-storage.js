@@ -63,8 +63,8 @@ YUI.add('evernote-storage', function (Y) {
     initializer: function (config) {
       var entry;
 
-      this._noteStoreURL = config.noteStoreURL,
-      this._authenticationToken = config.authenticationToken,
+      this._noteStoreURL = config.noteStoreURL;
+      this._authenticationToken = config.authenticationToken;
       this._noteStoreTransport = new Thrift.BinaryHttpTransport(this._noteStoreURL);
       this._noteStoreProtocol = new Thrift.BinaryProtocol(this._noteStoreTransport);
       this._noteStore = new NoteStoreClient(this._noteStoreProtocol);
@@ -101,23 +101,25 @@ YUI.add('evernote-storage', function (Y) {
       }
     },
 
-    listTags: function (callback, onError) {
-      var self = this,
-          entry = self._cache.retrieve(TAGS);
+    listTags: function () {
+      var self = this;
 
-      if (entry) {
-        callback(entry.response);
-      } else {
-        self._noteStore.listTags(self._authenticationToken, function (tags) {
-          Y.log(tags);
-          self._cache.add(TAGS, tags);
-          callback(tags);
-        },
-        function onerror(error) {
-          Y.log(error);
-          onError(error);
-        });
-      }
+      return new Y.Promise(function (resolve, reject) {
+        var entry = self._cache.retrieve(TAGS);
+
+        if (entry) {
+          resolve(entry.response);
+        } else {
+          self._noteStore.listTags(self._authenticationToken, function (tags) {
+            Y.log(tags);
+            self._cache.add(TAGS, tags);
+            resolve(tags);
+          }, function onerror(error) {
+            Y.log(error);
+            reject(error);
+          });
+        }
+      });
     },
 
     findNotes: function (query, callback, onError) {
@@ -260,6 +262,7 @@ YUI.add('evernote-storage', function (Y) {
 }, '1.0', {
   requires: [
     'base',
+    'promise',
     'cache-offline'
   ]
 });
