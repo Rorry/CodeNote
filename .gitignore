@@ -1,2 +1,4 @@
 evernote.properties
 .idea/*
+node_modules/*
+*.log
