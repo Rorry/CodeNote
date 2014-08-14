@@ -23,8 +23,8 @@ window.onload = function () {
   });
 
   document.getElementById('logout').onclick = function() {
-        chrome.storage.local.set({ 'evernote_credentials': null }, function () {
-        document.getElementById('name').value = '';
-      });
-    };
+    chrome.storage.local.set({ 'evernote_credentials': null }, function () {
+      document.getElementById('name').value = '';
+    });
+  };
 };

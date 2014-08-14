@@ -7,18 +7,23 @@ YUI.add('cn-code-note-popup', function (Y) {
 
   Y.namespace('CN').Popup = Y.Base.create('cn-code-note-popup', Y.Base, [], {
 
-    _panel    : null,
-    _select   : null,
-    _btnSave  : null,
+    _panel      : null,
+    _select     : null,
+    _btnSave    : null,
     _inputTitle : null,
     _inputSearch: null,
     _inputTags  : null,
     _blockTags  : null,
-    _btnClear : null,
+    _btnClear   : null,
     _btnCancel  : null,
 
     initializer: function (config) {
-      var self = this;
+      var self = this,
+          callback = config.callback;
+
+      if (callback) {
+        self.set('callback', callback);
+      }
       
       Y.io(POPUP_TEMPLATE, {
         on: {
@@ -38,19 +43,25 @@ YUI.add('cn-code-note-popup', function (Y) {
 
             panel.hide();
             html.appendChild(panel);
+
+            if (Y.Lang.isFunction(callback)) {
+              self._btnCancel.on('click', function (event) {
+                callback();
+              });
+            }
           }
         }
       });
     },
 
-    initUI: function (credentials, codeBlocks, callback) {
+    initUI: function (credentials, codeBlocks) {
       var self = this,
         evernoteStorage,
         _error = function (err) {
           self.showErrorMessage(err);
         };
 
-      if (Y.Lang.isValue(self._panel) && Y.Lang.isString(credentials.oauth_token) && Y.Lang.isFunction(callback)) {
+      if (Y.Lang.isValue(self._panel) && Y.Lang.isString(credentials.oauth_token)) {
         evernoteStorage = new Y.CN.Evernote.Storage({ noteStoreURL: credentials.note_store_url, authenticationToken: credentials.oauth_token });
 
         self._initTags(evernoteStorage);
@@ -110,11 +121,7 @@ YUI.add('cn-code-note-popup', function (Y) {
         });
 
         self._btnSave.on('click', function (event) {
-          self._doSave(evernoteStorage, codeBlocks, callback);
-        });   
-
-        self._btnCancel.on('click', function (event) {
-          callback();
+          self._doSave(evernoteStorage, codeBlocks);
         });
       }
     },
@@ -169,8 +176,9 @@ YUI.add('cn-code-note-popup', function (Y) {
       });
     },
 
-    _doSave: function (evernoteStorage, codeBlocks, callback) {
+    _doSave: function (evernoteStorage, codeBlocks) {
       var self = this,
+        callback = this.get('callback'),
         selectedBlocks = codeBlocks.filter('.cn-selected'),
         note = Y.Node.create('<div></div>'),
         pack;
@@ -265,13 +273,15 @@ YUI.add('cn-code-note-popup', function (Y) {
         // buttons
         this._btnClear.detach();
         this._btnSave.detach();
-        this._btnCancel.detach();
       }
     }
 
   }, {
     ATTRS: {
-      
+      callback: {
+        value: null,
+        validator: Y.Lang.isFunction
+      }
     }
   });
 

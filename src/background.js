@@ -3,7 +3,7 @@ window.onload = function () {
   var authorise = function() {
     var client = new Client({
       consumerKey   : '<your consumer key>',
-      consumerSecret  : '<your consumer secret>',
+      consumerSecret: '<your consumer secret>',
       serviceHost   : 'https://sandbox.evernote.com',
       callbackUrl   : 'resources/callback.html'
     });
@@ -11,7 +11,7 @@ window.onload = function () {
     client.getRequestToken();
   };
 
-  var factory = function (obj) {
+  var defaultCallback = function (obj) {
       console.log(obj);
   };
 
@@ -30,7 +30,7 @@ window.onload = function () {
     var port = chrome.tabs.connect(tab.id);     
 
     port.postMessage({method: 'init'});
-    port.onMessage.addListener(factory);
+    port.onMessage.addListener(defaultCallback);
 
     chrome.storage.local.get('evernote_credentials', function (items) {
       var evernote_credentials = items.evernote_credentials;
