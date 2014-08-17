@@ -1,14 +1,27 @@
 window.onload = function () {
+  var HOSTS = {
+      'sandbox': 'https://sandbox.evernote.com',
+      'evernote': 'https://evernote.com'
+    },
+    CALLBACK_URL = 'resources/callback.html',
+    CONSUMER_KEY = '<your consumer key>',
+    CONSUMER_SECRET = '<your consumer secret>';
 
-  var authorise = function() {
-    var client = new Client({
-      consumerKey   : '<your consumer key>',
-      consumerSecret: '<your consumer secret>',
-      serviceHost   : 'https://sandbox.evernote.com',
-      callbackUrl   : 'resources/callback.html'
-    });
+  /**
+   * The method starts to execute the oauth authorisation process to get access to evernote api.
+   * Before starting this method needs to get a consumer key and a consumer secret from evernote.
+   */
+  var authorise = function(host) {
+    if (HOSTS.hasOwnProperty(host)) {
+      var client = new Client({
+        consumerKey   : CONSUMER_KEY,
+        consumerSecret: CONSUMER_SECRET,
+        serviceHost   : HOSTS[host],
+        callbackUrl   : CALLBACK_URL
+      });
 
-    client.getRequestToken();
+      client.authorise();
+    }
   };
 
   var defaultCallback = function (obj) {
@@ -19,31 +32,44 @@ window.onload = function () {
     console.log('On change storage!');
     console.log(changes);
     if (areaName === 'local') {
-      if (changes.evernote_credentials) {
-        port.postMessage({method: 'onAuthorise', data: changes.evernote_credentials.newValue}); 
+      if (changes.evernote_credentials && changes.evernote_credentials.newValue) {
+        chrome.tabs.getCurrent(function (tab) {
+          if (tab) {
+            var port = chrome.tabs.connect(tab.id);
+
+            port.postMessage({method: 'onAuthorise', data: changes.evernote_credentials.newValue});
+          }
+        });
       }
     }
   });
 
-  //set handler to extention on icon click
+  /**
+   * Main point to start extension,
+   * sets handler to extension on icon click.
+   */
   chrome.browserAction.onClicked.addListener(function(tab) {
-    var port = chrome.tabs.connect(tab.id);     
+    var port = chrome.tabs.connect(tab.id);
 
     port.postMessage({method: 'init'});
     port.onMessage.addListener(defaultCallback);
 
-    chrome.storage.local.get('evernote_credentials', function (items) {
-      var evernote_credentials = items.evernote_credentials;
+    chrome.storage.local.get(['evernote_host', 'evernote_credentials'], function (items) {
+      var evernote_host = items.evernote_host || 'sandbox',
+        evernote_credentials = items.evernote_credentials;
 
-      if (evernote_credentials === undefined || evernote_credentials === null) {
-        authorise();
-      } else {
+      if (evernote_credentials) {
         port.postMessage({method: 'onAuthorise', data: evernote_credentials});
+      } else {
+        authorise(evernote_host);
       }
     });
-  }); 
+  });
 };
 
+/**
+ * The Client class provides methods for oauth authorisation to get access to evernote api.
+ */
 var Client = function (options) {
   this.consumerKey = options.consumerKey;
   this.consumerSecret = options.consumerSecret;
@@ -59,6 +85,10 @@ Client.prototype.PARAM_KEYS = {
   EDAM_NOTESTOREURL: 'edam_noteStoreUrl',
   EDAM_USERID: 'edam_userId',
   EXPIRES: 'expires'
+};
+
+Client.prototype.authorise = function () {
+  this.getRequestToken();
 };
 
 Client.prototype.tabListener = function (oauthTabId) {
@@ -129,7 +159,7 @@ Client.prototype.onAuthToken = function (data) {
       oauth_token: oauthToken,
       user_id: userId,
       expires: expires,
-      note_store_url: noteStoreUrl  
+      note_store_url: noteStoreUrl
     };
 
   console.log("onAuthToken!");
@@ -166,15 +196,18 @@ Client.prototype.getOAuthClient = function () {
   if (oauth === undefined || oauth === null) {
     oauth = OAuth({
       consumerKey: self.consumerKey,
-        consumerSecret: self.consumerSecret,
-        callbackUrl : chrome.extension.getURL(self.callbackUrl),
-        signatureMethod : "HMAC-SHA1"
+      consumerSecret: self.consumerSecret,
+      callbackUrl : chrome.extension.getURL(self.callbackUrl),
+      signatureMethod : "HMAC-SHA1"
     });
   }
   
   return oauth;
 };
 
+/**
+ * The util method gets values from string
+ */
 Client.prototype.getParamValues = function(url, keys) {
   var params = url.split('&'),
         objKeys = { },
