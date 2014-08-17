@@ -66,7 +66,7 @@ YUI.add('cn-code-note-popup', function (Y) {
 
         self._initTags(evernoteStorage);
 
-        evernoteStorage.listNotebooks(function (list) {
+        evernoteStorage.notebooksPromise().then(function (list) {
           Y.Array.each(list, function (item) {
             var guid = item.guid,
               name = item.name,
@@ -92,16 +92,16 @@ YUI.add('cn-code-note-popup', function (Y) {
           // resultFilters: 'phraseMatch',
           resultTextLocator: 'title',
           source: function (query, callback) {
-            evernoteStorage.findNotes(query, callback, _error);
+            evernoteStorage.searchNotesPromise(query).then(callback, _error);
           },
           on: {
             select: function (event) {
               var selectedNote = event.result.raw;
-              evernoteStorage.getNoteByGUID(selectedNote.guid);
-
-              self._inputTitle.set('value', selectedNote.title);
-              self._inputTags.setAttribute('disabled', 'disabled');
-              self._select.setAttribute('disabled', 'disabled');
+              evernoteStorage.setNotePromise(selectedNote.guid).then(function (note) {
+                self._inputTitle.set('value', note.title);
+                self._inputTags.setAttribute('disabled', 'disabled');
+                self._select.setAttribute('disabled', 'disabled');
+              }, _error);
             }
           }
         });
@@ -127,10 +127,9 @@ YUI.add('cn-code-note-popup', function (Y) {
     },
 
     _initTags: function (evernoteStorage) {
-      var self = this,
-        tagsPromise = evernoteStorage.listTags();
+      var self = this;
 
-      tagsPromise.then(function (list) {
+      evernoteStorage.tagsPromise().then(function (list) {
         var tags = [],
           selectedTags = {};
 
@@ -191,7 +190,7 @@ YUI.add('cn-code-note-popup', function (Y) {
         note.appendChild(cloneNode);
       });
 
-      evernoteStorage.save(note.getHTML(), function (note) {
+      evernoteStorage.savePromise(note.getHTML()).then(function (note) {
         Y.log(note);
         self.showOkMessage();
       }, function (err) {
@@ -293,7 +292,7 @@ YUI.add('cn-code-note-popup', function (Y) {
     'autocomplete',
     'autocomplete-highlighters',
     'autocomplete-filters',
-    'evernote-storage',
+    'cn-evernote-storage',
     'cn-css-inliner'
   ]
 });
