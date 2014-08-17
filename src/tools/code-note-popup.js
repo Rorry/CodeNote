@@ -1,9 +1,7 @@
 YUI.add('cn-code-note-popup', function (Y) {
 
   var POPUP_TEMPLATE    = chrome.extension.getURL('resources/templates/popup.html'),    
-    TAG_TEMPLATE    = '<button class="btn btn-small btn-white btn-outline cn-tag">{tag}</button>',
-    MESSSAGE_TEMPLATE = '<div id="codenote">' + 
-    '<div class="code-note-message"><h4 class="cn-head"><strong>{message}</strong></h4></div></div>';
+    TAG_TEMPLATE    = '<button class="btn btn-small btn-white btn-outline cn-tag">{tag}</button>';
 
   Y.namespace('CN').Popup = Y.Base.create('cn-code-note-popup', Y.Base, [], {
 
@@ -16,6 +14,8 @@ YUI.add('cn-code-note-popup', function (Y) {
     _blockTags  : null,
     _btnClear   : null,
     _btnCancel  : null,
+
+    _informer   : null,
 
     initializer: function (config) {
       var self = this,
@@ -31,8 +31,8 @@ YUI.add('cn-code-note-popup', function (Y) {
             var html = Y.one('html'),
               panel = Y.Node.create(response.responseText);
 
-            self._panel     = panel;
-            self._select    = panel.one('#cn-notebook');
+            self._panel       = panel;
+            self._select      = panel.one('#cn-notebook');
             self._btnSave     = panel.one('#cn-save-btn');
             self._inputTitle  = panel.one('#cn-title');
             self._inputSearch = panel.one('#cn-search');
@@ -41,11 +41,13 @@ YUI.add('cn-code-note-popup', function (Y) {
             self._btnClear    = panel.one('#cn-clear-search');
             self._btnCancel   = panel.one('#cn-cancel-btn');
 
+            self._informer    = new Y.CN.Informer();
+
             panel.hide();
             html.appendChild(panel);
 
             if (Y.Lang.isFunction(callback)) {
-              self._btnCancel.on('click', function (event) {
+              self._btnCancel.on('click', function () {
                 callback();
               });
             }
@@ -58,7 +60,7 @@ YUI.add('cn-code-note-popup', function (Y) {
       var self = this,
         evernoteStorage,
         _error = function (err) {
-          self.showErrorMessage(err);
+          self._informer.showErrorMessage(err);
         };
 
       if (Y.Lang.isValue(self._panel) && Y.Lang.isString(credentials.oauth_token)) {
@@ -106,7 +108,7 @@ YUI.add('cn-code-note-popup', function (Y) {
           }
         });
 
-        self._btnClear.on('click', function (event) {
+        self._btnClear.on('click', function () {
           evernoteStorage.clearNote();
           self._inputTitle.set('value', '');
           self._inputSearch.set('value', '');
@@ -120,7 +122,7 @@ YUI.add('cn-code-note-popup', function (Y) {
           evernoteStorage.setTitle(title);
         });
 
-        self._btnSave.on('click', function (event) {
+        self._btnSave.on('click', function () {
           self._doSave(evernoteStorage, codeBlocks);
         });
       }
@@ -162,7 +164,7 @@ YUI.add('cn-code-note-popup', function (Y) {
               evernoteStorage.addTag(eTag.guid);
               
               self._blockTags.appendChild(tagButton);
-              tagButton.on('click', function (event) {
+              tagButton.on('click', function () {
                 delete selectedTags[eTag.guid];
                 evernoteStorage.removeTag(eTag.guid);
                 self._blockTags.removeChild(this);
@@ -171,7 +173,7 @@ YUI.add('cn-code-note-popup', function (Y) {
           }
         });
       }, function (err) {
-        self.showErrorMessage(err);
+        self._informer.showErrorMessage(err);
       });
     },
 
@@ -179,8 +181,7 @@ YUI.add('cn-code-note-popup', function (Y) {
       var self = this,
         callback = this.get('callback'),
         selectedBlocks = codeBlocks.filter('.cn-selected'),
-        note = Y.Node.create('<div></div>'),
-        pack;
+        note = Y.Node.create('<div></div>');
 
       selectedBlocks.each(function (node) {
         var cloneNode = node.cloneNode(true);
@@ -190,50 +191,17 @@ YUI.add('cn-code-note-popup', function (Y) {
         note.appendChild(cloneNode);
       });
 
+      self._informer.showLoadingMessage();
       evernoteStorage.savePromise(note.getHTML()).then(function (note) {
         Y.log(note);
-        self.showOkMessage();
+        self._informer.showOkMessage();
       }, function (err) {
-        self.showErrorMessage(err);
+        self._informer.showErrorMessage(err);
       });
       
       if (Y.Lang.isFunction (callback)) {
         callback();
       }
-    },
-
-    _hideMessage: function (panel) {
-      Y.later(3 * 1000, this, function () {
-                var anim = new Y.Anim({
-                    node    : panel,
-                    duration: 2,
-                    to      : {
-                        opacity: 0
-                    },
-                    after   : {
-                        end: function (event) {
-                            panel.remove(true);
-                        }
-                    }
-                });
-                anim.run();
-            });
-    },
-
-    showOkMessage: function () {
-      var html = Y.one('html'),
-        panel = Y.Node.create(Y.Lang.sub(MESSSAGE_TEMPLATE, { message: 'Success!' }));
-      html.appendChild(panel);    
-      
-      this._hideMessage(panel);
-    },
-
-    showErrorMessage: function (error) {
-      var html = Y.one('html'),
-        panel = Y.Node.create(Y.Lang.sub(MESSSAGE_TEMPLATE, { message: 'Error! code: ' + (error.code || '') }));
-      html.appendChild(panel);
-      
-      this._hideMessage(panel);
     },
 
     show: function () {
@@ -281,6 +249,70 @@ YUI.add('cn-code-note-popup', function (Y) {
         value: null,
         validator: Y.Lang.isFunction
       }
+    }
+  });
+
+  Y.namespace('CN').Informer = Y.Base.create('cn-code-note-informer', Y.Base, [], {
+    MESSSAGE_TEMPLATE: '<div id="codenote">' +
+    '<div class="code-note-message"><h4 class="cn-head"><strong><span id="cn-message">{message}</span></strong></h4></div></div>',
+
+    _panel: null,
+    _messageContainer: null,
+
+    _hideMessage: function () {
+      var panel = this._panel;
+
+      Y.later(3 * 1000, this, function () {
+        var anim = new Y.Anim({
+          node    : panel,
+          duration: 2,
+          to      : {
+            opacity: 0
+          },
+          after   : {
+            end: function () {
+              panel.hide();
+              panel.setStyle('opacity', 1);
+            }
+          }
+        });
+        anim.run();
+      });
+    },
+
+    initializer: function () {
+      var html = Y.one('html'),
+        panel = Y.Node.create(Y.Lang.sub(this.MESSSAGE_TEMPLATE, { message: '' }));
+
+      this._panel = panel;
+      this._messageContainer = panel.one('#cn-message');
+
+      panel.hide();
+      html.appendChild(panel);
+    },
+
+    showOkMessage: function () {
+      this._messageContainer.set('text', 'Success!');
+
+      this._panel.show();
+      this._hideMessage();
+    },
+
+    showErrorMessage: function (error) {
+      this._messageContainer.set('text', 'Error!');
+
+      this._panel.show();
+      this._hideMessage();
+    },
+
+    showLoadingMessage: function () {
+      this._messageContainer.set('text', 'Loading...');
+
+      this._panel.show();
+    }
+  }, {
+    ATTRS: {
+
     }
   });
 
