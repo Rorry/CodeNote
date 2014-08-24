@@ -1,9 +1,40 @@
+/**
+ * The module provides classes for creating a control panel on web pages.
+ *
+ * @module 'cn-code-note-popup'
+ * */
 YUI.add('cn-code-note-popup', function (Y) {
 
+  /**
+   * A url for the popup template.
+   *
+   * @property POPUP_TEMPLATE
+   * @type String
+   */
   var POPUP_TEMPLATE = chrome.extension.getURL('resources/templates/popup.html'),
+    /**
+     * A url for the message template.
+     *
+     * @property MESSAGE_TEMPLATE
+     * @type String
+     */
     MESSAGE_TEMPLATE = chrome.extension.getURL('resources/templates/message.html'),
+    /**
+     * A string template for tags.
+     *
+     * @property TAG_TEMPLATE
+     * @type String
+     */
     TAG_TEMPLATE = '<button class="btn btn-small btn-white btn-outline cn-tag">{tag}</button>';
 
+  /**
+   * The component represents a popup on web pages, which appears when users click the extension icon.
+   * The popup executes asynchronous loading the <code>POPUP_TEMPLATE</code> template before initialization.
+   *
+   * @class Popup
+   * @namespace CN
+   * @constructor
+   * */
   Y.namespace('CN').Popup = Y.Base.create('cn-code-note-popup', Y.Base, [], {
 
     _panel      : null,
@@ -253,6 +284,14 @@ YUI.add('cn-code-note-popup', function (Y) {
     }
   });
 
+  /**
+   * The component represents a message container.
+   * The message container executes asynchronous loading the <code>MESSAGE_TEMPLATE</code> template before initialization.
+   *
+   * @class Informer
+   * @namespace CN
+   * @constructor
+   * */
   Y.namespace('CN').Informer = Y.Base.create('cn-code-note-informer', Y.Base, [], {
     _panel: null,
     _messageContainer: null,
