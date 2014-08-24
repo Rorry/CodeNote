@@ -12,7 +12,7 @@ YUI.add('cn-code-cleaner', function (Y) {
             function walk(node) {
                 var type = node.nodeType;
 
-                if (type == 1) {  // Element
+                if (type === 1) {  // Element
                     if (nocode.test(node.className)) { return; }
                     for (var child = node.firstChild; child; child = child.nextSibling) {
                         walk(child);
@@ -23,7 +23,7 @@ YUI.add('cn-code-cleaner', function (Y) {
                         spans[k << 1] = length++;
                         spans[(k++ << 1) | 1] = node;
                     }
-                } else if (type == 3 || type == 4) {  // Text
+                } else if (type === 3 || type === 4) {  // Text
                     var text = node.nodeValue;
                     if (text.length) {
                         if (!isPreformatted) {
@@ -148,8 +148,7 @@ YUI.add('cn-lang-detector', function (Y) {
         },
 
         compare: function (freqTable, keywords) {
-            var obj = freqTable || {},
-                sum = 0;
+            var sum = 0;
 
             Y.Object.each(freqTable, function (val, key) {
                 if (keywords.indexOf(key) < 0) {
@@ -203,8 +202,7 @@ YUI.add('cn-lang-detector', function (Y) {
             var self   = this,
                 _lang  = node && node.getAttribute('lang') || null,
                 _class = node && node.getAttribute('class') || null,
-                aClasses,
-                languages = this.getLanguages();
+                aClasses;
 
             if (Y.Lang.isNull(_lang)) {
                 if (!Y.Lang.isNull(_class)) {
@@ -453,7 +451,7 @@ YUI.add('cn-lang-detector', function (Y) {
 YUI.add('cn-code-formatter', function (Y) {
 
     Y.namespace('CN').CodeFormatter = Y.Base.create('cn-code-formatter', Y.Base, [], {
-        process: function (node) {}
+        process: function () {}
     }, {});
 
 }, '1.0', {
@@ -496,8 +494,7 @@ YUI.add('cn-code-processor', function (Y) {
         },
 
         processNode: function (node) {
-            var lang,
-                cc = this.getCodeCleaner(),
+            var cc = this.getCodeCleaner(),
                 ld = this.getLangDetector(),
                 cf = this.getCodeFormatter(),
                 sh = this.getHighlighter();

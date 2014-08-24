@@ -354,7 +354,7 @@ YUI.add('cn-code-note-popup', function (Y) {
       }
     },
 
-    showErrorMessage: function (error) {
+    showErrorMessage: function () {
       if (Y.Lang.isValue(this._panel)) {
         this._messageContainer.set('text', 'Error!');
         this._successIcon.hide();

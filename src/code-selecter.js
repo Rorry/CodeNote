@@ -38,7 +38,6 @@ YUI.add('cn-page-listener', function (Y) {
       ],
       _processor = new Y.CN.CodeProcessor(),
       _codeBlocks = new Y.NodeList(),
-      _selectedBlocks = new Y.NodeList(),
       _popup = new Y.CN.Popup({
         callback: function () {
           Y.CN.Page.Listener.init(); // emulation the message from background.js
@@ -94,7 +93,7 @@ YUI.add('cn-page-listener', function (Y) {
           _codeBlocks.each(function (node) {
             node.addClass('cn-marked');
 
-            node.on('click', function (event) {
+            node.on('click', function () {
               var pre;
 
               if (this.getAttribute('selected')) {

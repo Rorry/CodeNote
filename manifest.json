@@ -39,7 +39,7 @@
         "lib/yui/yui-raw.js",
         "lib/evernote-sdk-minified.js",
         "lib/highlight/highlight.pack.js",
-        "dist/code-tools.min.js"
+        "dist/code-tools.js"
       ]
     }
   ],

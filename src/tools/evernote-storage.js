@@ -73,8 +73,8 @@ YUI.add('cn-evernote-storage', function (Y) {
 
     /* TODO: add clearing tags in according to the enml2.dtd */
     _clearContent: function (content) {
-        content = content.replace(/id="[\s|\w]*"/g, '');
-        content = content.replace(/class="[\s|\w|-]*"/g, '');
+        content = content.replace(/\sid="[\s|\w]*"/g, '');
+        content = content.replace(/\sclass="[\s|\w|-]*"/g, '');
         // content = content.replace(/<\/code>/g, '</span>');
         // content = content.replace(/<code/g, '<span');
         content = content.replace(/<td [\w|=|\"|\s]*">/g, '<td>');
@@ -101,7 +101,7 @@ YUI.add('cn-evernote-storage', function (Y) {
 
       entry = this._cache.retrieve(OAUTH_TOKEN);
       if (entry) {
-        if (entry.response != config.authenticationToken) {
+        if (entry.response !== config.authenticationToken) {
           this._cache.flush();
         }
       }

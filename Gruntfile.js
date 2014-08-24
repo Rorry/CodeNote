@@ -25,13 +25,13 @@ module.exports = function(grunt) {
       files: ['Gruntfile.js', 'src/**/*.js'],
       // configure JSHint (documented at http://www.jshint.com/docs/)
       options: {
-//        jshintrc: '.jshintrc'
+        jshintrc: '.jshintrc'
           // more options here if you want to override JSHint defaults
-        globals: {
-          console: true,
-          module: true,
-          document: true
-        }
+//        globals: {
+//          console: true,
+//          module: true,
+//          document: true
+//        }
       }
     },
 
