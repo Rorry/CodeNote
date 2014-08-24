@@ -1,7 +1,8 @@
 YUI.add('cn-code-note-popup', function (Y) {
 
-  var POPUP_TEMPLATE    = chrome.extension.getURL('resources/templates/popup.html'),    
-    TAG_TEMPLATE    = '<button class="btn btn-small btn-white btn-outline cn-tag">{tag}</button>';
+  var POPUP_TEMPLATE = chrome.extension.getURL('resources/templates/popup.html'),
+    MESSAGE_TEMPLATE = chrome.extension.getURL('resources/templates/message.html'),
+    TAG_TEMPLATE = '<button class="btn btn-small btn-white btn-outline cn-tag">{tag}</button>';
 
   Y.namespace('CN').Popup = Y.Base.create('cn-code-note-popup', Y.Base, [], {
 
@@ -253,11 +254,11 @@ YUI.add('cn-code-note-popup', function (Y) {
   });
 
   Y.namespace('CN').Informer = Y.Base.create('cn-code-note-informer', Y.Base, [], {
-    MESSSAGE_TEMPLATE: '<div id="codenote">' +
-    '<div class="code-note-message"><h4 class="cn-head"><strong><span id="cn-message">{message}</span></strong></h4></div></div>',
-
     _panel: null,
     _messageContainer: null,
+    _successIcon: null,
+    _errorIcon: null,
+    _loadingIcon: null,
 
     _hideMessage: function () {
       var panel = this._panel;
@@ -281,34 +282,60 @@ YUI.add('cn-code-note-popup', function (Y) {
     },
 
     initializer: function () {
-      var html = Y.one('html'),
-        panel = Y.Node.create(Y.Lang.sub(this.MESSSAGE_TEMPLATE, { message: '' }));
+      var self = this;
 
-      this._panel = panel;
-      this._messageContainer = panel.one('#cn-message');
+      Y.io(MESSAGE_TEMPLATE, {
+        on: {
+          success: function (transactionid, response) {
+            var html = Y.one('html'),
+              panel = Y.Node.create(response.responseText);
 
-      panel.hide();
-      html.appendChild(panel);
+            self._panel = panel;
+            self._messageContainer = panel.one('#cn-message');
+            self._successIcon = panel.one('#cn-success-icon');
+            self._errorIcon = panel.one('#cn-error-icon');
+            self._loadingIcon = panel.one('#cn-loading-icon');
+
+            panel.hide();
+            html.appendChild(panel);
+          }
+        }
+      });
     },
 
     showOkMessage: function () {
-      this._messageContainer.set('text', 'Success!');
+      if (Y.Lang.isValue(this._panel)) {
+        this._messageContainer.set('text', 'Success!');
+        this._successIcon.show();
+        this._errorIcon.hide();
+        this._loadingIcon.hide();
 
-      this._panel.show();
-      this._hideMessage();
+        this._panel.show();
+        this._hideMessage();
+      }
     },
 
     showErrorMessage: function (error) {
-      this._messageContainer.set('text', 'Error!');
+      if (Y.Lang.isValue(this._panel)) {
+        this._messageContainer.set('text', 'Error!');
+        this._successIcon.hide();
+        this._errorIcon.show();
+        this._loadingIcon.hide();
 
-      this._panel.show();
-      this._hideMessage();
+        this._panel.show();
+        this._hideMessage();
+      }
     },
 
     showLoadingMessage: function () {
-      this._messageContainer.set('text', 'Loading...');
+      if (Y.Lang.isValue(this._panel)) {
+        this._messageContainer.set('text', 'Loading...');
+        this._successIcon.hide();
+        this._errorIcon.hide();
+        this._loadingIcon.show();
 
-      this._panel.show();
+        this._panel.show();
+      }
     }
   }, {
     ATTRS: {

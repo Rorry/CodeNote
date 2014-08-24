@@ -22,7 +22,8 @@
 
   "web_accessible_resources": [
     "resources/callback.html",
-    "resources/templates/popup.html"
+    "resources/templates/popup.html",
+    "resources/templates/message.html"
   ],
 
   "content_scripts": [
