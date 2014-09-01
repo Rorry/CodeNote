@@ -168,8 +168,8 @@ window.onload = function () {
       'evernote': 'https://evernote.com'
     },
     CALLBACK_URL = 'resources/callback.html',
-    CONSUMER_KEY = '<your consumer key>',
-    CONSUMER_SECRET = '<your consumer secret>';
+    CONSUMER_KEY = 'rorry-8007',
+    CONSUMER_SECRET = '10b55cff50217dc3';
 
   /**
    * The method starts to execute the oauth authorisation process to get access to evernote api.

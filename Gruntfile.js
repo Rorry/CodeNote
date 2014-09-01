@@ -15,6 +15,18 @@ module.exports = function(grunt) {
       }
     },
     uglify: {
+      yui: {
+        src: 'lib/yui/yui-raw.js',
+        dest: 'lib/yui/yui-min_.js'
+      },
+      background: {
+        src: 'src/background.js',
+        dest: 'dist/background.min.js'
+      },
+      optionsPage: {
+        src: 'src/options.js',
+        dest: 'dist/options.min.js'
+      },
       dist: {
         src: '<%= concat.dist.dest %>',
         dest: 'dist/code-tools.min.js'
@@ -26,12 +38,6 @@ module.exports = function(grunt) {
       // configure JSHint (documented at http://www.jshint.com/docs/)
       options: {
         jshintrc: '.jshintrc'
-          // more options here if you want to override JSHint defaults
-//        globals: {
-//          console: true,
-//          module: true,
-//          document: true
-//        }
       }
     },
 
