@@ -265,6 +265,8 @@ YUI.add('cn-evernote-storage', function (Y) {
         if (entry.response !== config.authenticationToken) {
           this._cache.flush();
         }
+      } else {
+        this._cache.add(OAUTH_TOKEN, config.authenticationToken);
       }
     },
 

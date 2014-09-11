@@ -5,6 +5,7 @@ var Client = function (options) {
   this.consumerKey = options.consumerKey;
   this.consumerSecret = options.consumerSecret;
   this.callbackUrl = options.callbackUrl;
+  this.hostCode = options.hostCode;
   this.serviceHost = options.serviceHost;
   // this.signatureMethod = "HMAC-SHA1";
 };
@@ -85,20 +86,24 @@ Client.prototype.onAuthToken = function (data) {
     oauthToken = decodeURIComponent(params.oauth_token),
     userId = params.edam_userId,
     expires = params.expires,
-    noteStoreUrl = decodeURIComponent(params.edam_noteStoreUrl),
-    evernote_credentials = {
+    noteStoreUrl = decodeURIComponent(params.edam_noteStoreUrl);
+
+  console.log("onAuthToken!");
+  console.log(data);
+
+  chrome.storage.local.get('evernote_credentials', function (items) {
+    var evernote_credentials = items.evernote_credentials || {};
+
+    evernote_credentials[self.hostCode] = {
       oauth_token: oauthToken,
       user_id: userId,
       expires: expires,
       note_store_url: noteStoreUrl
     };
 
-  console.log("onAuthToken!");
-  console.log(data);
-  console.log(evernote_credentials);
-
-  chrome.storage.local.set({'evernote_credentials': evernote_credentials}, function () {
-    console.log('set evernote_credentials: ' + evernote_credentials);
+    chrome.storage.local.set({'evernote_credentials': evernote_credentials}, function () {
+      console.log('set evernote_credentials: ' + evernote_credentials);
+    });
   });
 };
 
@@ -165,11 +170,11 @@ Client.prototype.getParamValues = function(url, keys) {
 window.onload = function () {
   var HOSTS = {
       'sandbox': 'https://sandbox.evernote.com',
-      'evernote': 'https://evernote.com'
+      'evernote': 'https://www.evernote.com'
     },
     CALLBACK_URL = 'resources/callback.html',
-    CONSUMER_KEY = 'rorry-8007',
-    CONSUMER_SECRET = '10b55cff50217dc3';
+    CONSUMER_KEY = '<your consumer key>',
+    CONSUMER_SECRET = '<your consumer secret>';
 
   /**
    * The method starts to execute the oauth authorisation process to get access to evernote api.
@@ -180,6 +185,7 @@ window.onload = function () {
       var client = new Client({
         consumerKey   : CONSUMER_KEY,
         consumerSecret: CONSUMER_SECRET,
+        hostCode      : host,
         serviceHost   : HOSTS[host],
         callbackUrl   : CALLBACK_URL
       });
@@ -192,21 +198,21 @@ window.onload = function () {
       console.log(obj);
   };
 
-  chrome.storage.onChanged.addListener(function (changes, areaName) {
-    console.log('On change storage!');
-    console.log(changes);
-    if (areaName === 'local') {
-      if (changes.evernote_credentials && changes.evernote_credentials.newValue) {
-        chrome.tabs.getCurrent(function (tab) {
-          if (tab) {
-            var port = chrome.tabs.connect(tab.id);
-
-            port.postMessage({method: 'onAuthorise', data: changes.evernote_credentials.newValue});
-          }
-        });
-      }
-    }
-  });
+//  chrome.storage.onChanged.addListener(function (changes, areaName) {
+//    console.log('On change storage!');
+//    console.log(changes);
+//    if (areaName === 'local') {
+//      if (changes.evernote_credentials && changes.evernote_credentials.newValue) {
+//        chrome.storage.local.get('evernote_host', function (items) {
+//          var evernote_host = items.evernote_host || 'evernote',
+//            evernote_credentials = changes.evernote_credentials.newValue[evernote_host],
+//            port = chrome.tabs.connect(tab.id);
+//
+//          port.postMessage({method: 'onAuthorise', data: evernote_credentials});
+//        });
+//      }
+//    }
+//  });
 
   /**
    * Main point to start extension,
@@ -219,8 +225,8 @@ window.onload = function () {
     port.onMessage.addListener(defaultCallback);
 
     chrome.storage.local.get(['evernote_host', 'evernote_credentials'], function (items) {
-      var evernote_host = items.evernote_host || 'sandbox',
-        evernote_credentials = items.evernote_credentials;
+      var evernote_host = items.evernote_host || 'evernote',
+        evernote_credentials = (items.evernote_credentials && items.evernote_credentials[evernote_host]) || null;
 
       if (evernote_credentials) {
         port.postMessage({method: 'onAuthorise', data: evernote_credentials});
