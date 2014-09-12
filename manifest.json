@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "CodeNote",
-  "description": "The CodeNote Chrome Extension collects all code blocks from web page, formats this blocks and allows to save them to the Evernote.",
+  "description": "The CodeNote Chrome Extension collects all code blocks from a web page, formats these blocks and allows you to save them to Evernote.",
   "icons": {
     "16": "resources/1409099386_application-code-m-128.png",
     "32": "resources/1409099414_application-code-m-32.png",

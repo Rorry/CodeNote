@@ -1,7 +1,8 @@
 CodeNote
 ========
 
-The CodeNote Chrome Extension collects all code blocks from web page, formats this blocks and allows to save them to the Evernote.
+The CodeNote Chrome extension collects all code blocks from web page, formats and highlights these blocks by one standard way,
+and allows you to save them to Evernote. Also the extension allows you to use Evernote as shared code library.
 
 Dependencies:
 
